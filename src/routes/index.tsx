@@ -127,6 +127,74 @@ function LanguageSwitcher() {
 }
 
 /* ---------------- Hero ---------------- */
+function SportCourtLines({ sport, color }: { sport: string; color: string }) {
+  const sw = 0.6;
+  const common = {
+    fill: "none" as const,
+    stroke: color,
+    strokeWidth: sw,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    style: { transition: "stroke 500ms ease" },
+  };
+  return (
+    <svg
+      className="absolute inset-0 h-full w-full drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+    >
+      {sport === "tennis" && (
+        <g {...common}>
+          <rect x="10" y="14" width="80" height="72" rx="0.5" />
+          <rect x="14" y="14" width="72" height="72" />
+          <line x1="14" y1="30" x2="86" y2="30" />
+          <line x1="14" y1="70" x2="86" y2="70" />
+          <line x1="50" y1="30" x2="50" y2="70" />
+          <line x1="50" y1="14" x2="50" y2="18" />
+          <line x1="50" y1="82" x2="50" y2="86" />
+          <line x1="48" y1="50" x2="52" y2="50" strokeWidth={sw * 1.2} />
+        </g>
+      )}
+      {sport === "basketball" && (
+        <g {...common}>
+          <rect x="8" y="12" width="84" height="76" />
+          <line x1="50" y1="12" x2="50" y2="88" />
+          <circle cx="50" cy="50" r="9" />
+          <path d="M8,28 Q24,50 8,72" />
+          <path d="M92,28 Q76,50 92,72" />
+          <rect x="8" y="40" width="14" height="20" />
+          <rect x="78" y="40" width="14" height="20" />
+          <circle cx="22" cy="50" r="1.2" fill={color} />
+          <circle cx="78" cy="50" r="1.2" fill={color} />
+        </g>
+      )}
+      {sport === "volleyball" && (
+        <g {...common}>
+          <rect x="12" y="20" width="76" height="60" />
+          <line x1="50" y1="14" x2="50" y2="86" strokeWidth={sw * 1.4} />
+          <line x1="32" y1="20" x2="32" y2="80" strokeDasharray="1.2 1.2" />
+          <line x1="68" y1="20" x2="68" y2="80" strokeDasharray="1.2 1.2" />
+        </g>
+      )}
+      {sport === "futsal" && (
+        <g {...common}>
+          <rect x="8" y="14" width="84" height="72" />
+          <line x1="50" y1="14" x2="50" y2="86" />
+          <circle cx="50" cy="50" r="10" />
+          <path d="M8,38 Q20,50 8,62" />
+          <path d="M92,38 Q80,50 92,62" />
+          <line x1="8" y1="32" x2="14" y2="32" />
+          <line x1="14" y1="32" x2="14" y2="68" />
+          <line x1="8" y1="68" x2="14" y2="68" />
+          <line x1="92" y1="32" x2="86" y2="32" />
+          <line x1="86" y1="32" x2="86" y2="68" />
+          <line x1="92" y1="68" x2="86" y2="68" />
+        </g>
+      )}
+    </svg>
+  );
+}
+
 function Hero() {
   const { t } = useI18n();
   const [sport, setSport] = useState<(typeof SPORTS)[number]["id"]>("tennis");
@@ -185,27 +253,30 @@ function Hero() {
         {/* Right - configurator mock */}
         <div className="relative">
           <div className="relative mx-auto aspect-square w-full max-w-[520px]">
-            {/* Court image */}
+            {/* Court surface */}
             <div
-              className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-2xl"
+              className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-2xl transition-colors duration-500"
               style={{ backgroundColor: courtColor }}
             >
-              <img
-                src={SPORTS.find((s) => s.id === sport)!.img}
-                alt={`${sport} court preview`}
-                className="h-full w-full object-cover mix-blend-luminosity opacity-90"
+              {/* Subtle surface texture */}
+              <div
+                className="absolute inset-0 opacity-30 mix-blend-overlay"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
+                }}
               />
               <div
-                className="absolute inset-0 mix-blend-multiply"
-                style={{ backgroundColor: courtColor, opacity: 0.55 }}
+                className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
+                }}
               />
-              {/* Synthetic line overlay */}
-              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <rect x="8" y="8" width="84" height="84" fill="none" stroke={lineColor} strokeWidth="0.6" />
-                <line x1="50" y1="8" x2="50" y2="92" stroke={lineColor} strokeWidth="0.4" />
-                <line x1="8" y1="50" x2="92" y2="50" stroke={lineColor} strokeWidth="0.4" />
-                <circle cx="50" cy="50" r="9" fill="none" stroke={lineColor} strokeWidth="0.4" />
-              </svg>
+              {/* Sport-specific line markings */}
+              <SportCourtLines sport={sport} color={lineColor} />
+              {/* Soft sheen */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
             </div>
 
             {/* Floating panel: sport */}
