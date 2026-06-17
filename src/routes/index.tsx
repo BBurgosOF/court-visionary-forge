@@ -23,6 +23,12 @@ import constructionImg from "@/assets/construction.jpg";
 import project1 from "@/assets/project1.jpg";
 import project2 from "@/assets/project2.jpg";
 import { I18nProvider, useI18n } from "@/lib/i18n";
+import inverdepLogo from "@/assets/inverdep.png.asset.json";
+import providenciaLogo from "@/assets/providencia.png.asset.json";
+import tomeLogo from "@/assets/tome.png.asset.json";
+import sanIgnacioLogo from "@/assets/san_ignacio.png.asset.json";
+import laFloridaLogo from "@/assets/la_florida.png.asset.json";
+import pacLogo from "@/assets/pedro_aguirre_cerda.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -71,12 +77,7 @@ function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-ink text-ink-foreground">
-            <span className="h-3 w-3 rounded-sm bg-brand" />
-          </span>
-          <span className="font-display text-xl font-black tracking-tight text-ink">
-            INVER<span className="text-brand">DEP</span>
-          </span>
+          <img src={inverdepLogo.url} alt="Inverdep" className="h-10 w-auto" />
         </a>
         <nav className="hidden items-center gap-8 text-sm font-medium text-ink md:flex">
           <a href="#configurator" className="hover:text-brand">{t("nav.configurator")}</a>
@@ -359,20 +360,27 @@ function Hero() {
 /* ---------------- Trust Bar ---------------- */
 function TrustBar() {
   const { t } = useI18n();
-  const logos = ["FEDETENIS", "OLIMPIC", "MUNICIPAL", "CLUB ANDES", "LIGA PRO", "ACADEMIA 360"];
+  const logos = [
+    { name: "Providencia", src: providenciaLogo.url },
+    { name: "Tomé", src: tomeLogo.url },
+    { name: "San Ignacio", src: sanIgnacioLogo.url },
+    { name: "La Florida", src: laFloridaLogo.url },
+    { name: "Pedro Aguirre Cerda", src: pacLogo.url },
+  ];
   return (
     <section className="border-b border-border bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
           {t("trust.title")}
         </p>
-        <div className="mt-6 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-6">
+        <div className="mt-6 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
           {logos.map((l) => (
-            <div
-              key={l}
-              className="text-center font-display text-sm font-black tracking-[0.15em] text-muted-foreground/70 transition hover:text-ink"
-            >
-              {l}
+            <div key={l.name} className="flex items-center justify-center">
+              <img
+                src={l.src}
+                alt={l.name}
+                className="h-16 w-auto max-w-[140px] object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0"
+              />
             </div>
           ))}
         </div>
