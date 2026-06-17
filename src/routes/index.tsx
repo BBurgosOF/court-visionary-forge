@@ -152,7 +152,7 @@ function Hero() {
             </span>
             <br />{t("hero.title3")}
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-ink-foreground/75">{t("hero.desc")}</p>
+          
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <a
               href="#configurator"
