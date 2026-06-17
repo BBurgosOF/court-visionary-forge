@@ -170,9 +170,9 @@ function Hero() {
           </div>
           <div className="mt-12 grid max-w-md grid-cols-3 gap-6">
             {[
-              { k: "240+", v: t("hero.stat1") },
-              { k: "18", v: t("hero.stat2") },
-              { k: "9", v: t("hero.stat3") },
+              { k: "100", v: t("hero.stat1") },
+              { k: "500", v: t("hero.stat2") },
+              { k: "500.000", v: t("hero.stat3") },
             ].map((s) => (
               <div key={s.v}>
                 <div className="font-display text-3xl font-black text-brand">{s.k}</div>

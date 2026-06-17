@@ -22,9 +22,9 @@ export const dict = {
   },
   "hero.cta1": { es: "Diseña tu cancha", en: "Design your court" },
   "hero.cta2": { es: "Ver proyectos", en: "View projects" },
-  "hero.stat1": { es: "Canchas construidas", en: "Courts built" },
-  "hero.stat2": { es: "Años de oficio", en: "Years of craft" },
-  "hero.stat3": { es: "Países", en: "Countries" },
+  "hero.stat1": { es: "Clientes", en: "Clients" },
+  "hero.stat2": { es: "Canchas", en: "Courts" },
+  "hero.stat3": { es: "Metros cuadrados construidos", en: "Square meters built" },
 
   "panel.sport": { es: "Deporte", en: "Sport" },
   "panel.courtColor": { es: "Color de cancha", en: "Court color" },
