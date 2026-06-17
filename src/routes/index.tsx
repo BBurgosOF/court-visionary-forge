@@ -311,6 +311,7 @@ function TrustBar() {
 
 /* ---------------- Configurator ---------------- */
 function Configurator() {
+  const { t } = useI18n();
   return (
     <section id="configurator" className="relative overflow-hidden py-24 lg:py-32">
       <div className="court-lines pointer-events-none absolute inset-0 opacity-30" />
@@ -318,21 +319,18 @@ function Configurator() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
-              <Ruler className="h-3.5 w-3.5 text-ink" /> Court Designer
+              <Ruler className="h-3.5 w-3.5 text-ink" /> {t("cfg.badge")}
             </div>
             <h2 className="mt-4 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-              Design your court in minutes.
+              {t("cfg.title")}
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Pick a sport, palette and line layout. Save your design and we turn it into a real
-              court — with a precise quote attached.
-            </p>
+            <p className="mt-4 text-lg text-muted-foreground">{t("cfg.desc")}</p>
           </div>
           <a
             href="#"
             className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm font-semibold text-ink hover:border-brand hover:text-brand"
           >
-            Open full configurator <ArrowUpRight className="h-4 w-4" />
+            {t("cfg.open")} <ArrowUpRight className="h-4 w-4" />
           </a>
         </div>
 
@@ -345,7 +343,7 @@ function Configurator() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <img
                   src={s.img}
-                  alt={`${s.label} court`}
+                  alt={t(s.tKey)}
                   loading="lazy"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                 />
@@ -354,7 +352,7 @@ function Configurator() {
                   0{i + 1}
                 </div>
                 <div className="absolute inset-x-4 bottom-4">
-                  <h3 className="font-display text-2xl font-black text-background">{s.label}</h3>
+                  <h3 className="font-display text-2xl font-black text-background">{t(s.tKey)}</h3>
                   <div className="mt-3 flex items-center gap-2">
                     {COURT_COLORS.slice(0, 4).map((c) => (
                       <span
@@ -368,10 +366,10 @@ function Configurator() {
               </div>
               <div className="flex items-center justify-between p-4">
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Configurable
+                  {t("cfg.configurable")}
                 </span>
                 <button className="inline-flex items-center gap-1 rounded-full bg-brand px-4 py-1.5 text-xs font-bold text-brand-foreground">
-                  Customize <ChevronRight className="h-3 w-3" />
+                  {t("cfg.customize")} <ChevronRight className="h-3 w-3" />
                 </button>
               </div>
             </article>
