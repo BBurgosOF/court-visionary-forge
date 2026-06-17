@@ -585,11 +585,11 @@ function Instagram() {
           </a>
         </div>
         <div className="mt-10 grid auto-rows-[160px] grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-          {tiles.map((t, i) => (
+          {tiles.map((tile, i) => (
             <a
               key={i}
               href="#"
-              className={`group relative overflow-hidden rounded-2xl ${t.span}`}
+              className={`group relative overflow-hidden rounded-2xl ${tile.span}`}
             >
               <img src={tile.img} alt="Instagram" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-ink/0 transition group-hover:bg-ink/60" />
