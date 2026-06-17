@@ -485,23 +485,22 @@ function Paints() {
 
 /* ---------------- Projects ---------------- */
 function Projects() {
+  const { t } = useI18n();
   const projects = [
-    { img: project2, title: "Stadium Tennis Complex", sport: "Tennis", year: "2025" },
-    { img: basketballImg, title: "Urban Basketball Court", sport: "Basketball", year: "2024" },
-    { img: futsalImg, title: "Municipal Futsal Arena", sport: "Futsal", year: "2024" },
+    { img: project2, title: t("prj.p1"), sport: t("sport.tennis"), year: "2025" },
+    { img: basketballImg, title: t("prj.p2"), sport: t("sport.basketball"), year: "2024" },
+    { img: futsalImg, title: t("prj.p3"), sport: t("sport.futsal"), year: "2024" },
   ];
   return (
     <section id="projects" className="bg-surface py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-ink">Projects</span>
-            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-              Before, after — and still playing.
-            </h2>
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-ink">{t("prj.eyebrow")}</span>
+            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">{t("prj.title")}</h2>
           </div>
           <a href="#" className="text-sm font-semibold text-ink hover:text-brand">
-            All projects →
+            {t("prj.all")} →
           </a>
         </div>
 
@@ -509,28 +508,24 @@ function Projects() {
         <div className="mt-12 overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
           <div className="grid gap-0 md:grid-cols-[1.4fr_1fr]">
             <div className="relative">
-              <img src={project1} alt="Before and after renovation" loading="lazy" className="h-full w-full object-cover" />
+              <img src={project1} alt={t("prj.beforeafter")} loading="lazy" className="h-full w-full object-cover" />
               <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-[11px] font-bold uppercase text-brand-foreground">
-                Before / After
+                {t("prj.beforeafter")}
               </div>
             </div>
             <div className="flex flex-col justify-between gap-8 p-8 lg:p-10">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Featured project
+                  {t("prj.featured")}
                 </span>
-                <h3 className="mt-2 font-display text-3xl font-black text-ink">
-                  Cracked concrete to championship surface.
-                </h3>
-                <p className="mt-3 text-muted-foreground">
-                  Full resurfacing, repainting and line-layout overhaul in 12 working days.
-                </p>
+                <h3 className="mt-2 font-display text-3xl font-black text-ink">{t("prj.featuredTitle")}</h3>
+                <p className="mt-3 text-muted-foreground">{t("prj.featuredDesc")}</p>
               </div>
               <div className="grid grid-cols-3 gap-4 border-t border-border pt-6">
                 {[
-                  { k: "12d", v: "Build time" },
-                  { k: "320m²", v: "Surface" },
-                  { k: "A+", v: "Grip class" },
+                  { k: "12d", v: t("prj.m1") },
+                  { k: "320m²", v: t("prj.m2") },
+                  { k: "A+", v: t("prj.m3") },
                 ].map((m) => (
                   <div key={m.v}>
                     <div className="font-display text-xl font-black text-ink">{m.k}</div>
