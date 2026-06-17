@@ -436,10 +436,7 @@ function Configurator() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between p-4">
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  {t("cfg.configurable")}
-                </span>
+              <div className="flex items-center justify-end p-4">
                 <button className="inline-flex items-center gap-1 rounded-full bg-brand px-4 py-1.5 text-xs font-bold text-brand-foreground">
                   {t("cfg.customize")} <ChevronRight className="h-3 w-3" />
                 </button>
