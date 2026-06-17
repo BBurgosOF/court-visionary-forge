@@ -562,6 +562,7 @@ function Projects() {
 
 /* ---------------- Instagram ---------------- */
 function Instagram() {
+  const { t } = useI18n();
   const tiles = [
     { img: heroCourt, span: "row-span-2" },
     { img: paintImg, span: "" },
@@ -577,12 +578,10 @@ function Instagram() {
         <div className="flex items-end justify-between gap-6">
           <div>
             <span className="text-xs font-bold uppercase tracking-[0.22em] text-ink">@inverdep</span>
-            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-              On the courts, every week.
-            </h2>
+            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">{t("ig.title")}</h2>
           </div>
           <a href="#" className="hidden text-sm font-semibold text-ink hover:text-brand sm:block">
-            Follow on Instagram →
+            {t("ig.follow")} →
           </a>
         </div>
         <div className="mt-10 grid auto-rows-[160px] grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
@@ -592,10 +591,10 @@ function Instagram() {
               href="#"
               className={`group relative overflow-hidden rounded-2xl ${t.span}`}
             >
-              <img src={t.img} alt="Instagram post" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+              <img src={tile.img} alt="Instagram" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-ink/0 transition group-hover:bg-ink/60" />
               <span className="absolute inset-0 grid place-items-center text-xs font-bold uppercase tracking-wider text-ink-foreground opacity-0 transition group-hover:opacity-100">
-                View project →
+                {t("ig.view")} →
               </span>
             </a>
           ))}
