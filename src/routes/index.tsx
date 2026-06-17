@@ -606,36 +606,34 @@ function Instagram() {
 
 /* ---------------- CTA ---------------- */
 function CTASection() {
+  const { t } = useI18n();
   return (
     <section id="contact" className="relative overflow-hidden bg-brand text-brand-foreground">
       <div className="absolute inset-0 court-lines opacity-30" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-4 py-20 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8 lg:py-24">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-ink/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
-            <ShieldCheck className="h-3.5 w-3.5" /> 5-year structural warranty
+            <ShieldCheck className="h-3.5 w-3.5" /> {t("cta.warranty")}
           </div>
           <h2 className="mt-4 font-display text-4xl font-black leading-[1] tracking-tight sm:text-6xl">
-            Ready to break ground?
+            {t("cta.title")}
           </h2>
-          <p className="mt-5 max-w-xl text-lg text-brand-foreground/80">
-            Tell us about your space. We come back with a 3D mockup, timeline and fixed quote
-            within 72 hours.
-          </p>
+          <p className="mt-5 max-w-xl text-lg text-brand-foreground/80">{t("cta.desc")}</p>
         </div>
         <div className="rounded-3xl border border-ink/15 bg-background p-6 text-foreground shadow-2xl sm:p-8">
-          <h3 className="font-display text-xl font-black text-ink">Get a quote</h3>
+          <h3 className="font-display text-xl font-black text-ink">{t("cta.formTitle")}</h3>
           <form className="mt-5 grid gap-3">
-            <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-brand" placeholder="Full name" />
-            <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-brand" placeholder="Email or phone" />
+            <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-brand" placeholder={t("cta.name")} />
+            <input className="rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-brand" placeholder={t("cta.contact")} />
             <select className="rounded-xl border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-brand">
-              <option>Sport — Tennis</option>
-              <option>Basketball</option>
-              <option>Volleyball</option>
-              <option>Futsal</option>
-              <option>Sports paints</option>
+              <option>{t("sport.tennis")}</option>
+              <option>{t("sport.basketball")}</option>
+              <option>{t("sport.volleyball")}</option>
+              <option>{t("sport.futsal")}</option>
+              <option>{t("cta.paints")}</option>
             </select>
             <button className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-bold text-ink-foreground hover:bg-ink/90">
-              Send request <ArrowRight className="h-4 w-4" />
+              {t("cta.send")} <ArrowRight className="h-4 w-4" />
             </button>
           </form>
         </div>
@@ -646,6 +644,7 @@ function CTASection() {
 
 /* ---------------- Footer ---------------- */
 function Footer() {
+  const { t } = useI18n();
   return (
     <footer className="bg-ink text-ink-foreground">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -654,14 +653,12 @@ function Footer() {
             <div className="font-display text-2xl font-black">
               INVER<span className="text-brand">DEP</span>
             </div>
-            <p className="mt-3 max-w-xs text-sm text-ink-foreground/65">
-              Sports court design, construction & coatings. Engineered to play.
-            </p>
+            <p className="mt-3 max-w-xs text-sm text-ink-foreground/65">{t("ftr.tagline")}</p>
           </div>
           {[
-            { h: "Courts", l: ["Tennis", "Basketball", "Volleyball", "Futsal"] },
-            { h: "Company", l: ["About", "Projects", "Careers", "Contact"] },
-            { h: "Resources", l: ["Configurator", "Sports paints", "Maintenance", "Warranty"] },
+            { h: t("ftr.courts"), l: [t("sport.tennis"), t("sport.basketball"), t("sport.volleyball"), t("sport.futsal")] },
+            { h: t("ftr.company"), l: [t("ftr.about"), t("nav.projects"), t("ftr.careers"), t("nav.contact")] },
+            { h: t("ftr.resources"), l: [t("nav.configurator"), t("pnt.eyebrow"), t("ftr.maintenance"), t("ftr.warranty")] },
           ].map((c) => (
             <div key={c.h}>
               <div className="text-xs font-bold uppercase tracking-wider text-brand">{c.h}</div>
@@ -674,8 +671,8 @@ function Footer() {
           ))}
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-ink-foreground/10 pt-6 text-xs text-ink-foreground/60 sm:flex-row sm:items-center">
-          <span>© {new Date().getFullYear()} INVERDEP. All rights reserved.</span>
-          <span>Designed and built in-house.</span>
+          <span>© {new Date().getFullYear()} INVERDEP. {t("ftr.rights")}</span>
+          <span>{t("ftr.built")}</span>
         </div>
       </div>
     </footer>
@@ -684,10 +681,11 @@ function Footer() {
 
 /* ---------------- WhatsApp Button ---------------- */
 function WhatsAppButton() {
+  const { t } = useI18n();
   return (
     <a
       href="#contact"
-      aria-label="Chat on WhatsApp"
+      aria-label={t("wa.aria")}
       className="pulse-ring fixed bottom-6 right-6 z-50 grid h-14 w-14 place-items-center rounded-full bg-brand text-brand-foreground shadow-2xl transition hover:scale-110"
     >
       <MessageCircle className="h-6 w-6" />
