@@ -22,16 +22,17 @@ import paintImg from "@/assets/paint.jpg";
 import constructionImg from "@/assets/construction.jpg";
 import project1 from "@/assets/project1.jpg";
 import project2 from "@/assets/project2.jpg";
+import { I18nProvider, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 const SPORTS = [
-  { id: "tennis", label: "Tennis", img: heroCourt },
-  { id: "basketball", label: "Basketball", img: basketballImg },
-  { id: "volleyball", label: "Volleyball", img: volleyballImg },
-  { id: "futsal", label: "Futsal", img: futsalImg },
+  { id: "tennis", tKey: "sport.tennis", img: heroCourt },
+  { id: "basketball", tKey: "sport.basketball", img: basketballImg },
+  { id: "volleyball", tKey: "sport.volleyball", img: volleyballImg },
+  { id: "futsal", tKey: "sport.futsal", img: futsalImg },
 ] as const;
 
 const COURT_COLORS = [
@@ -45,6 +46,7 @@ const LINE_COLORS = ["#FFFFFF", "#B3DA2D", "#FFD23F", "#0F1B2A"];
 
 function Index() {
   return (
+    <I18nProvider>
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <Hero />
@@ -58,6 +60,7 @@ function Index() {
       <Footer />
       <WhatsAppButton />
     </div>
+    </I18nProvider>
   );
 }
 
