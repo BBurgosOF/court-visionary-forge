@@ -287,12 +287,13 @@ function Hero() {
 
 /* ---------------- Trust Bar ---------------- */
 function TrustBar() {
+  const { t } = useI18n();
   const logos = ["FEDETENIS", "OLIMPIC", "MUNICIPAL", "CLUB ANDES", "LIGA PRO", "ACADEMIA 360"];
   return (
     <section className="border-b border-border bg-surface">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-          Trusted by companies and institutions
+          {t("trust.title")}
         </p>
         <div className="mt-6 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-6">
           {logos.map((l) => (
@@ -382,11 +383,12 @@ function Configurator() {
 
 /* ---------------- Services ---------------- */
 function Services() {
+  const { t } = useI18n();
   const items = [
-    { icon: Ruler, title: "Design", desc: "3D mockups, layout, sport-spec compliance." },
-    { icon: Hammer, title: "Construction", desc: "Sub-base, drainage, surfacing, fencing." },
-    { icon: Layers, title: "Implementation", desc: "Premium coatings, line marking, finishing." },
-    { icon: Wrench, title: "Maintenance", desc: "Resurfacing, repainting, lifetime support." },
+    { icon: Ruler, title: t("srv.design.t"), desc: t("srv.design.d") },
+    { icon: Hammer, title: t("srv.build.t"), desc: t("srv.build.d") },
+    { icon: Layers, title: t("srv.impl.t"), desc: t("srv.impl.d") },
+    { icon: Wrench, title: t("srv.maint.t"), desc: t("srv.maint.d") },
   ];
   return (
     <section id="services" className="relative overflow-hidden bg-ink text-ink-foreground">
@@ -398,22 +400,17 @@ function Services() {
               className="relative overflow-hidden rounded-3xl shadow-2xl"
               style={{ clipPath: "polygon(0 0, 100% 0, 100% 88%, 0 100%)" }}
             >
-              <img src={constructionImg} alt="Court construction" loading="lazy" className="h-full w-full object-cover" />
+              <img src={constructionImg} alt={t("srv.build.t")} loading="lazy" className="h-full w-full object-cover" />
             </div>
             <div className="absolute -bottom-6 -right-4 rounded-2xl bg-brand p-5 text-brand-foreground shadow-2xl sm:-right-6">
               <div className="font-display text-3xl font-black">100%</div>
-              <div className="text-xs font-semibold uppercase tracking-wider">In-house team</div>
+              <div className="text-xs font-semibold uppercase tracking-wider">{t("srv.inhouse")}</div>
             </div>
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-brand">What we do</span>
-            <h2 className="mt-3 font-display text-4xl font-black tracking-tight sm:text-5xl">
-              From the first line on paper to the final coat.
-            </h2>
-            <p className="mt-4 text-ink-foreground/70">
-              End-to-end execution. One team, one accountability — engineered surfaces that hold
-              their grip, color and geometry season after season.
-            </p>
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-brand">{t("srv.eyebrow")}</span>
+            <h2 className="mt-3 font-display text-4xl font-black tracking-tight sm:text-5xl">{t("srv.title")}</h2>
+            <p className="mt-4 text-ink-foreground/70">{t("srv.desc")}</p>
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {items.map((it) => (
                 <div
