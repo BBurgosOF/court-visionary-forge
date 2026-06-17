@@ -143,7 +143,7 @@ function Hero() {
         {/* Left */}
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-            <Sparkles className="h-3.5 w-3.5" /> Sports court innovation
+            <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
           </div>
           <h1 className="mt-6 font-display text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
             {t("hero.title1")} <span className="relative inline-block">
