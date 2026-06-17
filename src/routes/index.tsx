@@ -66,6 +66,7 @@ function Index() {
 
 /* ---------------- Navbar ---------------- */
 function Navbar() {
+  const { t } = useI18n();
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -78,20 +79,50 @@ function Navbar() {
           </span>
         </a>
         <nav className="hidden items-center gap-8 text-sm font-medium text-ink md:flex">
-          <a href="#configurator" className="hover:text-brand">Configurator</a>
-          <a href="#services" className="hover:text-brand">Services</a>
-          <a href="#paints" className="hover:text-brand">Paints</a>
-          <a href="#projects" className="hover:text-brand">Projects</a>
-          <a href="#contact" className="hover:text-brand">Contact</a>
+          <a href="#configurator" className="hover:text-brand">{t("nav.configurator")}</a>
+          <a href="#services" className="hover:text-brand">{t("nav.services")}</a>
+          <a href="#paints" className="hover:text-brand">{t("nav.paints")}</a>
+          <a href="#projects" className="hover:text-brand">{t("nav.projects")}</a>
+          <a href="#contact" className="hover:text-brand">{t("nav.contact")}</a>
         </nav>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-brand-foreground shadow-[0_8px_24px_-8px_rgba(179,218,45,0.6)] transition-transform hover:-translate-y-0.5"
-        >
-          Get a quote <ArrowRight className="h-4 w-4" />
-        </a>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-brand-foreground shadow-[0_8px_24px_-8px_rgba(179,218,45,0.6)] transition-transform hover:-translate-y-0.5"
+          >
+            {t("nav.quote")} <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
       </div>
     </header>
+  );
+}
+
+/* ---------------- Language Switcher ---------------- */
+function LanguageSwitcher() {
+  const { lang, setLang } = useI18n();
+  return (
+    <div
+      role="group"
+      aria-label="Language"
+      className="inline-flex items-center rounded-full border border-border bg-surface p-0.5 text-[11px] font-bold uppercase tracking-wider"
+    >
+      {(["es", "en"] as const).map((l) => (
+        <button
+          key={l}
+          type="button"
+          onClick={() => setLang(l)}
+          aria-pressed={lang === l}
+          aria-label={l === "es" ? "Español" : "English"}
+          className={`rounded-full px-2.5 py-1 transition ${
+            lang === l ? "bg-ink text-ink-foreground" : "text-muted-foreground hover:text-ink"
+          }`}
+        >
+          {l}
+        </button>
+      ))}
+    </div>
   );
 }
 
