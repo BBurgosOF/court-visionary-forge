@@ -434,21 +434,17 @@ function Services() {
 
 /* ---------------- Paints ---------------- */
 function Paints() {
-  const features = [
-    "Anti-slip textured finish",
-    "UV & weather resistant",
-    "Indoor and outdoor formulas",
-    "Custom color matching",
-  ];
+  const { t } = useI18n();
+  const features = [t("pnt.f1"), t("pnt.f2"), t("pnt.f3"), t("pnt.f4")];
   return (
     <section id="paints" className="relative overflow-hidden py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div className="relative order-2 lg:order-1">
             <div className="absolute -left-8 -top-8 hidden h-40 w-40 rounded-full bg-brand/30 blur-3xl lg:block" />
-            <img
+              <img
               src={paintImg}
-              alt="Sports paint application"
+              alt={t("pnt.eyebrow")}
               loading="lazy"
               className="relative w-full rounded-3xl shadow-2xl"
             />
@@ -457,20 +453,15 @@ function Paints() {
                 <PaintBucket className="h-6 w-6 text-brand" />
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Inverdep Paints™</div>
-                  <div className="text-sm font-bold text-ink">Pro acrylic system</div>
+                  <div className="text-sm font-bold text-ink">{t("pnt.product")}</div>
                 </div>
               </div>
             </div>
           </div>
           <div className="order-1 lg:order-2">
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-ink">Sports paints</span>
-            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-              Coatings engineered for the way you play.
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Our complementary paint line delivers the grip, color depth and durability of a
-              professional facility — indoor or outdoor, every climate.
-            </p>
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-ink">{t("pnt.eyebrow")}</span>
+            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">{t("pnt.title")}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">{t("pnt.desc")}</p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {features.map((f) => (
                 <li key={f} className="flex items-start gap-3 text-sm text-ink">
@@ -483,7 +474,7 @@ function Paints() {
               href="#contact"
               className="mt-10 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-bold text-ink-foreground hover:bg-ink/90"
             >
-              Request paint quote <ArrowRight className="h-4 w-4" />
+              {t("pnt.cta")} <ArrowRight className="h-4 w-4" />
             </a>
           </div>
         </div>
