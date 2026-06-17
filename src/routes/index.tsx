@@ -128,6 +128,7 @@ function LanguageSwitcher() {
 
 /* ---------------- Hero ---------------- */
 function Hero() {
+  const { t } = useI18n();
   const [sport, setSport] = useState<(typeof SPORTS)[number]["id"]>("tennis");
   const [courtColor, setCourtColor] = useState(COURT_COLORS[0].hex);
   const [lineColor, setLineColor] = useState(LINE_COLORS[0]);
@@ -145,36 +146,33 @@ function Hero() {
             <Sparkles className="h-3.5 w-3.5" /> Sports court innovation
           </div>
           <h1 className="mt-6 font-display text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-            Design your <span className="relative inline-block">
-              <span className="relative z-10 text-brand">sports court.</span>
+            {t("hero.title1")} <span className="relative inline-block">
+              <span className="relative z-10 text-brand">{t("hero.title2")}</span>
               <span className="absolute inset-x-0 bottom-1 z-0 h-3 bg-brand/20" />
             </span>
-            <br />We build it.
+            <br />{t("hero.title3")}
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-ink-foreground/75">
-            Tennis · Basketball · Volleyball · Futsal. From concept to first serve — INVERDEP
-            designs, constructs and coats high-performance courts with premium sports paints.
-          </p>
+          <p className="mt-6 max-w-xl text-lg text-ink-foreground/75">{t("hero.desc")}</p>
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <a
               href="#configurator"
               className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
             >
-              Design your court
+              {t("hero.cta1")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a
               href="#projects"
               className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/20 px-7 py-3.5 text-sm font-bold text-ink-foreground hover:border-brand hover:text-brand"
             >
-              View projects
+              {t("hero.cta2")}
             </a>
           </div>
           <div className="mt-12 grid max-w-md grid-cols-3 gap-6">
             {[
-              { k: "240+", v: "Courts built" },
-              { k: "18", v: "Years of craft" },
-              { k: "9", v: "Countries" },
+              { k: "240+", v: t("hero.stat1") },
+              { k: "18", v: t("hero.stat2") },
+              { k: "9", v: t("hero.stat3") },
             ].map((s) => (
               <div key={s.v}>
                 <div className="font-display text-3xl font-black text-brand">{s.k}</div>
@@ -213,7 +211,7 @@ function Hero() {
             {/* Floating panel: sport */}
             <div className="float-slow absolute -left-6 top-8 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-10">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Sport</span>
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{t("panel.sport")}</span>
                 <span className="h-2 w-2 rounded-full bg-brand" />
               </div>
               <div className="mt-3 grid grid-cols-2 gap-1.5">
@@ -227,7 +225,7 @@ function Hero() {
                         : "bg-muted text-ink hover:bg-muted/70"
                     }`}
                   >
-                    {s.label}
+                    {t(s.tKey)}
                   </button>
                 ))}
               </div>
@@ -238,7 +236,7 @@ function Hero() {
               className="float-slow absolute -right-4 top-32 w-52 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-right-8"
               style={{ animationDelay: "1.5s" }}
             >
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Court color</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{t("panel.courtColor")}</span>
               <div className="mt-3 flex gap-2">
                 {COURT_COLORS.map((c) => (
                   <button
@@ -259,7 +257,7 @@ function Hero() {
               className="float-slow absolute -left-4 bottom-6 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-12"
               style={{ animationDelay: "0.75s" }}
             >
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Line color</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{t("panel.lineColor")}</span>
               <div className="mt-3 flex items-center gap-2">
                 {LINE_COLORS.map((c) => (
                   <button
@@ -273,7 +271,7 @@ function Hero() {
                   />
                 ))}
                 <button className="ml-auto inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1.5 text-[11px] font-bold text-brand-foreground">
-                  Save <CheckCircle2 className="h-3 w-3" />
+                  {t("panel.save")} <CheckCircle2 className="h-3 w-3" />
                 </button>
               </div>
             </div>
