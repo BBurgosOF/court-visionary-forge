@@ -78,10 +78,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "INVERDEP — Sports court design, construction & coatings" },
-      { name: "description", content: "INVERDEP designs, builds and coats high-performance sports courts: tennis, basketball, volleyball and futsal. Configure your court online." },
+      {
+        name: "description",
+        content:
+          "INVERDEP designs, builds and coats high-performance sports courts: tennis, basketball, volleyball and futsal. Configure your court online.",
+      },
       { name: "author", content: "INVERDEP" },
       { property: "og:title", content: "INVERDEP — Design your sports court. We build it." },
-      { property: "og:description", content: "Tennis · Basketball · Volleyball · Futsal. Premium sports court construction and professional sports paints." },
+      {
+        property: "og:description",
+        content:
+          "Tennis · Basketball · Volleyball · Futsal. Premium sports court construction and professional sports paints.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
