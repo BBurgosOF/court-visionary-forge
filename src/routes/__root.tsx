@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "INVERDEP — Sports court design, construction & coatings" },
+      { title: "INVERDEP" },
       {
         name: "description",
         content:
           "INVERDEP designs, builds and coats high-performance sports courts: tennis, basketball, volleyball and futsal. Configure your court online.",
       },
       { name: "author", content: "INVERDEP" },
-      { property: "og:title", content: "INVERDEP — Design your sports court. We build it." },
+      { property: "og:title", content: "INVERDEP" },
       {
         property: "og:description",
         content:
@@ -93,6 +93,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "INVERDEP" },
+      { name: "description", content: "Prototipo diseño inverdep" },
+      { property: "og:description", content: "Prototipo diseño inverdep" },
+      { name: "twitter:description", content: "Prototipo diseño inverdep" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d40f2d60-8f21-4a56-891f-439635bfc6d6/id-preview-ded76631--adb630d2-9e7d-4f51-807b-cfdcbe228bdd.lovable.app-1781730466971.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d40f2d60-8f21-4a56-891f-439635bfc6d6/id-preview-ded76631--adb630d2-9e7d-4f51-807b-cfdcbe228bdd.lovable.app-1781730466971.png" },
     ],
     links: [
       {
