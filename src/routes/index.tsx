@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import {
   ArrowRight,
@@ -73,7 +74,7 @@ function Index() {
 }
 
 /* ---------------- Navbar ---------------- */
-function Navbar() {
+export function Navbar() {
   const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
 
@@ -86,28 +87,31 @@ function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="#" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <img
             src={scrolled ? inverdepLogoBlue : inverdepLogo}
             alt="Inverdep"
             className="h-13 w-auto transition-opacity duration-300"
           />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-medium text-ink md:flex">
-          <a href="#configurator" className="hover:text-brand">
+          <a href="/#configurator" className="hover:text-brand">
             {t("nav.configurator")}
           </a>
-          <a href="#services" className="hover:text-brand">
+          <a href="/#services" className="hover:text-brand">
             {t("nav.services")}
           </a>
-          <a href="#paints" className="hover:text-brand">
+          <a href="/#paints" className="hover:text-brand">
             {t("nav.paints")}
           </a>
-          <a href="#projects" className="hover:text-brand">
+          <a href="/#projects" className="hover:text-brand">
             {t("nav.projects")}
           </a>
-          <a href="#contact" className="hover:text-brand">
+          <Link to="/nosotros" className="hover:text-brand">
+            {t("nav.about")}
+          </Link>
+          <a href="/#contact" className="hover:text-brand">
             {t("nav.contact")}
           </a>
         </nav>
@@ -115,7 +119,7 @@ function Navbar() {
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
           <a
-            href="#contact"
+            href="/#contact"
             className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-brand-foreground shadow-[0_8px_24px_-8px_rgba(179,218,45,0.6)] transition-transform hover:-translate-y-0.5"
           >
             {t("nav.quote")} <ArrowRight className="h-4 w-4" />
@@ -804,7 +808,7 @@ function CTASection() {
 }
 
 /* ---------------- Footer ---------------- */
-function Footer() {
+export function Footer() {
   const { t } = useI18n();
   return (
     <footer className="bg-ink text-ink-foreground">
@@ -861,7 +865,7 @@ function Footer() {
 }
 
 /* ---------------- WhatsApp Button ---------------- */
-function WhatsAppButton() {
+export function WhatsAppButton() {
   const { t } = useI18n();
   return (
     <a
