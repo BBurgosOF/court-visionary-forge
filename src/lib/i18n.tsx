@@ -216,6 +216,35 @@ export const dict = {
   "ftr.built": { es: "Diseñado y construido en casa.", en: "Designed and built in-house." },
 
   "wa.aria": { es: "Chatear por WhatsApp", en: "Chat on WhatsApp" },
+
+  "contact.title": { es: "Contáctanos", en: "Contact us" },
+  "contact.eyebrow": { es: "Hablemos", en: "Let's talk" },
+  "contact.desc": {
+    es: "Cuéntanos sobre tu proyecto. Te respondemos con un plan y cotización en 72 horas.",
+    en: "Tell us about your project. We reply with a plan and quote within 72 hours.",
+  },
+  "contact.form.title": { es: "Solicitar cotización", en: "Request a quote" },
+  "contact.form.name": { es: "Nombre", en: "Name" },
+  "contact.form.email": { es: "Correo electrónico", en: "Email" },
+  "contact.form.phone": { es: "Teléfono", en: "Phone" },
+  "contact.form.message": { es: "Mensaje", en: "Message" },
+  "contact.form.send": { es: "Solicitar cotización", en: "Request a quote" },
+  "contact.form.sent": { es: "¡Gracias! Te contactaremos pronto.", en: "Thanks! We'll be in touch shortly." },
+  "contact.info.title": { es: "Información de contacto", en: "Contact information" },
+  "contact.info.phone": { es: "Teléfonos", en: "Phone" },
+  "contact.info.email": { es: "Correo", en: "Email" },
+  "contact.info.address": { es: "Dirección", en: "Address" },
+  "contact.info.addressValue": { es: "Santiago, Chile", en: "Santiago, Chile" },
+  "contact.info.hours": { es: "Horario de atención", en: "Business hours" },
+  "contact.info.hoursValue": {
+    es: "Lunes a Viernes · 9:00 – 18:00",
+    en: "Monday to Friday · 9:00 – 18:00",
+  },
+  "contact.map.title": { es: "Dónde estamos", en: "Where we are" },
+  "contact.map.desc": {
+    es: "Operamos en todo Chile desde nuestra base en Santiago.",
+    en: "We operate across Chile from our base in Santiago.",
+  },
 } satisfies Dict;
 
 type Key = keyof typeof dict;

@@ -111,9 +111,9 @@ export function Navbar() {
           <Link to="/nosotros" className="hover:text-brand">
             {t("nav.about")}
           </Link>
-          <a href="/#contact" className="hover:text-brand">
+          <Link to="/contacto" className="hover:text-brand">
             {t("nav.contact")}
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
