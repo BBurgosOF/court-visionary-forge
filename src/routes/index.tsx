@@ -99,9 +99,9 @@ export function Navbar() {
           <a href="/#configurator" className="hover:text-brand">
             {t("nav.configurator")}
           </a>
-          <a href="/#services" className="hover:text-brand">
+          <Link to="/servicios" className="hover:text-brand">
             {t("nav.services")}
-          </a>
+          </Link>
           <a href="/#paints" className="hover:text-brand">
             {t("nav.paints")}
           </a>
