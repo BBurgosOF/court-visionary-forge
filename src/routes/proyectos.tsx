@@ -268,20 +268,18 @@ function BeforeAfter({ before, after }: { before: string; after: string }) {
       <span className="absolute right-3 top-3 z-10 rounded-full bg-ink/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-ink-foreground">
         {t("projects.after")}
       </span>
-      <div
-        className="absolute inset-y-0 left-0 overflow-hidden"
-        style={{ width: `${pos}%` }}
+      <img
+        src={before}
+        alt={t("projects.before")}
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+      />
+      <span
+        className="absolute left-3 top-3 z-10 rounded-full bg-ink/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-ink-foreground"
+        style={{ opacity: pos > 12 ? 1 : 0 }}
       >
-        <img
-          src={before}
-          alt={t("projects.before")}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ width: `${(100 / Math.max(pos, 0.0001)) * 100}%`, maxWidth: "none" }}
-        />
-        <span className="absolute left-3 top-3 z-10 rounded-full bg-ink/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-ink-foreground">
-          {t("projects.before")}
-        </span>
-      </div>
+        {t("projects.before")}
+      </span>
       <div
         className="absolute inset-y-0 z-10 w-0.5 bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.15)]"
         style={{ left: `${pos}%` }}
