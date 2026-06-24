@@ -160,6 +160,7 @@ function ServiceBlock({
   reversed?: boolean;
   tone?: "light" | "surface" | "ink";
 }) {
+  const { t } = useI18n();
   const toneClasses =
     tone === "ink"
       ? "bg-ink text-ink-foreground"
@@ -230,8 +231,7 @@ function ServiceBlock({
                     : "border-border text-ink hover:text-ink"
                 }`}
               >
-                <Sparkles className="h-4 w-4" /> {/* generic */}
-                <span>{/* quote */}{useI18n().t("nav.quote")}</span>
+                {t("nav.quote")}
               </Link>
             </div>
           </div>
