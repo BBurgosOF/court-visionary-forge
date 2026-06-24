@@ -303,6 +303,65 @@ export const dict = {
     es: "Reemplazo de superficie y rediseño de líneas para uso comunitario.",
     en: "Surface replacement and line redesign for community use.",
   },
+
+  "services.eyebrow": { es: "Qué hacemos", en: "What we do" },
+  "services.title": { es: "Servicios", en: "Services" },
+  "services.subtitle": {
+    es: "Soluciones integrales para el diseño y construcción de canchas deportivas.",
+    en: "End-to-end solutions for the design and construction of sports courts.",
+  },
+  "services.nav.title": { es: "Navegación rápida", en: "Quick navigation" },
+
+  "services.s1.tab": { es: "Canchas deportivas", en: "Sports courts" },
+  "services.s1.title": {
+    es: "Diseño, construcción y mantenimiento de canchas deportivas",
+    en: "Sports court design, construction and maintenance",
+  },
+  "services.s1.desc": {
+    es: "Ejecución integral de canchas profesionales: desde el levantamiento topográfico y la base, hasta el recubrimiento final y mantenimiento periódico. Un solo equipo responsable de cada etapa.",
+    en: "End-to-end execution of professional courts: from survey and sub-base to final coating and periodic maintenance. One team accountable for every stage.",
+  },
+  "services.s1.b1": { es: "Diseño 3D y cumplimiento ITF / FIBA.", en: "3D design with ITF / FIBA compliance." },
+  "services.s1.b2": { es: "Base, drenaje, superficie y cerramientos.", en: "Sub-base, drainage, surface and fencing." },
+  "services.s1.b3": { es: "Mantenimiento, repintado y resurfacing.", en: "Maintenance, repainting and resurfacing." },
+  "services.s1.b4": { es: "Garantía estructural de 5 años.", en: "5-year structural warranty." },
+  "services.s1.cta": { es: "Ver proyectos", en: "View projects" },
+
+  "services.s2.tab": { es: "Pasto sintético", en: "Synthetic turf" },
+  "services.s2.title": { es: "Pasto sintético deportivo", en: "Sports synthetic turf" },
+  "services.s2.desc": {
+    es: "Instalación de pasto sintético de alta densidad para uso deportivo intensivo. Diseñado para resistir, lucir y rendir temporada tras temporada.",
+    en: "High-density synthetic turf installation for intensive sports use. Built to endure, look and perform season after season.",
+  },
+  "services.s2.b1": { es: "Fibras resistentes a UV e intemperie.", en: "UV and weather resistant fibers." },
+  "services.s2.b2": { es: "Bajo mantenimiento, alto rendimiento.", en: "Low maintenance, high performance." },
+  "services.s2.b3": { es: "Drenaje integrado y base nivelada.", en: "Integrated drainage and level sub-base." },
+  "services.s2.b4": { es: "Fútbol, fútsal y áreas multiuso.", en: "Football, futsal and multi-use areas." },
+  "services.s2.cta": { es: "Solicitar información", en: "Request information" },
+
+  "services.s3.tab": { es: "Pinturas deportivas", en: "Sports paints" },
+  "services.s3.title": { es: "Pinturas deportivas indoor y outdoor", en: "Indoor & outdoor sports paints" },
+  "services.s3.desc": {
+    es: "Recubrimientos acrílicos profesionales con agarre texturizado, color profundo y durabilidad de instalación deportiva — interior o exterior, cualquier clima.",
+    en: "Professional acrylic coatings with textured grip, deep color and pro-grade durability — indoor or outdoor, every climate.",
+  },
+  "services.s3.b1": { es: "Acabado antideslizante texturizado.", en: "Anti-slip textured finish." },
+  "services.s3.b2": { es: "Resistente a UV y a la intemperie.", en: "UV and weather resistant." },
+  "services.s3.b3": { es: "Fórmulas indoor y outdoor.", en: "Indoor and outdoor formulas." },
+  "services.s3.b4": { es: "Colores a medida.", en: "Custom color matching." },
+  "services.s3.cta": { es: "Cotizar pinturas", en: "Request paint quote" },
+
+  "services.s4.tab": { es: "Proyectos escolares", en: "School projects" },
+  "services.s4.title": { es: "Proyectos escolares e institucionales", en: "School and institutional projects" },
+  "services.s4.desc": {
+    es: "Canchas seguras y duraderas para colegios e instituciones educativas. Cumplimos normativa, plazos y presupuestos públicos con la misma calidad técnica de obras profesionales.",
+    en: "Safe and durable courts for schools and educational institutions. We meet regulations, deadlines and public budgets with the same technical quality as professional builds.",
+  },
+  "services.s4.b1": { es: "Superficies seguras y antideslizantes.", en: "Safe, anti-slip surfaces." },
+  "services.s4.b2": { es: "Cumplimiento de normativa escolar.", en: "Compliance with school regulations." },
+  "services.s4.b3": { es: "Materiales durables y fáciles de mantener.", en: "Durable, easy-to-maintain materials." },
+  "services.s4.b4": { es: "Experiencia con municipalidades y colegios.", en: "Experience with municipalities and schools." },
+  "services.s4.cta": { es: "Ver soluciones para colegios", en: "View school solutions" },
 } satisfies Dict;
 
 type Key = keyof typeof dict;
