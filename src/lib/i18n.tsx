@@ -245,6 +245,64 @@ export const dict = {
     es: "Operamos en todo Chile desde nuestra base en Santiago.",
     en: "We operate across Chile from our base in Santiago.",
   },
+
+  "projects.eyebrow": { es: "Portafolio", en: "Portfolio" },
+  "projects.title": { es: "Proyectos", en: "Projects" },
+  "projects.subtitle": {
+    es: "Canchas diseñadas y construidas para alto rendimiento.",
+    en: "Courts designed and built for high performance.",
+  },
+  "projects.all": { es: "Todos", en: "All" },
+  "projects.client": { es: "Cliente", en: "Client" },
+  "projects.before": { es: "Antes", en: "Before" },
+  "projects.after": { es: "Después", en: "After" },
+  "projects.drag": { es: "Arrastra para comparar", en: "Drag to compare" },
+
+  "projects.t1.name": { es: "Club de Tenis Las Condes", en: "Las Condes Tennis Club" },
+  "projects.t1.client": { es: "Municipalidad de Las Condes", en: "Las Condes Municipality" },
+  "projects.t1.desc": {
+    es: "Resurfacing completo y repintado de dos canchas outdoor con sistema acrílico Pro.",
+    en: "Full resurfacing and repainting of two outdoor courts with Pro acrylic system.",
+  },
+  "projects.t2.name": { es: "Academia Providencia Tenis", en: "Providencia Tennis Academy" },
+  "projects.t2.client": { es: "Municipalidad de Providencia", en: "Providencia Municipality" },
+  "projects.t2.desc": {
+    es: "Construcción de cancha de tenis con base permeable y trazado ITF.",
+    en: "Tennis court build with permeable base and ITF line layout.",
+  },
+
+  "projects.b1.name": { es: "Polideportivo La Florida", en: "La Florida Sports Center" },
+  "projects.b1.client": { es: "Municipalidad de La Florida", en: "La Florida Municipality" },
+  "projects.b1.desc": {
+    es: "Recubrimiento deportivo, líneas FIBA y nuevo diseño cromático corporativo.",
+    en: "Sports coating, FIBA lines and new corporate color scheme.",
+  },
+  "projects.b2.name": { es: "Cancha Urbana Pedro Aguirre Cerda", en: "PAC Urban Court" },
+  "projects.b2.client": { es: "Municipalidad de Pedro Aguirre Cerda", en: "Pedro Aguirre Cerda Municipality" },
+  "projects.b2.desc": {
+    es: "Renovación integral de cancha de barrio con superficie antideslizante.",
+    en: "Full neighborhood court renovation with anti-slip surface.",
+  },
+
+  "projects.v1.name": { es: "Gimnasio Municipal Tomé", en: "Tomé Municipal Gym" },
+  "projects.v1.client": { es: "Municipalidad de Tomé", en: "Tomé Municipality" },
+  "projects.v1.desc": {
+    es: "Cancha indoor multiuso con líneas de vóleibol y acabado de alto agarre.",
+    en: "Multi-use indoor court with volleyball lines and high-grip finish.",
+  },
+
+  "projects.f1.name": { es: "Arena Futsal San Ignacio", en: "San Ignacio Futsal Arena" },
+  "projects.f1.client": { es: "Colegio San Ignacio", en: "San Ignacio School" },
+  "projects.f1.desc": {
+    es: "Construcción completa de cancha de fútsal con cerramiento y drenaje.",
+    en: "Full futsal court build with fencing and drainage.",
+  },
+  "projects.f2.name": { es: "Cancha Sintética La Florida", en: "La Florida Synthetic Court" },
+  "projects.f2.client": { es: "Municipalidad de La Florida", en: "La Florida Municipality" },
+  "projects.f2.desc": {
+    es: "Reemplazo de superficie y rediseño de líneas para uso comunitario.",
+    en: "Surface replacement and line redesign for community use.",
+  },
 } satisfies Dict;
 
 type Key = keyof typeof dict;
