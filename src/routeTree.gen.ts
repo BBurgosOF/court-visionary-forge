@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServiciosRouteImport } from './routes/servicios'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
+import { Route as DisenaTuCanchaRouteImport } from './routes/disena-tu-cancha'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -30,6 +31,11 @@ const NosotrosRoute = NosotrosRouteImport.update({
   path: '/nosotros',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DisenaTuCanchaRoute = DisenaTuCanchaRouteImport.update({
+  id: '/disena-tu-cancha',
+  path: '/disena-tu-cancha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactoRoute = ContactoRouteImport.update({
   id: '/contacto',
   path: '/contacto',
@@ -44,6 +50,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/disena-tu-cancha': typeof DisenaTuCanchaRoute
   '/nosotros': typeof NosotrosRoute
   '/proyectos': typeof ProyectosRoute
   '/servicios': typeof ServiciosRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/disena-tu-cancha': typeof DisenaTuCanchaRoute
   '/nosotros': typeof NosotrosRoute
   '/proyectos': typeof ProyectosRoute
   '/servicios': typeof ServiciosRoute
@@ -59,21 +67,42 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contacto': typeof ContactoRoute
+  '/disena-tu-cancha': typeof DisenaTuCanchaRoute
   '/nosotros': typeof NosotrosRoute
   '/proyectos': typeof ProyectosRoute
   '/servicios': typeof ServiciosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contacto' | '/nosotros' | '/proyectos' | '/servicios'
+  fullPaths:
+    | '/'
+    | '/contacto'
+    | '/disena-tu-cancha'
+    | '/nosotros'
+    | '/proyectos'
+    | '/servicios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contacto' | '/nosotros' | '/proyectos' | '/servicios'
-  id: '__root__' | '/' | '/contacto' | '/nosotros' | '/proyectos' | '/servicios'
+  to:
+    | '/'
+    | '/contacto'
+    | '/disena-tu-cancha'
+    | '/nosotros'
+    | '/proyectos'
+    | '/servicios'
+  id:
+    | '__root__'
+    | '/'
+    | '/contacto'
+    | '/disena-tu-cancha'
+    | '/nosotros'
+    | '/proyectos'
+    | '/servicios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactoRoute: typeof ContactoRoute
+  DisenaTuCanchaRoute: typeof DisenaTuCanchaRoute
   NosotrosRoute: typeof NosotrosRoute
   ProyectosRoute: typeof ProyectosRoute
   ServiciosRoute: typeof ServiciosRoute
@@ -102,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NosotrosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/disena-tu-cancha': {
+      id: '/disena-tu-cancha'
+      path: '/disena-tu-cancha'
+      fullPath: '/disena-tu-cancha'
+      preLoaderRoute: typeof DisenaTuCanchaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contacto': {
       id: '/contacto'
       path: '/contacto'
@@ -122,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactoRoute: ContactoRoute,
+  DisenaTuCanchaRoute: DisenaTuCanchaRoute,
   NosotrosRoute: NosotrosRoute,
   ProyectosRoute: ProyectosRoute,
   ServiciosRoute: ServiciosRoute,

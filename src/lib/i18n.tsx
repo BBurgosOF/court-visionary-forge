@@ -362,6 +362,83 @@ export const dict = {
   "services.s4.b3": { es: "Materiales durables y fáciles de mantener.", en: "Durable, easy-to-maintain materials." },
   "services.s4.b4": { es: "Experiencia con municipalidades y colegios.", en: "Experience with municipalities and schools." },
   "services.s4.cta": { es: "Ver soluciones para colegios", en: "View school solutions" },
+
+  "designer.eyebrow": { es: "Diseñador interactivo", en: "Interactive designer" },
+  "designer.title": { es: "Diseña tu cancha", en: "Design your court" },
+  "designer.subtitle": {
+    es: "Configura tu cancha deportiva y solicita tu cotización.",
+    en: "Configure your sports court and request your quote.",
+  },
+
+  "designer.step1.eyebrow": { es: "Paso 1", en: "Step 1" },
+  "designer.step1.title": { es: "Selecciona tu deporte", en: "Select your sport" },
+  "designer.step1.desc": {
+    es: "Cada deporte usa dimensiones estándar de la industria.",
+    en: "Each sport uses industry-standard dimensions.",
+  },
+
+  "designer.dims.label": { es: "Dimensiones estándar", en: "Standard dimensions" },
+  "designer.dims.tennis": { es: "23,77 m × 10,97 m", en: "23.77 m × 10.97 m" },
+  "designer.dims.basketball": { es: "28 m × 15 m", en: "28 m × 15 m" },
+  "designer.dims.volleyball": { es: "18 m × 9 m", en: "18 m × 9 m" },
+  "designer.dims.futsal": { es: "40 m × 20 m", en: "40 m × 20 m" },
+
+  "designer.step2.eyebrow": { es: "Paso 2", en: "Step 2" },
+  "designer.step2.title": { es: "Vista de tu cancha", en: "Your court preview" },
+  "designer.step2.desc": {
+    es: "Los colores y trazados se actualizan en tiempo real.",
+    en: "Colors and lines update in real time.",
+  },
+
+  "designer.step3.eyebrow": { es: "Paso 3", en: "Step 3" },
+  "designer.step3.title": { es: "Personaliza los colores", en: "Customize the colors" },
+  "designer.step3.desc": {
+    es: "Paleta deportiva en formato PANTONE.",
+    en: "Sport palette in PANTONE format.",
+  },
+  "designer.color.outer": { es: "Fondo exterior", en: "Outer surface" },
+  "designer.color.inner": { es: "Fondo interior", en: "Inner playing area" },
+  "designer.color.lines": { es: "Líneas de la cancha", en: "Court lines" },
+
+  "designer.step4.eyebrow": { es: "Paso 4", en: "Step 4" },
+  "designer.step4.title": { es: "Tipo de superficie", en: "Surface type" },
+  "designer.step4.desc": {
+    es: "Selecciona el material de juego según tu deporte.",
+    en: "Choose the playing surface for your sport.",
+  },
+  "designer.surface.acrylic": { es: "Pintura acrílica", en: "Acrylic paint" },
+  "designer.surface.acrylic.d": {
+    es: "Recubrimiento deportivo profesional, agarre texturizado.",
+    en: "Professional sports coating with textured grip.",
+  },
+  "designer.surface.turf": { es: "Pasto sintético", en: "Synthetic turf" },
+  "designer.surface.turf.d": {
+    es: "Fibra de alta densidad, ideal para fútsal y multiuso.",
+    en: "High-density fiber, ideal for futsal and multi-use.",
+  },
+
+  "designer.step5.eyebrow": { es: "Paso 5", en: "Step 5" },
+  "designer.step5.title": { es: "Resumen de tu configuración", en: "Your configuration summary" },
+  "designer.sum.sport": { es: "Deporte", en: "Sport" },
+  "designer.sum.dims": { es: "Dimensiones", en: "Dimensions" },
+  "designer.sum.outer": { es: "Fondo exterior", en: "Outer surface" },
+  "designer.sum.inner": { es: "Fondo interior", en: "Inner area" },
+  "designer.sum.lines": { es: "Líneas", en: "Lines" },
+  "designer.sum.surface": { es: "Superficie", en: "Surface" },
+
+  "designer.step6.eyebrow": { es: "Paso 6", en: "Step 6" },
+  "designer.step6.title": { es: "Solicita tu cotización", en: "Request your quote" },
+  "designer.step6.desc": {
+    es: "Te respondemos con un plan y cotización en 72 horas.",
+    en: "We reply with a plan and quote within 72 hours.",
+  },
+  "designer.form.firstName": { es: "Nombre", en: "First name" },
+  "designer.form.lastName": { es: "Apellido", en: "Last name" },
+  "designer.form.email": { es: "Correo electrónico", en: "Email" },
+  "designer.form.phone": { es: "Teléfono", en: "Phone" },
+  "designer.form.message": { es: "Mensaje", en: "Message" },
+  "designer.form.send": { es: "Solicitar cotización", en: "Request a quote" },
+  "designer.form.sent": { es: "¡Gracias! Te contactaremos pronto.", en: "Thanks! We'll be in touch shortly." },
 } satisfies Dict;
 
 type Key = keyof typeof dict;

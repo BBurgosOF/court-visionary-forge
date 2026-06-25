@@ -96,9 +96,9 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-medium text-ink md:flex">
-          <a href="/#configurator" className="hover:text-brand">
+          <Link to="/disena-tu-cancha" className="hover:text-brand">
             {t("nav.configurator")}
-          </a>
+          </Link>
           <Link to="/servicios" className="hover:text-brand">
             {t("nav.services")}
           </Link>
