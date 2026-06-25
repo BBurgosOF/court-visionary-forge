@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
   ChevronRight,
+  GraduationCap,
   Hammer,
   Layers,
   MessageCircle,
@@ -13,6 +14,7 @@ import {
   Ruler,
   ShieldCheck,
   Sparkles,
+  Sprout,
   Wrench,
 } from "lucide-react";
 import heroCourt from "@/assets/hero-court.jpg";
