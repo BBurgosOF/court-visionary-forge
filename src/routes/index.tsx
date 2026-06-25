@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
   ChevronRight,
+  GraduationCap,
   Hammer,
   Layers,
   MessageCircle,
@@ -13,6 +14,7 @@ import {
   Ruler,
   ShieldCheck,
   Sparkles,
+  Sprout,
   Wrench,
 } from "lucide-react";
 import heroCourt from "@/assets/hero-court.jpg";
@@ -431,64 +433,59 @@ function TrustBar() {
 /* ---------------- Configurator ---------------- */
 function Configurator() {
   const { t } = useI18n();
+  const lines = [
+    {
+      icon: Sprout,
+      title: t("other.turf.t"),
+      desc: t("other.turf.d"),
+      to: "/servicios",
+      hash: "turf",
+    },
+    {
+      icon: PaintBucket,
+      title: t("other.paint.t"),
+      desc: t("other.paint.d"),
+      to: "/servicios",
+      hash: "paints",
+    },
+    {
+      icon: GraduationCap,
+      title: t("other.school.t"),
+      desc: t("other.school.d"),
+      to: "/servicios",
+      hash: "schools",
+    },
+  ];
   return (
     <section id="configurator" className="relative overflow-hidden py-24 lg:py-32">
-      <div className="court-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
-              <Ruler className="h-3.5 w-3.5 text-ink" /> {t("cfg.badge")}
-            </div>
-            <h2 className="mt-4 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-              {t("cfg.title")}
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">{t("cfg.desc")}</p>
+        <div className="max-w-2xl">
+          <div className="inline-flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
+            <Layers className="h-3.5 w-3.5 text-ink" /> {t("other.badge")}
           </div>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm font-semibold text-ink hover:border-brand hover:text-brand"
-          >
-            {t("cfg.open")} <ArrowUpRight className="h-4 w-4" />
-          </a>
+          <h2 className="mt-4 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
+            {t("other.title")}
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">{t("other.desc")}</p>
         </div>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SPORTS.map((s, i) => (
-            <article
-              key={s.id}
-              className="group relative overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-2xl"
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {lines.map((l) => (
+            <Link
+              key={l.title}
+              to={l.to}
+              hash={l.hash}
+              className="group relative flex flex-col rounded-3xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-brand/60 hover:shadow-xl"
             >
-              <div className="relative aspect-[4/5] overflow-hidden">
-                <img
-                  src={s.img}
-                  alt={t(s.tKey)}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
-                <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">
-                  0{i + 1}
-                </div>
-                <div className="absolute inset-x-4 bottom-4">
-                  <h3 className="font-display text-2xl font-black text-background">{t(s.tKey)}</h3>
-                  <div className="mt-3 flex items-center gap-2">
-                    {COURT_COLORS.slice(0, 4).map((c) => (
-                      <span
-                        key={c.hex}
-                        className="h-5 w-5 rounded-full border-2 border-background/40"
-                        style={{ backgroundColor: c.hex }}
-                      />
-                    ))}
-                  </div>
-                </div>
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand/15 text-ink transition group-hover:bg-brand group-hover:text-brand-foreground">
+                <l.icon className="h-6 w-6" />
               </div>
-              <div className="flex items-center justify-end p-4">
-                <button className="inline-flex items-center gap-1 rounded-full bg-brand px-4 py-2 text-xs font-bold text-brand-foreground">
-                  {t("cfg.customize")} <ChevronRight className="h-3 w-3" />
-                </button>
-              </div>
-            </article>
+              <h3 className="mt-6 font-display text-xl font-black text-ink">{l.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{l.desc}</p>
+              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition group-hover:text-brand">
+                {t("other.cta")} <ArrowUpRight className="h-4 w-4" />
+              </span>
+            </Link>
           ))}
         </div>
       </div>
