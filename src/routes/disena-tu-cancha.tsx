@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, CheckCircle2, Layers, PaintBucket, Ruler, Trophy } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
@@ -102,10 +102,9 @@ function DesignerExperience() {
     [sport],
   );
 
-  // Force valid surface when sport changes
-  if (!surfaceOptions.includes(surface)) {
-    setSurface("acrylic");
-  }
+  useEffect(() => {
+    if (!surfaceOptions.includes(surface)) setSurface("acrylic");
+  }, [surfaceOptions, surface]);
 
   const dims = t(
     ({
