@@ -117,6 +117,28 @@ export const dict = {
   "cfg.open": { es: "Abrir configurador completo", en: "Open full configurator" },
   "cfg.configurable": { es: "Configurable", en: "Configurable" },
   "cfg.customize": { es: "Personalizar", en: "Customize" },
+  "other.badge": { es: "Otras líneas de negocio", en: "Other business lines" },
+  "other.title": { es: "Soluciones complementarias.", en: "Complementary solutions." },
+  "other.desc": {
+    es: "Servicios especializados que potencian cada proyecto deportivo, desde superficies hasta espacios escolares.",
+    en: "Specialized services that strengthen every sports project, from surfaces to school spaces.",
+  },
+  "other.cta": { es: "Conocer servicio", en: "Learn more" },
+  "other.turf.t": { es: "Pasto sintético", en: "Synthetic turf" },
+  "other.turf.d": {
+    es: "Superficies de alto rendimiento para fútbol y multicancha.",
+    en: "High-performance surfaces for football and multi-sport courts.",
+  },
+  "other.paint.t": { es: "Pinturas deportivas", en: "Sports paints" },
+  "other.paint.d": {
+    es: "Acabados técnicos resistentes con líneas reglamentarias precisas.",
+    en: "Durable technical finishes with precise regulation lines.",
+  },
+  "other.school.t": { es: "Proyectos escolares", en: "School projects" },
+  "other.school.d": {
+    es: "Canchas seguras y normadas para establecimientos educacionales.",
+    en: "Safe, compliant courts for educational institutions.",
+  },
 
   "srv.eyebrow": { es: "Qué hacemos", en: "What we do" },
   "srv.title": {
