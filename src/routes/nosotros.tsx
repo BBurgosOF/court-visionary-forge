@@ -20,7 +20,6 @@ import {
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
 import constructionImg from "@/assets/construction.jpg";
-import heroCourt from "@/assets/hero-court.jpg";
 import ceoImg from "@/assets/ceo.jpg";
 
 export const Route = createFileRoute("/nosotros")({
