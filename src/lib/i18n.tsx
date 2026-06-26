@@ -19,6 +19,47 @@ export const dict = {
     es: "Somos un equipo técnico especializado en el diseño, construcción y recubrimiento de canchas deportivas de alto rendimiento en todo Chile.",
     en: "A specialized technical team designing, building and coating high-performance sports courts across Chile.",
   },
+  "about.hero.kicker": { es: "Equipo · Experiencia · Especialización", en: "Team · Experience · Expertise" },
+
+  "about.who.eyebrow": { es: "Quiénes somos", en: "Who we are" },
+  "about.who.title": { es: "Especialistas en canchas deportivas.", en: "Sports court specialists." },
+  "about.who.p1": {
+    es: "Más de una década diseñando, construyendo y recubriendo canchas de alto rendimiento para clubes, colegios y municipios.",
+    en: "Over a decade designing, building and coating high-performance courts for clubs, schools and municipalities.",
+  },
+  "about.who.p2": {
+    es: "Trabajamos de forma integral: desde el primer plano hasta la última línea pintada, con equipo propio y materiales premium.",
+    en: "We work end-to-end: from the first blueprint to the last painted line, with our own crew and premium materials.",
+  },
+  "about.who.b1": { es: "Diseño técnico y planimetría", en: "Technical design and planning" },
+  "about.who.b2": { es: "Construcción llave en mano", en: "Turnkey construction" },
+  "about.who.b3": { es: "Pinturas y pasto sintético", en: "Paints and synthetic turf" },
+
+  "about.ceo.eyebrow": { es: "Liderazgo", en: "Leadership" },
+  "about.ceo.title": { es: "Detrás de cada cancha, un equipo con propósito.", en: "Behind every court, a team with purpose." },
+  "about.ceo.name": { es: "Rodrigo Pérez", en: "Rodrigo Pérez" },
+  "about.ceo.role": { es: "CEO & Fundador", en: "CEO & Founder" },
+  "about.ceo.quote": {
+    es: "“Una cancha bien hecha cambia comunidades. Por eso cuidamos cada detalle como si fuera la nuestra.”",
+    en: "“A well-built court transforms communities. That's why we treat every detail as if it were our own.”",
+  },
+
+  "about.props.eyebrow": { es: "Propuesta de valor", en: "Value proposition" },
+  "about.props.title": { es: "Por qué eligen INVERDEP.", en: "Why teams choose INVERDEP." },
+  "about.props.p1.t": { es: "Calidad certificada", en: "Certified quality" },
+  "about.props.p1.d": { es: "Materiales y procesos bajo norma deportiva.", en: "Sport-grade materials and processes." },
+  "about.props.p2.t": { es: "Innovación constante", en: "Constant innovation" },
+  "about.props.p2.d": { es: "Diseño digital y superficies de última generación.", en: "Digital design and next-gen surfaces." },
+  "about.props.p3.t": { es: "Cumplimiento", en: "On-time delivery" },
+  "about.props.p3.d": { es: "Plazos y presupuestos respetados, sin sorpresas.", en: "Timelines and budgets respected, no surprises." },
+  "about.props.p4.t": { es: "Impacto deportivo", en: "Sports impact" },
+  "about.props.p4.d": { es: "Espacios que potencian deporte y educación.", en: "Spaces that elevate sport and education." },
+
+  "about.cta.title": { es: "Conoce lo que hemos construido.", en: "See what we've built." },
+  "about.cta.desc": { es: "Explora proyectos reales o descubre cada servicio en detalle.", en: "Browse real projects or discover each service in detail." },
+  "about.cta.projects": { es: "Ver proyectos", en: "View projects" },
+  "about.cta.services": { es: "Conocer servicios", en: "Our services" },
+
   "about.stat1.k": { es: "+15", en: "+15" },
   "about.stat1.v": { es: "Años de experiencia", en: "Years of experience" },
   "about.stat2.k": { es: "100%", en: "100%" },
