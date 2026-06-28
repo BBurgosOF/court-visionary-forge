@@ -113,6 +113,9 @@ export function Navbar() {
           <Link to="/nosotros" className="hover:text-brand">
             {t("nav.about")}
           </Link>
+          <Link to="/blog" className="hover:text-brand">
+            {t("nav.blog")}
+          </Link>
           <Link to="/contacto" className="hover:text-brand">
             {t("nav.contact")}
           </Link>

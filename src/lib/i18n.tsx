@@ -12,6 +12,7 @@ export const dict = {
   "nav.contact": { es: "Contacto", en: "Contact" },
   "nav.quote": { es: "Solicitar cotización", en: "Get a quote" },
   "nav.about": { es: "Nosotros", en: "About" },
+  "nav.blog": { es: "Blog", en: "Blog" },
 
   "about.badge": { es: "Quiénes somos", en: "About us" },
   "about.title": { es: "Construimos canchas. Construimos confianza.", en: "We build courts. We build trust." },
@@ -502,6 +503,56 @@ export const dict = {
   "designer.form.message": { es: "Mensaje", en: "Message" },
   "designer.form.send": { es: "Solicitar cotización", en: "Request a quote" },
   "designer.form.sent": { es: "¡Gracias! Te contactaremos pronto.", en: "Thanks! We'll be in touch shortly." },
+
+  "blog.eyebrow": { es: "Noticias", en: "News" },
+  "blog.title": { es: "Blog", en: "Blog" },
+  "blog.subtitle": {
+    es: "Novedades, proyectos y noticias del mundo deportivo.",
+    en: "Updates, projects and news from the sports world.",
+  },
+  "blog.readMore": { es: "Leer más", en: "Read more" },
+
+  "blog.p1.title": { es: "Cómo elegir la superficie ideal para tu cancha", en: "How to choose the ideal surface for your court" },
+  "blog.p1.excerpt": {
+    es: "Comparamos acrílico, pasto sintético y hormigón por durabilidad, agarre y mantenimiento.",
+    en: "We compare acrylic, synthetic turf and concrete for durability, grip and maintenance.",
+  },
+  "blog.p1.date": { es: "15 Jun 2026", en: "Jun 15, 2026" },
+
+  "blog.p2.title": { es: "Nueva cancha urbana en La Florida", en: "New urban court in La Florida" },
+  "blog.p2.excerpt": {
+    es: "Entregamos una cancha de básquetbol con recubrimiento deportivo y líneas FIBA.",
+    en: "We delivered a basketball court with sports coating and FIBA lines.",
+  },
+  "blog.p2.date": { es: "10 Jun 2026", en: "Jun 10, 2026" },
+
+  "blog.p3.title": { es: "Mantenimiento de canchas de vóleibol: guía práctica", en: "Volleyball court maintenance: a practical guide" },
+  "blog.p3.excerpt": {
+    es: "Consejos para prolongar la vida útil de tu superficie deportiva indoor y outdoor.",
+    en: "Tips to extend the lifespan of your indoor and outdoor sports surface.",
+  },
+  "blog.p3.date": { es: "28 May 2026", en: "May 28, 2026" },
+
+  "blog.p4.title": { es: "Lo que define una cancha de alto rendimiento", en: "What defines a high-performance court" },
+  "blog.p4.excerpt": {
+    es: "Desde el drenaje hasta el último trazo: los detalles técnicos que marcan la diferencia.",
+    en: "From drainage to the final line: the technical details that make the difference.",
+  },
+  "blog.p4.date": { es: "15 May 2026", en: "May 15, 2026" },
+
+  "blog.p5.title": { es: "Colores PANTONE en pinturas deportivas", en: "PANTONE colors in sports paints" },
+  "blog.p5.excerpt": {
+    es: "Cómo logramos acabados precisos y duraderos usando referencias de color estándar.",
+    en: "How we achieve precise and durable finishes using standard color references.",
+  },
+  "blog.p5.date": { es: "3 May 2026", en: "May 3, 2026" },
+
+  "blog.p6.title": { es: "Proyecto destacado: resurfacing en 12 días", en: "Featured project: resurfacing in 12 days" },
+  "blog.p6.excerpt": {
+    es: "Transformamos una superficie agrietada en una cancha de campeonato en tiempo récord.",
+    en: "We transformed a cracked surface into a championship court in record time.",
+  },
+  "blog.p6.date": { es: "20 Abr 2026", en: "Apr 20, 2026" },
 } satisfies Dict;
 
 type Key = keyof typeof dict;
