@@ -12,6 +12,7 @@ export const dict = {
   "nav.contact": { es: "Contacto", en: "Contact" },
   "nav.quote": { es: "Solicitar cotización", en: "Get a quote" },
   "nav.about": { es: "Nosotros", en: "About" },
+  "nav.blog": { es: "Blog", en: "Blog" },
 
   "about.badge": { es: "Quiénes somos", en: "About us" },
   "about.title": { es: "Construimos canchas. Construimos confianza.", en: "We build courts. We build trust." },
