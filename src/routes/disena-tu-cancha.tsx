@@ -587,9 +587,22 @@ function Step5({
 }
 
 /* ---------------- Step 6 — Form ---------------- */
-function Step6() {
+function Step6({
+  formValues,
+  setFormValues,
+  onPreview,
+}: {
+  formValues: Record<string, string>;
+  setFormValues: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  onPreview: () => void;
+}) {
   const { t } = useI18n();
   const [sent, setSent] = useState(false);
+
+  const update = (name: string, value: string) => {
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <section>
       <StepHeader eyebrowKey="designer.step6.eyebrow" titleKey="designer.step6.title" descKey="designer.step6.desc" />
@@ -601,10 +614,35 @@ function Step6() {
         className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8"
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field name="firstName" label={t("designer.form.firstName")} required />
-          <Field name="lastName" label={t("designer.form.lastName")} required />
-          <Field name="email" label={t("designer.form.email")} type="email" required />
-          <Field name="phone" label={t("designer.form.phone")} type="tel" />
+          <Field
+            name="firstName"
+            label={t("designer.form.firstName")}
+            required
+            value={formValues.firstName || ""}
+            onChange={(v) => update("firstName", v)}
+          />
+          <Field
+            name="lastName"
+            label={t("designer.form.lastName")}
+            required
+            value={formValues.lastName || ""}
+            onChange={(v) => update("lastName", v)}
+          />
+          <Field
+            name="email"
+            label={t("designer.form.email")}
+            type="email"
+            required
+            value={formValues.email || ""}
+            onChange={(v) => update("email", v)}
+          />
+          <Field
+            name="phone"
+            label={t("designer.form.phone")}
+            type="tel"
+            value={formValues.phone || ""}
+            onChange={(v) => update("phone", v)}
+          />
         </div>
         <div className="mt-4">
           <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -614,10 +652,12 @@ function Step6() {
             name="message"
             rows={4}
             maxLength={1000}
+            value={formValues.message || ""}
+            onChange={(e) => update("message", e.target.value)}
             className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/30"
           />
         </div>
-        <div className="mt-6 flex items-center justify-between gap-4">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
           {sent ? (
             <p className="inline-flex items-center gap-2 text-sm font-semibold text-brand">
               <CheckCircle2 className="h-4 w-4" /> {t("designer.form.sent")}
@@ -625,13 +665,23 @@ function Step6() {
           ) : (
             <span />
           )}
-          <button
-            type="submit"
-            className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
-          >
-            {t("designer.form.send")}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onPreview}
+              className="group inline-flex items-center gap-2 rounded-full border-2 border-brand bg-transparent px-6 py-3 text-sm font-bold text-brand transition hover:bg-brand/5"
+            >
+              <Eye className="h-4 w-4" />
+              {t("quote.btnPreview")}
+            </button>
+            <button
+              type="submit"
+              className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
+            >
+              {t("designer.form.send")}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
         </div>
       </form>
     </section>
@@ -643,11 +693,15 @@ function Field({
   label,
   type = "text",
   required,
+  value,
+  onChange,
 }: {
   name: string;
   label: string;
   type?: string;
   required?: boolean;
+  value: string;
+  onChange: (value: string) => void;
 }) {
   return (
     <label className="block">
@@ -659,6 +713,8 @@ function Field({
         name={name}
         required={required}
         maxLength={200}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/30"
       />
     </label>
