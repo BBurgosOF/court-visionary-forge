@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, Layers, PaintBucket, Ruler, Trophy } from "lucide-react";
+import { ArrowRight, CheckCircle2, Eye, Layers, PaintBucket, Ruler, Trophy } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
+import CotizacionPreview, { type QuoteData } from "@/components/CotizacionPreview";
 
 export const Route = createFileRoute("/disena-tu-cancha")({
   component: DesignerPage,
@@ -89,6 +90,88 @@ function Header() {
   );
 }
 
+function areaBySport(sport: SportId): number {
+  switch (sport) {
+    case "tennis":
+      return 261;
+    case "basketball":
+      return 420;
+    case "volleyball":
+      return 162;
+    case "futsal":
+      return 800;
+  }
+}
+
+function buildQuoteData(
+  sport: SportId,
+  outer: Pantone,
+  inner: Pantone,
+  line: Pantone,
+  surface: Surface,
+  dims: string,
+  form: Record<string, string>,
+  t: (k: any) => string,
+  lang: "es" | "en",
+): QuoteData {
+  const area = areaBySport(sport);
+  const surfaceLabel = surface === "acrylic" ? t("designer.surface.acrylic") : t("designer.surface.turf");
+  const sportLabel = t(SPORTS.find((s) => s.id === sport)!.tKey);
+  const basePrice = sport === "futsal" ? 85000 : sport === "basketball" ? 72000 : sport === "tennis" ? 68000 : 65000;
+  const items: QuoteData["items"] = [
+    {
+      description: `${lang === "es" ? "Provisión e instalación" : "Supply and installation"} — ${sportLabel.toLowerCase()} (${surfaceLabel.toLowerCase()})`,
+      quantity: 1,
+      unitPrice: basePrice * area,
+    },
+    {
+      description: lang === "es" ? "Trazado de líneas reglamentarias" : "Regulation line marking",
+      quantity: 1,
+      unitPrice: Math.round(basePrice * area * 0.08),
+    },
+    {
+      description: lang === "es" ? "Gastos generales y logística" : "General expenses and logistics",
+      quantity: 1,
+      unitPrice: Math.round(basePrice * area * 0.12),
+    },
+  ];
+
+  return {
+    quoteNumber: `INV-${Date.now().toString().slice(-6)}`,
+    date: new Date().toLocaleDateString(lang === "es" ? "es-CL" : "en-US"),
+    client: {
+      firstName: form.firstName || "",
+      lastName: form.lastName || "",
+      email: form.email || "",
+      phone: form.phone || "",
+    },
+    project: {
+      sport: sportLabel,
+      surface: surfaceLabel,
+      dimensions: dims,
+      totalArea: area,
+      outerColor: outer.hex,
+      innerColor: inner.hex,
+      lineColor: line.hex,
+      outerPantone: outer.pantone,
+      innerPantone: inner.pantone,
+      linePantone: line.pantone,
+    },
+    items,
+    conditions: {
+      validity:
+        lang === "es"
+          ? "30 días corridos desde fecha de emisión"
+          : "30 calendar days from issuance date",
+      paymentTerms: lang === "es" ? "50% inicio — 50% entrega" : "50% start — 50% delivery",
+      exclusions:
+        lang === "es"
+          ? "Movimiento de tierra, permisos municipales y obras civiles mayores"
+          : "Earthworks, municipal permits and major civil works",
+    },
+  };
+}
+
 function DesignerExperience() {
   const { t, lang } = useI18n();
   const [sport, setSport] = useState<SportId>("tennis");
@@ -96,6 +179,9 @@ function DesignerExperience() {
   const [inner, setInner] = useState<Pantone>(INNER_COLORS[0]);
   const [line, setLine] = useState<Pantone>(LINE_COLORS[0]);
   const [surface, setSurface] = useState<Surface>("acrylic");
+  const [showPreview, setShowPreview] = useState(false);
+  const [quoteData, setQuoteData] = useState<QuoteData | null>(null);
+  const [formValues, setFormValues] = useState<Record<string, string>>({});
 
   const surfaceOptions = useMemo<Surface[]>(
     () => (sport === "futsal" ? ["acrylic", "turf"] : ["acrylic"]),
@@ -115,21 +201,23 @@ function DesignerExperience() {
     } as const)[sport],
   );
 
+  const handlePreview = () => {
+    const data = buildQuoteData(sport, outer, inner, line, surface, dims, formValues, t, lang);
+    setQuoteData(data);
+    setShowPreview(true);
+  };
+
   return (
     <div className="mx-auto max-w-7xl space-y-20 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <Step1 sport={sport} setSport={setSport} />
       <Step2 sport={sport} outer={outer} inner={inner} line={line} dims={dims} surface={surface} />
-      <Step3
-        outer={outer}
-        inner={inner}
-        line={line}
-        setOuter={setOuter}
-        setInner={setInner}
-        setLine={setLine}
-      />
+      <Step3 outer={outer} inner={inner} line={line} setOuter={setOuter} setInner={setInner} setLine={setLine} />
       <Step4 surface={surface} setSurface={setSurface} options={surfaceOptions} />
       <Step5 sport={sport} dims={dims} outer={outer} inner={inner} line={line} surface={surface} lang={lang} />
-      <Step6 />
+      <Step6 formValues={formValues} setFormValues={setFormValues} onPreview={handlePreview} />
+      {showPreview && quoteData && (
+        <CotizacionPreview data={{ ...quoteData, onClose: () => setShowPreview(false) }} />
+      )}
     </div>
   );
 }
@@ -499,9 +587,22 @@ function Step5({
 }
 
 /* ---------------- Step 6 — Form ---------------- */
-function Step6() {
+function Step6({
+  formValues,
+  setFormValues,
+  onPreview,
+}: {
+  formValues: Record<string, string>;
+  setFormValues: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  onPreview: () => void;
+}) {
   const { t } = useI18n();
   const [sent, setSent] = useState(false);
+
+  const update = (name: string, value: string) => {
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <section>
       <StepHeader eyebrowKey="designer.step6.eyebrow" titleKey="designer.step6.title" descKey="designer.step6.desc" />
@@ -513,10 +614,35 @@ function Step6() {
         className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8"
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field name="firstName" label={t("designer.form.firstName")} required />
-          <Field name="lastName" label={t("designer.form.lastName")} required />
-          <Field name="email" label={t("designer.form.email")} type="email" required />
-          <Field name="phone" label={t("designer.form.phone")} type="tel" />
+          <Field
+            name="firstName"
+            label={t("designer.form.firstName")}
+            required
+            value={formValues.firstName || ""}
+            onChange={(v) => update("firstName", v)}
+          />
+          <Field
+            name="lastName"
+            label={t("designer.form.lastName")}
+            required
+            value={formValues.lastName || ""}
+            onChange={(v) => update("lastName", v)}
+          />
+          <Field
+            name="email"
+            label={t("designer.form.email")}
+            type="email"
+            required
+            value={formValues.email || ""}
+            onChange={(v) => update("email", v)}
+          />
+          <Field
+            name="phone"
+            label={t("designer.form.phone")}
+            type="tel"
+            value={formValues.phone || ""}
+            onChange={(v) => update("phone", v)}
+          />
         </div>
         <div className="mt-4">
           <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -526,10 +652,12 @@ function Step6() {
             name="message"
             rows={4}
             maxLength={1000}
+            value={formValues.message || ""}
+            onChange={(e) => update("message", e.target.value)}
             className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/30"
           />
         </div>
-        <div className="mt-6 flex items-center justify-between gap-4">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
           {sent ? (
             <p className="inline-flex items-center gap-2 text-sm font-semibold text-brand">
               <CheckCircle2 className="h-4 w-4" /> {t("designer.form.sent")}
@@ -537,13 +665,23 @@ function Step6() {
           ) : (
             <span />
           )}
-          <button
-            type="submit"
-            className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
-          >
-            {t("designer.form.send")}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onPreview}
+              className="group inline-flex items-center gap-2 rounded-full border-2 border-brand bg-transparent px-6 py-3 text-sm font-bold text-brand transition hover:bg-brand/5"
+            >
+              <Eye className="h-4 w-4" />
+              {t("quote.btnPreview")}
+            </button>
+            <button
+              type="submit"
+              className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
+            >
+              {t("designer.form.send")}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
         </div>
       </form>
     </section>
@@ -555,11 +693,15 @@ function Field({
   label,
   type = "text",
   required,
+  value,
+  onChange,
 }: {
   name: string;
   label: string;
   type?: string;
   required?: boolean;
+  value: string;
+  onChange: (value: string) => void;
 }) {
   return (
     <label className="block">
@@ -571,6 +713,8 @@ function Field({
         name={name}
         required={required}
         maxLength={200}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/30"
       />
     </label>
