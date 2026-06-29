@@ -90,6 +90,88 @@ function Header() {
   );
 }
 
+function areaBySport(sport: SportId): number {
+  switch (sport) {
+    case "tennis":
+      return 261;
+    case "basketball":
+      return 420;
+    case "volleyball":
+      return 162;
+    case "futsal":
+      return 800;
+  }
+}
+
+function buildQuoteData(
+  sport: SportId,
+  outer: Pantone,
+  inner: Pantone,
+  line: Pantone,
+  surface: Surface,
+  dims: string,
+  form: Record<string, string>,
+  t: (k: any) => string,
+  lang: "es" | "en",
+): QuoteData {
+  const area = areaBySport(sport);
+  const surfaceLabel = surface === "acrylic" ? t("designer.surface.acrylic") : t("designer.surface.turf");
+  const sportLabel = t(SPORTS.find((s) => s.id === sport)!.tKey);
+  const basePrice = sport === "futsal" ? 85000 : sport === "basketball" ? 72000 : sport === "tennis" ? 68000 : 65000;
+  const items: QuoteData["items"] = [
+    {
+      description: `${lang === "es" ? "Provisión e instalación" : "Supply and installation"} — ${sportLabel.toLowerCase()} (${surfaceLabel.toLowerCase()})`,
+      quantity: 1,
+      unitPrice: basePrice * area,
+    },
+    {
+      description: lang === "es" ? "Trazado de líneas reglamentarias" : "Regulation line marking",
+      quantity: 1,
+      unitPrice: Math.round(basePrice * area * 0.08),
+    },
+    {
+      description: lang === "es" ? "Gastos generales y logística" : "General expenses and logistics",
+      quantity: 1,
+      unitPrice: Math.round(basePrice * area * 0.12),
+    },
+  ];
+
+  return {
+    quoteNumber: `INV-${Date.now().toString().slice(-6)}`,
+    date: new Date().toLocaleDateString(lang === "es" ? "es-CL" : "en-US"),
+    client: {
+      firstName: form.firstName || "",
+      lastName: form.lastName || "",
+      email: form.email || "",
+      phone: form.phone || "",
+    },
+    project: {
+      sport: sportLabel,
+      surface: surfaceLabel,
+      dimensions: dims,
+      totalArea: area,
+      outerColor: outer.hex,
+      innerColor: inner.hex,
+      lineColor: line.hex,
+      outerPantone: outer.pantone,
+      innerPantone: inner.pantone,
+      linePantone: line.pantone,
+    },
+    items,
+    conditions: {
+      validity:
+        lang === "es"
+          ? "30 días corridos desde fecha de emisión"
+          : "30 calendar days from issuance date",
+      paymentTerms: lang === "es" ? "50% inicio — 50% entrega" : "50% start — 50% delivery",
+      exclusions:
+        lang === "es"
+          ? "Movimiento de tierra, permisos municipales y obras civiles mayores"
+          : "Earthworks, municipal permits and major civil works",
+    },
+  };
+}
+
 function DesignerExperience() {
   const { t, lang } = useI18n();
   const [sport, setSport] = useState<SportId>("tennis");
@@ -97,6 +179,9 @@ function DesignerExperience() {
   const [inner, setInner] = useState<Pantone>(INNER_COLORS[0]);
   const [line, setLine] = useState<Pantone>(LINE_COLORS[0]);
   const [surface, setSurface] = useState<Surface>("acrylic");
+  const [showPreview, setShowPreview] = useState(false);
+  const [quoteData, setQuoteData] = useState<QuoteData | null>(null);
+  const [formValues, setFormValues] = useState<Record<string, string>>({});
 
   const surfaceOptions = useMemo<Surface[]>(
     () => (sport === "futsal" ? ["acrylic", "turf"] : ["acrylic"]),
@@ -116,21 +201,23 @@ function DesignerExperience() {
     } as const)[sport],
   );
 
+  const handlePreview = () => {
+    const data = buildQuoteData(sport, outer, inner, line, surface, dims, formValues, t, lang);
+    setQuoteData(data);
+    setShowPreview(true);
+  };
+
   return (
     <div className="mx-auto max-w-7xl space-y-20 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <Step1 sport={sport} setSport={setSport} />
       <Step2 sport={sport} outer={outer} inner={inner} line={line} dims={dims} surface={surface} />
-      <Step3
-        outer={outer}
-        inner={inner}
-        line={line}
-        setOuter={setOuter}
-        setInner={setInner}
-        setLine={setLine}
-      />
+      <Step3 outer={outer} inner={inner} line={line} setOuter={setOuter} setInner={setInner} setLine={setLine} />
       <Step4 surface={surface} setSurface={setSurface} options={surfaceOptions} />
       <Step5 sport={sport} dims={dims} outer={outer} inner={inner} line={line} surface={surface} lang={lang} />
-      <Step6 />
+      <Step6 formValues={formValues} setFormValues={setFormValues} onPreview={handlePreview} />
+      {showPreview && quoteData && (
+        <CotizacionPreview data={{ ...quoteData, onClose: () => setShowPreview(false) }} />
+      )}
     </div>
   );
 }
