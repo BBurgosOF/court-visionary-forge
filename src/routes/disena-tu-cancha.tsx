@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, Layers, PaintBucket, Ruler, Trophy } from "lucide-react";
+import { ArrowRight, CheckCircle2, Eye, Layers, PaintBucket, Ruler, Trophy } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
+import CotizacionPreview, { type QuoteData } from "@/components/CotizacionPreview";
 
 export const Route = createFileRoute("/disena-tu-cancha")({
   component: DesignerPage,
