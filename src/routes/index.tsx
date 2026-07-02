@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
+  Award,
+  BadgeCheck,
+  Building2,
+  Cpu,
   CheckCircle2,
   ChevronRight,
   GraduationCap,
@@ -15,6 +19,8 @@ import {
   ShieldCheck,
   Sparkles,
   Sprout,
+  Trophy,
+  Workflow,
   Wrench,
 } from "lucide-react";
 import heroCourt from "@/assets/hero-court.jpg";
@@ -29,11 +35,6 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import inverdepLogo from "@/assets/logo-green.png";
 import inverdepLogoBlue from "@/assets/logo-blue.png";
 import inverdepLogoWhite from "@/assets/logo-white.png";
-import providenciaLogo from "@/assets/logo_providencia.png";
-import tomeLogo from "@/assets/tome.png";
-import sanIgnacioLogo from "@/assets/san_ignacio.png";
-import laFloridaLogo from "@/assets/la_florida.png";
-import pacLogo from "@/assets/pedro_aguirre_cerda.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -61,7 +62,8 @@ function Index() {
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
         <Hero />
-        <TrustBar />
+        <Certifications />
+        <WhyDifferent />
         <Configurator />
         <Services />
         <Paints />
@@ -239,194 +241,306 @@ function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
-      <div className="court-lines pointer-events-none absolute inset-0 opacity-60" />
-      <div className="pointer-events-none absolute -right-32 top-10 h-[520px] w-[520px] rounded-full bg-brand/20 blur-3xl" />
-      <div className="pointer-events-none absolute -left-32 bottom-0 h-[420px] w-[420px] rounded-full bg-brand/10 blur-3xl" />
+      <div className="court-lines pointer-events-none absolute inset-0 opacity-40" />
+      <div className="pointer-events-none absolute -right-40 top-0 h-[560px] w-[560px] rounded-full bg-brand/20 blur-3xl" />
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full bg-brand/10 blur-3xl" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-20 pb-28 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:px-8 lg:pt-28 lg:pb-36">
-        {/* Left */}
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-            <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
+      <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 lg:px-8 lg:pt-20 lg:pb-24">
+        {/* Compact editorial header strip */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+              <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
+            </div>
+            <h1 className="mt-5 font-display text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
+              {t("hero.title1")}{" "}
+              <span className="text-brand">{t("hero.title2")}</span>{" "}
+              <span className="text-ink-foreground/90">{t("hero.title3")}</span>
+            </h1>
           </div>
-          <h1 className="mt-6 font-display text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-            {t("hero.title1")}{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10 text-brand">{t("hero.title2")}</span>
-              <span className="absolute inset-x-0 bottom-1 z-0 h-3 bg-brand/20" />
-            </span>
-            <br />
-            {t("hero.title3")}
-          </h1>
-
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <a
-              href="#configurator"
-              className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
-            >
-              {t("hero.cta1")}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/20 px-7 py-3.5 text-sm font-bold text-ink-foreground hover:border-brand hover:text-brand"
-            >
-              {t("hero.cta2")}
-            </a>
-          </div>
-          <div className="mt-12 grid max-w-md grid-cols-3 gap-6">
+          <div className="grid max-w-md grid-cols-3 gap-5 lg:min-w-[360px]">
             {[
               { k: "100", v: t("hero.stat1") },
               { k: "500", v: t("hero.stat2") },
-              { k: "500.000", v: t("hero.stat3") },
+              { k: "500K", v: t("hero.stat3") },
             ].map((s) => (
-              <div key={s.v}>
-                <div className="font-display text-3xl font-black text-brand">{s.k}</div>
-                <div className="mt-1 text-xs uppercase tracking-wider text-ink-foreground/60">
-                  {s.v}
-                </div>
+              <div key={s.v} className="rounded-2xl border border-ink-foreground/10 bg-ink-foreground/[0.04] px-4 py-3">
+                <div className="font-display text-2xl font-black text-brand">{s.k}</div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-ink-foreground/60">{s.v}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right - configurator mock */}
-        <div className="relative">
-          <div className="relative mx-auto aspect-square w-full max-w-[520px]">
-            {/* Court surface */}
-            <div
-              className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-2xl transition-colors duration-500"
+        {/* Split layout: business-line editorial cards + persistent designer */}
+        <div className="mt-10 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.35fr)]">
+          {/* Editorial banner cards */}
+          <div className="grid gap-5">
+            <EditorialCard
+              image={constructionImg}
+              tag={t("hero.card1.tag")}
+              title={t("hero.card1.t")}
+              desc={t("hero.card1.d")}
+              to="/servicios"
+              tone="dark"
+            />
+            <div className="grid gap-5 sm:grid-cols-2">
+              <EditorialCard
+                image={paintImg}
+                tag={t("hero.card2.tag")}
+                title={t("hero.card2.t")}
+                desc={t("hero.card2.d")}
+                to="/servicios"
+                hash="paints"
+                tone="brand"
+              />
+              <EditorialCard
+                image={basketballImg}
+                tag={t("hero.card3.tag")}
+                title={t("hero.card3.t")}
+                desc={t("hero.card3.d")}
+                to="/servicios"
+                hash="schools"
+                tone="light"
+              />
+            </div>
+          </div>
+
+          {/* Persistent Court Designer — main conversion focus */}
+          <div className="relative overflow-hidden rounded-[28px] border border-brand/30 bg-gradient-to-br from-ink-foreground/[0.06] to-ink-foreground/[0.02] p-5 shadow-[0_30px_80px_-30px_rgba(179,218,45,0.35)] sm:p-6">
+            <div className="pointer-events-none absolute inset-0 opacity-30" style={{
+              backgroundImage: "repeating-linear-gradient(0deg, rgba(179,218,45,0.06) 0 1px, transparent 1px 42px), repeating-linear-gradient(90deg, rgba(179,218,45,0.06) 0 1px, transparent 1px 42px)",
+            }} />
+            <div className="relative flex items-center justify-between gap-3">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1 text-[10px] font-black uppercase tracking-wider text-brand-foreground">
+                <Sparkles className="h-3 w-3" /> {t("hero.designer.badge")}
+              </div>
+              <span className="hidden text-[10px] font-semibold uppercase tracking-wider text-ink-foreground/50 sm:block">
+                {t("hero.kicker")} · v2
+              </span>
+            </div>
+            <h2 className="relative mt-4 font-display text-2xl font-black leading-tight sm:text-3xl">
+              {t("hero.designer.title")}
+            </h2>
+            <p className="relative mt-2 max-w-md text-sm text-ink-foreground/70">
+              {t("hero.designer.desc")}
+            </p>
+
+            {/* Court preview */}
+            <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-2xl border border-ink-foreground/10 shadow-inner transition-colors duration-500"
               style={{ backgroundColor: courtColor }}
             >
-              {/* Subtle surface texture */}
-              <div
-                className="absolute inset-0 opacity-30 mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
-                }}
-              />
-              <div
-                className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
-                }}
-              />
-              {/* Sport-specific line markings */}
+              <div className="absolute inset-0 opacity-30 mix-blend-overlay" style={{
+                backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
+              }} />
+              <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay" style={{
+                backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
+              }} />
               <SportCourtLines sport={sport} color={lineColor} />
-              {/* Soft sheen */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20" />
             </div>
 
-            {/* Floating panel: sport */}
-            <div className="float-slow absolute -left-6 top-8 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-10">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {t("panel.sport")}
-                </span>
-                <span className="h-2 w-2 rounded-full bg-brand" />
+            {/* Controls */}
+            <div className="relative mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr]">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.sport")}</div>
+                <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-2">
+                  {SPORTS.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => setSport(s.id)}
+                      className={`rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${
+                        sport === s.id
+                          ? "bg-brand text-brand-foreground"
+                          : "bg-ink-foreground/10 text-ink-foreground/80 hover:bg-ink-foreground/20"
+                      }`}
+                    >
+                      {t(s.tKey)}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-1.5">
-                {SPORTS.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setSport(s.id)}
-                    className={`rounded-lg px-2 py-1.5 text-xs font-semibold transition ${
-                      sport === s.id
-                        ? "bg-ink text-ink-foreground"
-                        : "bg-muted text-ink hover:bg-muted/70"
-                    }`}
-                  >
-                    {t(s.tKey)}
-                  </button>
-                ))}
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.courtColor")}</div>
+                <div className="mt-2 flex gap-2">
+                  {COURT_COLORS.map((c) => (
+                    <button
+                      key={c.hex}
+                      onClick={() => setCourtColor(c.hex)}
+                      aria-label={c.name}
+                      className={`h-8 w-8 rounded-full border-2 transition ${courtColor === c.hex ? "border-brand scale-110" : "border-ink-foreground/20"}`}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.lineColor")}</div>
+                <div className="mt-2 flex gap-2">
+                  {LINE_COLORS.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setLineColor(c)}
+                      aria-label={c}
+                      className={`h-8 w-8 rounded-full border transition ${lineColor === c ? "ring-2 ring-brand ring-offset-2 ring-offset-ink" : "border-ink-foreground/20"}`}
+                      style={{ backgroundColor: c }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Floating panel: court color */}
-            <div
-              className="float-slow absolute -right-4 top-32 w-52 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-right-8"
-              style={{ animationDelay: "1.5s" }}
+            {/* Primary CTA */}
+            <Link
+              to="/disena-tu-cancha"
+              className="group relative mt-5 flex items-center justify-between gap-3 rounded-2xl bg-brand px-6 py-4 text-brand-foreground shadow-[0_18px_50px_-12px_rgba(179,218,45,0.65)] transition-transform hover:-translate-y-0.5"
             >
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("panel.courtColor")}
-              </span>
-              <div className="mt-3 flex gap-2">
-                {COURT_COLORS.map((c) => (
-                  <button
-                    key={c.hex}
-                    onClick={() => setCourtColor(c.hex)}
-                    className={`h-8 w-8 rounded-full border-2 transition ${
-                      courtColor === c.hex ? "border-ink scale-110" : "border-transparent"
-                    }`}
-                    style={{ backgroundColor: c.hex }}
-                    aria-label={c.name}
-                  />
-                ))}
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-wider opacity-70">{t("hero.designer.badge")}</div>
+                <div className="font-display text-lg font-black leading-tight sm:text-xl">{t("hero.designer.cta")}</div>
               </div>
-            </div>
-
-            {/* Floating panel: line color */}
-            <div
-              className="float-slow absolute -left-4 bottom-6 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-12"
-              style={{ animationDelay: "0.75s" }}
-            >
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("panel.lineColor")}
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-foreground text-brand transition-transform group-hover:translate-x-1">
+                <ArrowRight className="h-5 w-5" />
               </span>
-              <div className="mt-3 flex items-center gap-2">
-                {LINE_COLORS.map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setLineColor(c)}
-                    className={`h-8 w-8 rounded-full border transition ${
-                      lineColor === c
-                        ? "ring-2 ring-brand ring-offset-2 ring-offset-card"
-                        : "border-border"
-                    }`}
-                    style={{ backgroundColor: c }}
-                    aria-label={c}
-                  />
-                ))}
-              </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Bleeding court line decoration */}
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
     </section>
   );
 }
 
-/* ---------------- Trust Bar ---------------- */
-function TrustBar() {
+/* ---------------- Editorial Card (hero) ---------------- */
+function EditorialCard({
+  image, tag, title, desc, to, hash, tone,
+}: {
+  image: string; tag: string; title: string; desc: string;
+  to: string; hash?: string; tone: "dark" | "brand" | "light";
+}) {
+  const toneCls =
+    tone === "brand"
+      ? "bg-brand text-brand-foreground"
+      : tone === "light"
+      ? "bg-card text-ink"
+      : "bg-ink-foreground/[0.06] text-ink-foreground";
+  return (
+    <Link
+      to={to}
+      hash={hash}
+      className={`group relative flex min-h-[190px] flex-col justify-between overflow-hidden rounded-3xl border border-ink-foreground/10 p-5 transition hover:-translate-y-0.5 ${toneCls}`}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-25 transition group-hover:opacity-40"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          mixBlendMode: tone === "brand" ? "multiply" : "overlay",
+        }}
+      />
+      <div className="relative">
+        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${tone === "brand" ? "bg-ink text-ink-foreground" : tone === "light" ? "bg-ink/10 text-ink" : "bg-brand/20 text-brand"}`}>
+          {tag}
+        </span>
+        <h3 className="mt-3 font-display text-xl font-black leading-tight sm:text-2xl">{title}</h3>
+        <p className={`mt-1.5 text-sm ${tone === "brand" ? "text-brand-foreground/80" : tone === "light" ? "text-muted-foreground" : "text-ink-foreground/70"}`}>
+          {desc}
+        </p>
+      </div>
+      <div className="relative mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+        Ver más <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </div>
+    </Link>
+  );
+}
+
+/* ---------------- Certifications ---------------- */
+function Certifications() {
   const { t } = useI18n();
-  const logos = [
-    { name: "Providencia", src: providenciaLogo },
-    { name: "Tomé", src: tomeLogo },
-    { name: "San Ignacio", src: sanIgnacioLogo },
-    { name: "La Florida", src: laFloridaLogo },
-    { name: "Pedro Aguirre Cerda", src: pacLogo },
+  const items = [
+    { icon: Trophy, label: t("certs.c1") },
+    { icon: Award, label: t("certs.c2") },
+    { icon: BadgeCheck, label: t("certs.c3") },
+    { icon: ShieldCheck, label: t("certs.c4") },
+    { icon: Building2, label: t("certs.c5") },
+    { icon: CheckCircle2, label: t("certs.c6") },
   ];
   return (
     <section className="border-b border-border bg-surface">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-          {t("trust.title")}
-        </p>
-        <div className="mt-6 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
-          {logos.map((l) => (
-            <div key={l.name} className="flex items-center justify-center">
-              <img
-                src={l.src}
-                alt={l.name}
-                className="h-24 sm:h-28 w-auto max-w-[140px] object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0"
-              />
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+        <div className="flex flex-col items-center text-center">
+          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand">
+            {t("certs.eyebrow")}
+          </span>
+          <h2 className="mt-2 max-w-2xl font-display text-2xl font-black tracking-tight text-ink sm:text-3xl">
+            {t("certs.title")}
+          </h2>
+        </div>
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {items.map((it) => (
+            <div
+              key={it.label}
+              className="group flex flex-col items-center gap-2 rounded-2xl border border-border bg-card px-4 py-5 text-center transition hover:-translate-y-0.5 hover:border-brand/60 hover:shadow-md"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/15 text-ink transition group-hover:bg-brand group-hover:text-brand-foreground">
+                <it.icon className="h-5 w-5" />
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink">
+                {it.label}
+              </span>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Why Different (value proposition) ---------------- */
+function WhyDifferent() {
+  const { t } = useI18n();
+  const pillars = [
+    { icon: Cpu, t: t("why.p1.t"), d: t("why.p1.d") },
+    { icon: ShieldCheck, t: t("why.p2.t"), d: t("why.p2.d") },
+    { icon: Trophy, t: t("why.p3.t"), d: t("why.p3.d") },
+    { icon: Workflow, t: t("why.p4.t"), d: t("why.p4.d") },
+  ];
+  return (
+    <section className="relative overflow-hidden py-24 lg:py-28">
+      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-brand/10 blur-3xl" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:items-start">
+          <div className="lg:sticky lg:top-24">
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand">
+              {t("why.eyebrow")}
+            </span>
+            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
+              {t("why.title")}
+            </h2>
+            <p className="mt-4 max-w-md text-lg text-muted-foreground">{t("why.desc")}</p>
+            <div className="mt-6 h-1 w-24 rounded-full bg-brand" />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {pillars.map((p, i) => (
+              <div
+                key={p.t}
+                className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-brand/60 hover:shadow-xl"
+              >
+                <div className="absolute right-4 top-4 text-[10px] font-black uppercase tracking-wider text-ink/25">
+                  0{i + 1}
+                </div>
+                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-ink text-brand transition group-hover:bg-brand group-hover:text-brand-foreground">
+                  <p.icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 font-display text-lg font-black leading-tight text-ink">
+                  {p.t}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
