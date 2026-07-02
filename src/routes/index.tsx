@@ -241,165 +241,218 @@ function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
-      <div className="court-lines pointer-events-none absolute inset-0 opacity-60" />
-      <div className="pointer-events-none absolute -right-32 top-10 h-[520px] w-[520px] rounded-full bg-brand/20 blur-3xl" />
-      <div className="pointer-events-none absolute -left-32 bottom-0 h-[420px] w-[420px] rounded-full bg-brand/10 blur-3xl" />
+      <div className="court-lines pointer-events-none absolute inset-0 opacity-40" />
+      <div className="pointer-events-none absolute -right-40 top-0 h-[560px] w-[560px] rounded-full bg-brand/20 blur-3xl" />
+      <div className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full bg-brand/10 blur-3xl" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-20 pb-28 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:px-8 lg:pt-28 lg:pb-36">
-        {/* Left */}
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-            <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
+      <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 lg:px-8 lg:pt-20 lg:pb-24">
+        {/* Compact editorial header strip */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
+              <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
+            </div>
+            <h1 className="mt-5 font-display text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
+              {t("hero.title1")}{" "}
+              <span className="text-brand">{t("hero.title2")}</span>{" "}
+              <span className="text-ink-foreground/90">{t("hero.title3")}</span>
+            </h1>
           </div>
-          <h1 className="mt-6 font-display text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-            {t("hero.title1")}{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10 text-brand">{t("hero.title2")}</span>
-              <span className="absolute inset-x-0 bottom-1 z-0 h-3 bg-brand/20" />
-            </span>
-            <br />
-            {t("hero.title3")}
-          </h1>
-
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <a
-              href="#configurator"
-              className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
-            >
-              {t("hero.cta1")}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/20 px-7 py-3.5 text-sm font-bold text-ink-foreground hover:border-brand hover:text-brand"
-            >
-              {t("hero.cta2")}
-            </a>
-          </div>
-          <div className="mt-12 grid max-w-md grid-cols-3 gap-6">
+          <div className="grid max-w-md grid-cols-3 gap-5 lg:min-w-[360px]">
             {[
               { k: "100", v: t("hero.stat1") },
               { k: "500", v: t("hero.stat2") },
-              { k: "500.000", v: t("hero.stat3") },
+              { k: "500K", v: t("hero.stat3") },
             ].map((s) => (
-              <div key={s.v}>
-                <div className="font-display text-3xl font-black text-brand">{s.k}</div>
-                <div className="mt-1 text-xs uppercase tracking-wider text-ink-foreground/60">
-                  {s.v}
-                </div>
+              <div key={s.v} className="rounded-2xl border border-ink-foreground/10 bg-ink-foreground/[0.04] px-4 py-3">
+                <div className="font-display text-2xl font-black text-brand">{s.k}</div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-ink-foreground/60">{s.v}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right - configurator mock */}
-        <div className="relative">
-          <div className="relative mx-auto aspect-square w-full max-w-[520px]">
-            {/* Court surface */}
-            <div
-              className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-2xl transition-colors duration-500"
+        {/* Split layout: business-line editorial cards + persistent designer */}
+        <div className="mt-10 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.35fr)]">
+          {/* Editorial banner cards */}
+          <div className="grid gap-5">
+            <EditorialCard
+              image={constructionImg}
+              tag={t("hero.card1.tag")}
+              title={t("hero.card1.t")}
+              desc={t("hero.card1.d")}
+              to="/servicios"
+              tone="dark"
+            />
+            <div className="grid gap-5 sm:grid-cols-2">
+              <EditorialCard
+                image={paintImg}
+                tag={t("hero.card2.tag")}
+                title={t("hero.card2.t")}
+                desc={t("hero.card2.d")}
+                to="/servicios"
+                hash="paints"
+                tone="brand"
+              />
+              <EditorialCard
+                image={basketballImg}
+                tag={t("hero.card3.tag")}
+                title={t("hero.card3.t")}
+                desc={t("hero.card3.d")}
+                to="/servicios"
+                hash="schools"
+                tone="light"
+              />
+            </div>
+          </div>
+
+          {/* Persistent Court Designer — main conversion focus */}
+          <div className="relative overflow-hidden rounded-[28px] border border-brand/30 bg-gradient-to-br from-ink-foreground/[0.06] to-ink-foreground/[0.02] p-5 shadow-[0_30px_80px_-30px_rgba(179,218,45,0.35)] sm:p-6">
+            <div className="pointer-events-none absolute inset-0 opacity-30" style={{
+              backgroundImage: "repeating-linear-gradient(0deg, rgba(179,218,45,0.06) 0 1px, transparent 1px 42px), repeating-linear-gradient(90deg, rgba(179,218,45,0.06) 0 1px, transparent 1px 42px)",
+            }} />
+            <div className="relative flex items-center justify-between gap-3">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1 text-[10px] font-black uppercase tracking-wider text-brand-foreground">
+                <Sparkles className="h-3 w-3" /> {t("hero.designer.badge")}
+              </div>
+              <span className="hidden text-[10px] font-semibold uppercase tracking-wider text-ink-foreground/50 sm:block">
+                {t("hero.kicker")} · v2
+              </span>
+            </div>
+            <h2 className="relative mt-4 font-display text-2xl font-black leading-tight sm:text-3xl">
+              {t("hero.designer.title")}
+            </h2>
+            <p className="relative mt-2 max-w-md text-sm text-ink-foreground/70">
+              {t("hero.designer.desc")}
+            </p>
+
+            {/* Court preview */}
+            <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-2xl border border-ink-foreground/10 shadow-inner transition-colors duration-500"
               style={{ backgroundColor: courtColor }}
             >
-              {/* Subtle surface texture */}
-              <div
-                className="absolute inset-0 opacity-30 mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
-                }}
-              />
-              <div
-                className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
-                }}
-              />
-              {/* Sport-specific line markings */}
+              <div className="absolute inset-0 opacity-30 mix-blend-overlay" style={{
+                backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
+              }} />
+              <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay" style={{
+                backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
+              }} />
               <SportCourtLines sport={sport} color={lineColor} />
-              {/* Soft sheen */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20" />
             </div>
 
-            {/* Floating panel: sport */}
-            <div className="float-slow absolute -left-6 top-8 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-10">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {t("panel.sport")}
-                </span>
-                <span className="h-2 w-2 rounded-full bg-brand" />
+            {/* Controls */}
+            <div className="relative mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr]">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.sport")}</div>
+                <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-2">
+                  {SPORTS.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => setSport(s.id)}
+                      className={`rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${
+                        sport === s.id
+                          ? "bg-brand text-brand-foreground"
+                          : "bg-ink-foreground/10 text-ink-foreground/80 hover:bg-ink-foreground/20"
+                      }`}
+                    >
+                      {t(s.tKey)}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-1.5">
-                {SPORTS.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setSport(s.id)}
-                    className={`rounded-lg px-2 py-1.5 text-xs font-semibold transition ${
-                      sport === s.id
-                        ? "bg-ink text-ink-foreground"
-                        : "bg-muted text-ink hover:bg-muted/70"
-                    }`}
-                  >
-                    {t(s.tKey)}
-                  </button>
-                ))}
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.courtColor")}</div>
+                <div className="mt-2 flex gap-2">
+                  {COURT_COLORS.map((c) => (
+                    <button
+                      key={c.hex}
+                      onClick={() => setCourtColor(c.hex)}
+                      aria-label={c.name}
+                      className={`h-8 w-8 rounded-full border-2 transition ${courtColor === c.hex ? "border-brand scale-110" : "border-ink-foreground/20"}`}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.lineColor")}</div>
+                <div className="mt-2 flex gap-2">
+                  {LINE_COLORS.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setLineColor(c)}
+                      aria-label={c}
+                      className={`h-8 w-8 rounded-full border transition ${lineColor === c ? "ring-2 ring-brand ring-offset-2 ring-offset-ink" : "border-ink-foreground/20"}`}
+                      style={{ backgroundColor: c }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Floating panel: court color */}
-            <div
-              className="float-slow absolute -right-4 top-32 w-52 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-right-8"
-              style={{ animationDelay: "1.5s" }}
+            {/* Primary CTA */}
+            <Link
+              to="/disena-tu-cancha"
+              className="group relative mt-5 flex items-center justify-between gap-3 rounded-2xl bg-brand px-6 py-4 text-brand-foreground shadow-[0_18px_50px_-12px_rgba(179,218,45,0.65)] transition-transform hover:-translate-y-0.5"
             >
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("panel.courtColor")}
-              </span>
-              <div className="mt-3 flex gap-2">
-                {COURT_COLORS.map((c) => (
-                  <button
-                    key={c.hex}
-                    onClick={() => setCourtColor(c.hex)}
-                    className={`h-8 w-8 rounded-full border-2 transition ${
-                      courtColor === c.hex ? "border-ink scale-110" : "border-transparent"
-                    }`}
-                    style={{ backgroundColor: c.hex }}
-                    aria-label={c.name}
-                  />
-                ))}
+              <div>
+                <div className="text-[10px] font-black uppercase tracking-wider opacity-70">{t("hero.designer.badge")}</div>
+                <div className="font-display text-lg font-black leading-tight sm:text-xl">{t("hero.designer.cta")}</div>
               </div>
-            </div>
-
-            {/* Floating panel: line color */}
-            <div
-              className="float-slow absolute -left-4 bottom-6 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-12"
-              style={{ animationDelay: "0.75s" }}
-            >
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("panel.lineColor")}
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-foreground text-brand transition-transform group-hover:translate-x-1">
+                <ArrowRight className="h-5 w-5" />
               </span>
-              <div className="mt-3 flex items-center gap-2">
-                {LINE_COLORS.map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setLineColor(c)}
-                    className={`h-8 w-8 rounded-full border transition ${
-                      lineColor === c
-                        ? "ring-2 ring-brand ring-offset-2 ring-offset-card"
-                        : "border-border"
-                    }`}
-                    style={{ backgroundColor: c }}
-                    aria-label={c}
-                  />
-                ))}
-              </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Bleeding court line decoration */}
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
     </section>
+  );
+}
+
+/* ---------------- Editorial Card (hero) ---------------- */
+function EditorialCard({
+  image, tag, title, desc, to, hash, tone,
+}: {
+  image: string; tag: string; title: string; desc: string;
+  to: string; hash?: string; tone: "dark" | "brand" | "light";
+}) {
+  const toneCls =
+    tone === "brand"
+      ? "bg-brand text-brand-foreground"
+      : tone === "light"
+      ? "bg-card text-ink"
+      : "bg-ink-foreground/[0.06] text-ink-foreground";
+  return (
+    <Link
+      to={to}
+      hash={hash}
+      className={`group relative flex min-h-[190px] flex-col justify-between overflow-hidden rounded-3xl border border-ink-foreground/10 p-5 transition hover:-translate-y-0.5 ${toneCls}`}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-25 transition group-hover:opacity-40"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          mixBlendMode: tone === "brand" ? "multiply" : "overlay",
+        }}
+      />
+      <div className="relative">
+        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${tone === "brand" ? "bg-ink text-ink-foreground" : tone === "light" ? "bg-ink/10 text-ink" : "bg-brand/20 text-brand"}`}>
+          {tag}
+        </span>
+        <h3 className="mt-3 font-display text-xl font-black leading-tight sm:text-2xl">{title}</h3>
+        <p className={`mt-1.5 text-sm ${tone === "brand" ? "text-brand-foreground/80" : tone === "light" ? "text-muted-foreground" : "text-ink-foreground/70"}`}>
+          {desc}
+        </p>
+      </div>
+      <div className="relative mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+        Ver más <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </div>
+    </Link>
   );
 }
 
