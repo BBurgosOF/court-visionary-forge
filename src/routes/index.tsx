@@ -62,7 +62,8 @@ function Index() {
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
         <Hero />
-        <TrustBar />
+        <Certifications />
+        <WhyDifferent />
         <Configurator />
         <Services />
         <Paints />
