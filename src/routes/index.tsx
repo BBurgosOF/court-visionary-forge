@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
+  Award,
+  BadgeCheck,
+  Building2,
+  Cpu,
   CheckCircle2,
   ChevronRight,
   GraduationCap,
@@ -15,6 +19,8 @@ import {
   ShieldCheck,
   Sparkles,
   Sprout,
+  Trophy,
+  Workflow,
   Wrench,
 } from "lucide-react";
 import heroCourt from "@/assets/hero-court.jpg";
@@ -29,11 +35,6 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import inverdepLogo from "@/assets/logo-green.png";
 import inverdepLogoBlue from "@/assets/logo-blue.png";
 import inverdepLogoWhite from "@/assets/logo-white.png";
-import providenciaLogo from "@/assets/logo_providencia.png";
-import tomeLogo from "@/assets/tome.png";
-import sanIgnacioLogo from "@/assets/san_ignacio.png";
-import laFloridaLogo from "@/assets/la_florida.png";
-import pacLogo from "@/assets/pedro_aguirre_cerda.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
