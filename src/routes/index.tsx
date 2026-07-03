@@ -31,6 +31,10 @@ import paintImg from "@/assets/paint.jpg";
 import constructionImg from "@/assets/construction.jpg";
 import project1 from "@/assets/project1.jpg";
 import project2 from "@/assets/project2.jpg";
+import heroLineDesign from "@/assets/hero-line-design.jpg";
+import heroLineTurf from "@/assets/hero-line-turf.jpg";
+import heroLinePaints from "@/assets/hero-line-paints.jpg";
+import heroLineSchools from "@/assets/hero-line-schools.jpg";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import inverdepLogo from "@/assets/logo-green.png";
 import inverdepLogoBlue from "@/assets/logo-blue.png";
@@ -238,246 +242,261 @@ type LineKey = "design" | "turf" | "paints" | "schools";
 function Hero() {
   const { lang } = useI18n();
   const [active, setActive] = useState<LineKey>("design");
-  const [phase, setPhase] = useState<"in" | "out">("in");
+  const [flipKey, setFlipKey] = useState(0);
 
   const lines: Record<LineKey, {
-    tag: string;
-    title: [string, string, string]; // pre, accent, post
-    subtitle: string;
+    num: string;
+    eyebrow: string;
+    title: [string, string]; // dark part, green part
     desc: string;
     cta: string;
     to: string;
     hash?: string;
     image: string;
+    cardTitle: [string, string];
     icon: typeof Hammer;
-    sport: "tennis" | "basketball" | "volleyball" | "futsal";
-    accent: string;
   }> = {
     design: {
-      tag: lang === "es" ? "Línea principal" : "Main line",
+      num: "01",
+      eyebrow: lang === "es" ? "Soluciones deportivas integrales" : "Integrated sports solutions",
       title: lang === "es"
-        ? ["Diseñamos y ", "construimos", " tu cancha deportiva."]
-        : ["We design and ", "build", " your sports court."],
-      subtitle: lang === "es" ? "Tenis · Básquet · Vóley · Fútsal" : "Tennis · Basketball · Volleyball · Futsal",
+        ? ["Diseñamos y construimos", "canchas deportivas"]
+        : ["We design and build", "sports courts"],
       desc: lang === "es"
-        ? "Proyectos llave en mano con estándares internacionales, materiales premium y equipo propio en cada obra."
-        : "Turnkey projects built to international standards with premium materials and our own crew on every site.",
-      cta: lang === "es" ? "Diseñar mi cancha" : "Design my court",
+        ? "Proyectos deportivos, escolares e institucionales de alto estándar y larga duración."
+        : "Sports, school and institutional projects built to high standards with lasting durability.",
+      cta: lang === "es" ? "Diseñar / Cotizar mi cancha" : "Design / Quote my court",
       to: "/disena-tu-cancha",
-      image: heroCourt,
+      image: heroLineDesign,
+      cardTitle: lang === "es" ? ["Canchas", "deportivas"] : ["Sports", "courts"],
       icon: Hammer,
-      sport: "tennis",
-      accent: "#B3DA2D",
     },
     turf: {
-      tag: lang === "es" ? "Superficies" : "Surfaces",
+      num: "02",
+      eyebrow: lang === "es" ? "Superficies de alto rendimiento" : "High-performance surfaces",
       title: lang === "es"
-        ? ["Pasto sintético ", "profesional", " para alto rendimiento."]
-        : ["Professional ", "synthetic turf", " built for performance."],
-      subtitle: lang === "es" ? "Fútbol · Multiuso · Escolar" : "Football · Multi-use · Schools",
+        ? ["Instalamos pasto sintético", "profesional y duradero"]
+        : ["We install synthetic turf", "professional and durable"],
       desc: lang === "es"
-        ? "Fibras monofilamento de última generación, drenaje eficiente y garantía extendida en cada instalación."
-        : "Next-gen monofilament fibers, efficient drainage and extended warranty on every install.",
-      cta: lang === "es" ? "Cotizar mi cancha" : "Get a quote",
+        ? "Fibras monofilamento premium, drenaje eficiente y garantía extendida en cada instalación."
+        : "Premium monofilament fibers, efficient drainage and extended warranty on every install.",
+      cta: lang === "es" ? "Cotizar pasto sintético" : "Quote synthetic turf",
       to: "/servicios",
       hash: "turf",
-      image: futsalImg,
+      image: heroLineTurf,
+      cardTitle: lang === "es" ? ["Pasto", "sintético"] : ["Synthetic", "turf"],
       icon: Sprout,
-      sport: "futsal",
-      accent: "#7BC96F",
     },
     paints: {
-      tag: lang === "es" ? "Recubrimientos" : "Coatings",
+      num: "03",
+      eyebrow: lang === "es" ? "Recubrimientos deportivos premium" : "Premium sports coatings",
       title: lang === "es"
-        ? ["Pinturas deportivas ", "premium", " que rinden más."]
-        : ["Premium ", "sports paints", " that last longer."],
-      subtitle: lang === "es" ? "Sistema acrílico · Exterior e interior" : "Acrylic system · Indoor and outdoor",
+        ? ["Aplicamos pinturas deportivas", "de máxima durabilidad"]
+        : ["We apply sports paints", "with maximum durability"],
       desc: lang === "es"
-        ? "Sistemas acrílicos profesionales con acabado antideslizante, alta durabilidad UV y colores personalizados."
-        : "Professional acrylic systems with anti-slip finish, high UV durability and custom color matching.",
+        ? "Sistema acrílico profesional con acabado antideslizante, alta resistencia UV y colores personalizados."
+        : "Professional acrylic system with anti-slip finish, high UV resistance and custom colors.",
       cta: lang === "es" ? "Cotizar recubrimiento" : "Quote coating",
       to: "/servicios",
       hash: "paints",
-      image: paintImg,
+      image: heroLinePaints,
+      cardTitle: lang === "es" ? ["Pinturas", "deportivas"] : ["Sports", "paints"],
       icon: PaintBucket,
-      sport: "basketball",
-      accent: "#B3DA2D",
     },
     schools: {
-      tag: lang === "es" ? "Institucional" : "Institutional",
+      num: "04",
+      eyebrow: lang === "es" ? "Proyectos institucionales y escolares" : "Institutional & school projects",
       title: lang === "es"
-        ? ["Proyectos ", "escolares", " normados y seguros."]
-        : ["School ", "projects", " compliant and safe."],
-      subtitle: lang === "es" ? "Colegios · Municipios · Clubes" : "Schools · Cities · Clubs",
+        ? ["Construimos espacios escolares", "normados y seguros"]
+        : ["We build school spaces", "compliant and safe"],
       desc: lang === "es"
-        ? "Superficies certificadas, cumplimiento normativo y espacios pensados para el desarrollo deportivo escolar."
-        : "Certified surfaces, regulatory compliance and spaces designed for school sports development.",
-      cta: lang === "es" ? "Solicitar proyecto" : "Request project",
+        ? "Superficies certificadas y cumplimiento normativo para colegios, municipios y clubes deportivos."
+        : "Certified surfaces and regulatory compliance for schools, municipalities and sports clubs.",
+      cta: lang === "es" ? "Solicitar proyecto escolar" : "Request school project",
       to: "/servicios",
       hash: "schools",
-      image: basketballImg,
+      image: heroLineSchools,
+      cardTitle: lang === "es" ? ["Proyectos", "escolares"] : ["School", "projects"],
       icon: GraduationCap,
-      sport: "basketball",
-      accent: "#B3DA2D",
     },
   };
 
-  const cardOrder: LineKey[] = ["design", "turf", "paints", "schools"];
+  const order: LineKey[] = ["design", "turf", "paints", "schools"];
   const current = lines[active];
 
   const handleSelect = (key: LineKey) => {
     if (key === active) return;
-    setPhase("out");
-    window.setTimeout(() => {
-      setActive(key);
-      setPhase("in");
-    }, 220);
+    setActive(key);
+    setFlipKey((k) => k + 1);
   };
 
   return (
-    <section
-      className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col overflow-hidden bg-ink text-ink-foreground"
-    >
-      {/* Ambient background — swaps with active accent */}
-      <div className="court-lines pointer-events-none absolute inset-0 opacity-25" />
+    <section className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col overflow-hidden bg-background">
+      {/* Subtle dotted decoration */}
       <div
-        className="pointer-events-none absolute -right-40 top-0 h-[620px] w-[620px] rounded-full blur-3xl transition-colors duration-700"
-        style={{ backgroundColor: `${current.accent}33` }}
+        aria-hidden
+        className="pointer-events-none absolute left-[38%] top-[58%] hidden h-32 w-32 opacity-40 lg:block"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(54,73,89,0.35) 1px, transparent 1.5px)",
+          backgroundSize: "10px 10px",
+        }}
       />
       <div
-        className="pointer-events-none absolute -left-32 bottom-0 h-[520px] w-[520px] rounded-full blur-3xl transition-colors duration-700"
-        style={{ backgroundColor: `${current.accent}1a` }}
+        aria-hidden
+        className="pointer-events-none absolute right-[6%] bottom-[26%] hidden h-40 w-40 opacity-40 lg:block"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(179,218,45,0.6) 1px, transparent 1.5px)",
+          backgroundSize: "12px 12px",
+        }}
       />
 
-      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pt-10 pb-6 sm:px-6 lg:px-8 lg:pt-14 lg:pb-10">
-        {/* Main split: dynamic text + visual composition */}
-        <div className="grid flex-1 items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
-          {/* Text side (dynamic) */}
-          <div
-            key={active + "-text"}
-            className={`transition-all duration-500 ${
-              phase === "in" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-            }`}
-          >
+      <div className="relative mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-4 pt-8 pb-6 sm:px-6 lg:px-10 lg:pt-12 lg:pb-10">
+        {/* Main split */}
+        <div className="grid flex-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-12">
+          {/* LEFT — dynamic text */}
+          <div className="relative">
+            {/* Huge numeral watermark */}
             <div
-              className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
-              style={{
-                borderColor: `${current.accent}55`,
-                backgroundColor: `${current.accent}14`,
-                color: current.accent,
-              }}
+              key={`num-${flipKey}`}
+              aria-hidden
+              className="pointer-events-none absolute -top-4 right-0 select-none font-display text-[9rem] font-black leading-none tracking-tighter text-ink/[0.06] sm:text-[12rem] lg:-top-6 lg:right-8 lg:text-[14rem]"
+              style={{ animation: "hero-num-in 700ms cubic-bezier(0.22,1,0.36,1) both" }}
             >
-              <current.icon className="h-3.5 w-3.5" /> {current.tag}
-            </div>
-            <h1 className="mt-6 font-display text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
-              {current.title[0]}
-              <span style={{ color: current.accent }}>{current.title[1]}</span>
-              <span className="text-ink-foreground/90">{current.title[2]}</span>
-            </h1>
-            <p className="mt-5 text-base font-medium uppercase tracking-[0.14em] text-ink-foreground/60 sm:text-lg">
-              {current.subtitle}
-            </p>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-foreground/75 sm:text-lg">
-              {current.desc}
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                to={current.to}
-                hash={current.hash}
-                className="group inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-black uppercase tracking-wider text-brand-foreground shadow-[0_18px_50px_-12px_rgba(179,218,45,0.65)] transition-transform hover:-translate-y-0.5 sm:text-base"
-                style={{ backgroundColor: current.accent }}
-              >
-                {current.cta}
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-              <Link
-                to="/proyectos"
-                className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/25 px-5 py-3 text-sm font-semibold text-ink-foreground/85 transition hover:border-ink-foreground/60"
-              >
-                {lang === "es" ? "Ver proyectos" : "See projects"} <ArrowUpRight className="h-4 w-4" />
-              </Link>
+              {current.num}
             </div>
 
-            {/* Compact stats */}
-            <div className="mt-10 grid max-w-lg grid-cols-3 gap-3">
-              {[
-                { k: "100", v: lang === "es" ? "Clientes" : "Clients" },
-                { k: "500", v: lang === "es" ? "Canchas" : "Courts" },
-                { k: "500K", v: lang === "es" ? "m² construidos" : "m² built" },
-              ].map((s) => (
-                <div key={s.v} className="rounded-2xl border border-ink-foreground/10 bg-ink-foreground/[0.04] px-4 py-3">
-                  <div className="font-display text-xl font-black text-brand sm:text-2xl">{s.k}</div>
-                  <div className="mt-0.5 text-[10px] uppercase tracking-wider text-ink-foreground/60">{s.v}</div>
+            <div className="relative">
+              <div
+                key={`eyebrow-${flipKey}`}
+                className="text-[11px] font-black uppercase tracking-[0.28em] text-brand"
+                style={{ animation: "hero-text-in 500ms 100ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                {current.eyebrow}
+              </div>
+
+              <h1
+                key={`title-${flipKey}`}
+                className="mt-5 font-display text-4xl font-black leading-[1] tracking-tight text-ink sm:text-5xl lg:text-[4.2rem]"
+                style={{ animation: "hero-text-in 600ms 180ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                <span className="block">{current.title[0]}</span>
+                <span className="mt-1 block text-brand">{current.title[1]}</span>
+              </h1>
+
+              <p
+                key={`desc-${flipKey}`}
+                className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
+                style={{ animation: "hero-text-in 600ms 260ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                {current.desc}
+              </p>
+
+              <div
+                key={`cta-${flipKey}`}
+                className="mt-8 flex flex-wrap items-center gap-4"
+                style={{ animation: "hero-text-in 600ms 340ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                <Link
+                  to={current.to}
+                  hash={current.hash}
+                  className="group inline-flex items-center gap-3 rounded-2xl bg-brand px-7 py-4 font-display text-base font-black text-brand-foreground shadow-[0_18px_40px_-12px_rgba(179,218,45,0.55)] transition-transform hover:-translate-y-0.5 sm:text-lg"
+                >
+                  <current.icon className="h-5 w-5" />
+                  {current.cta}
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              </div>
+
+              {/* Social proof */}
+              <div
+                className="mt-8 flex items-center gap-3"
+                style={{ animation: "hero-text-in 600ms 420ms cubic-bezier(0.22,1,0.36,1) both" }}
+                key={`proof-${flipKey}`}
+              >
+                <div className="flex -space-x-2.5">
+                  {[
+                    { bg: "#B3DA2D", fg: "#0F1B2A", i: "RP" },
+                    { bg: "#364959", fg: "#ffffff", i: "MG" },
+                    { bg: "#7BC96F", fg: "#0F1B2A", i: "JS" },
+                  ].map((a) => (
+                    <span
+                      key={a.i}
+                      className="grid h-10 w-10 place-items-center rounded-full border-2 border-background text-[11px] font-black shadow"
+                      style={{ backgroundColor: a.bg, color: a.fg }}
+                    >
+                      {a.i}
+                    </span>
+                  ))}
                 </div>
-              ))}
+                <div className="text-sm leading-tight">
+                  <div className="font-black text-ink">
+                    +150 {lang === "es" ? "proyectos" : "projects"}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {lang === "es" ? "ejecutados en todo Chile" : "delivered across Chile"}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Visual side (dynamic) */}
-          <div className="relative h-[340px] w-full sm:h-[420px] lg:h-[560px]">
+          {/* RIGHT — image with diagonal cut + book-flip transition */}
+          <div className="relative h-[340px] w-full sm:h-[440px] lg:h-[620px]" style={{ perspective: "1600px" }}>
             <div
-              key={active + "-visual"}
-              className={`absolute inset-0 transition-all duration-500 ${
-                phase === "in" ? "opacity-100 scale-100" : "opacity-0 scale-[0.98]"
-              }`}
+              key={`img-${flipKey}`}
+              className="absolute inset-0"
+              style={{
+                animation: "hero-page-flip 900ms cubic-bezier(0.22,1,0.36,1) both",
+                transformStyle: "preserve-3d",
+                transformOrigin: "left center",
+              }}
             >
-              {/* Layered composition */}
-              <div className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)]">
+              <div
+                className="relative h-full w-full overflow-hidden shadow-[0_40px_100px_-30px_rgba(15,27,42,0.35)]"
+                style={{
+                  clipPath:
+                    "polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 22%)",
+                  borderRadius: "0 24px 24px 0",
+                }}
+              >
                 <img
                   src={current.image}
-                  alt=""
+                  alt={current.title.join(" ")}
                   className="h-full w-full object-cover"
                 />
                 <div
-                  className="absolute inset-0"
+                  className="pointer-events-none absolute inset-0"
                   style={{
-                    background: `linear-gradient(135deg, ${current.accent}55 0%, transparent 50%, rgba(15,27,42,0.7) 100%)`,
+                    background:
+                      "linear-gradient(135deg, rgba(179,218,45,0.18) 0%, transparent 45%, rgba(15,27,42,0.35) 100%)",
                   }}
                 />
-                <div className="pointer-events-none absolute inset-0 opacity-25" style={{
-                  backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0 1px, transparent 1px 6px)",
-                }} />
+                {/* diagonal green accent line */}
+                <div
+                  className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(135deg, transparent 17%, #B3DA2D 17%, #B3DA2D 18%, transparent 18%)",
+                  }}
+                />
               </div>
 
-              {/* Floating court diagram badge */}
-              <div
-                className="absolute -bottom-6 -left-4 hidden w-[240px] rounded-2xl border p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:block"
-                style={{
-                  backgroundColor: "rgba(15,27,42,0.75)",
-                  borderColor: `${current.accent}44`,
-                }}
-              >
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-ink-foreground/60">
-                  <Cpu className="h-3.5 w-3.5" style={{ color: current.accent }} />
-                  {lang === "es" ? "Plataforma INVERDEP" : "INVERDEP platform"}
-                </div>
-                <div className="mt-3 aspect-[16/10] w-full overflow-hidden rounded-lg" style={{ backgroundColor: current.accent }}>
-                  <div className="relative h-full w-full">
-                    <SportCourtLines sport={current.sport} color="#ffffff" />
-                  </div>
-                </div>
-                <div className="mt-3 text-[11px] font-bold text-ink-foreground">
-                  {lang === "es" ? "Configurable en tiempo real" : "Real-time configurable"}
-                </div>
-              </div>
-
-              {/* Floating tag */}
-              <div
-                className="absolute right-4 top-4 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider text-ink shadow"
-                style={{ backgroundColor: current.accent }}
-              >
-                {current.tag}
+              {/* Corner badge */}
+              <div className="absolute right-6 bottom-6 flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur">
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-brand-foreground">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </span>
+                INVERDEP · {current.num}
               </div>
             </div>
           </div>
         </div>
 
         {/* Business-line cards strip */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:mt-12 lg:grid-cols-4">
-          {cardOrder.map((key) => {
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:mt-10">
+          {order.map((key) => {
             const l = lines[key];
             const isActive = key === active;
             return (
@@ -486,45 +505,48 @@ function Hero() {
                 type="button"
                 onClick={() => handleSelect(key)}
                 aria-pressed={isActive}
-                className={`group relative flex items-start gap-3 overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                className={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:p-5 ${
                   isActive
-                    ? "border-brand bg-ink-foreground/[0.08] shadow-[0_20px_50px_-20px_rgba(179,218,45,0.6)] -translate-y-1"
-                    : "border-ink-foreground/10 bg-ink-foreground/[0.03] hover:-translate-y-0.5 hover:border-ink-foreground/25 hover:bg-ink-foreground/[0.06]"
+                    ? "border-brand bg-brand text-brand-foreground shadow-[0_20px_50px_-18px_rgba(179,218,45,0.75)] -translate-y-1"
+                    : "border-border bg-card text-ink hover:-translate-y-0.5 hover:border-brand/50 hover:shadow-md"
                 }`}
               >
                 <span
-                  className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition ${
-                    isActive ? "bg-brand text-brand-foreground" : "bg-ink-foreground/10 text-ink-foreground/70 group-hover:text-ink-foreground"
+                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl transition ${
+                    isActive
+                      ? "bg-brand-foreground text-brand"
+                      : "bg-brand/15 text-ink group-hover:bg-brand group-hover:text-brand-foreground"
                   }`}
                 >
                   <l.icon className="h-5 w-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div className={`text-[10px] font-black uppercase tracking-wider ${isActive ? "text-brand" : "text-ink-foreground/50"}`}>
-                    {l.tag}
+                  <div
+                    className={`text-[11px] font-black tracking-widest ${
+                      isActive ? "text-brand-foreground/70" : "text-brand"
+                    }`}
+                  >
+                    {l.num}
                   </div>
-                  <div className="mt-1 truncate font-display text-sm font-black leading-tight text-ink-foreground sm:text-base">
-                    {l.title[1].charAt(0).toUpperCase() + l.title[1].slice(1)}
-                  </div>
-                  <div className="mt-0.5 hidden truncate text-[11px] text-ink-foreground/60 sm:block">
-                    {l.subtitle}
+                  <div className="mt-0.5 font-display text-sm font-black leading-tight sm:text-base">
+                    <div>{l.cardTitle[0]}</div>
+                    <div>{l.cardTitle[1]}</div>
                   </div>
                 </div>
-                <ChevronRight
-                  className={`mt-1 h-4 w-4 shrink-0 transition ${
-                    isActive ? "text-brand translate-x-0.5" : "text-ink-foreground/40 group-hover:text-ink-foreground/70"
+                <span
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition ${
+                    isActive
+                      ? "bg-brand-foreground text-brand translate-x-0"
+                      : "bg-ink/5 text-ink/60 group-hover:bg-brand group-hover:text-brand-foreground"
                   }`}
-                />
-                {isActive && (
-                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-brand to-transparent" />
-                )}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </span>
               </button>
             );
           })}
         </div>
       </div>
-
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
     </section>
   );
 }
