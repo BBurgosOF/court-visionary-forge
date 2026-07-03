@@ -233,7 +233,6 @@ function SportCourtLines({ sport, color }: { sport: string; color: string }) {
   );
 }
 
-function Hero() {
 type LineKey = "design" | "turf" | "paints" | "schools";
 
 function Hero() {
