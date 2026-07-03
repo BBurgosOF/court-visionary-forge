@@ -237,6 +237,319 @@ function SportCourtLines({ sport, color }: { sport: string; color: string }) {
   );
 }
 
+type LineKey = "design" | "turf" | "paints" | "schools";
+
+function Hero() {
+  const { lang } = useI18n();
+  const [active, setActive] = useState<LineKey>("design");
+  const [flipKey, setFlipKey] = useState(0);
+
+  const lines: Record<LineKey, {
+    num: string;
+    eyebrow: string;
+    title: [string, string]; // dark part, green part
+    desc: string;
+    cta: string;
+    to: string;
+    hash?: string;
+    image: string;
+    cardTitle: [string, string];
+    icon: typeof Hammer;
+  }> = {
+    design: {
+      num: "01",
+      eyebrow: lang === "es" ? "Soluciones deportivas integrales" : "Integrated sports solutions",
+      title: lang === "es"
+        ? ["Diseñamos y construimos", "canchas deportivas"]
+        : ["We design and build", "sports courts"],
+      desc: lang === "es"
+        ? "Proyectos deportivos, escolares e institucionales de alto estándar y larga duración."
+        : "Sports, school and institutional projects built to high standards with lasting durability.",
+      cta: lang === "es" ? "Diseñar / Cotizar mi cancha" : "Design / Quote my court",
+      to: "/disena-tu-cancha",
+      image: heroLineDesign,
+      cardTitle: lang === "es" ? ["Canchas", "deportivas"] : ["Sports", "courts"],
+      icon: Hammer,
+    },
+    turf: {
+      num: "02",
+      eyebrow: lang === "es" ? "Superficies de alto rendimiento" : "High-performance surfaces",
+      title: lang === "es"
+        ? ["Instalamos pasto sintético", "profesional y duradero"]
+        : ["We install synthetic turf", "professional and durable"],
+      desc: lang === "es"
+        ? "Fibras monofilamento premium, drenaje eficiente y garantía extendida en cada instalación."
+        : "Premium monofilament fibers, efficient drainage and extended warranty on every install.",
+      cta: lang === "es" ? "Cotizar pasto sintético" : "Quote synthetic turf",
+      to: "/servicios",
+      hash: "turf",
+      image: heroLineTurf,
+      cardTitle: lang === "es" ? ["Pasto", "sintético"] : ["Synthetic", "turf"],
+      icon: Sprout,
+    },
+    paints: {
+      num: "03",
+      eyebrow: lang === "es" ? "Recubrimientos deportivos premium" : "Premium sports coatings",
+      title: lang === "es"
+        ? ["Aplicamos pinturas deportivas", "de máxima durabilidad"]
+        : ["We apply sports paints", "with maximum durability"],
+      desc: lang === "es"
+        ? "Sistema acrílico profesional con acabado antideslizante, alta resistencia UV y colores personalizados."
+        : "Professional acrylic system with anti-slip finish, high UV resistance and custom colors.",
+      cta: lang === "es" ? "Cotizar recubrimiento" : "Quote coating",
+      to: "/servicios",
+      hash: "paints",
+      image: heroLinePaints,
+      cardTitle: lang === "es" ? ["Pinturas", "deportivas"] : ["Sports", "paints"],
+      icon: PaintBucket,
+    },
+    schools: {
+      num: "04",
+      eyebrow: lang === "es" ? "Proyectos institucionales y escolares" : "Institutional & school projects",
+      title: lang === "es"
+        ? ["Construimos espacios escolares", "normados y seguros"]
+        : ["We build school spaces", "compliant and safe"],
+      desc: lang === "es"
+        ? "Superficies certificadas y cumplimiento normativo para colegios, municipios y clubes deportivos."
+        : "Certified surfaces and regulatory compliance for schools, municipalities and sports clubs.",
+      cta: lang === "es" ? "Solicitar proyecto escolar" : "Request school project",
+      to: "/servicios",
+      hash: "schools",
+      image: heroLineSchools,
+      cardTitle: lang === "es" ? ["Proyectos", "escolares"] : ["School", "projects"],
+      icon: GraduationCap,
+    },
+  };
+
+  const order: LineKey[] = ["design", "turf", "paints", "schools"];
+  const current = lines[active];
+
+  const handleSelect = (key: LineKey) => {
+    if (key === active) return;
+    setActive(key);
+    setFlipKey((k) => k + 1);
+  };
+
+  return (
+    <section className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col overflow-hidden bg-background">
+      {/* Subtle dotted decoration */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-[38%] top-[58%] hidden h-32 w-32 opacity-40 lg:block"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(54,73,89,0.35) 1px, transparent 1.5px)",
+          backgroundSize: "10px 10px",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[6%] bottom-[26%] hidden h-40 w-40 opacity-40 lg:block"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(179,218,45,0.6) 1px, transparent 1.5px)",
+          backgroundSize: "12px 12px",
+        }}
+      />
+
+      <div className="relative mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-4 pt-8 pb-6 sm:px-6 lg:px-10 lg:pt-12 lg:pb-10">
+        {/* Main split */}
+        <div className="grid flex-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-12">
+          {/* LEFT — dynamic text */}
+          <div className="relative">
+            {/* Huge numeral watermark */}
+            <div
+              key={`num-${flipKey}`}
+              aria-hidden
+              className="pointer-events-none absolute -top-4 right-0 select-none font-display text-[9rem] font-black leading-none tracking-tighter text-ink/[0.06] sm:text-[12rem] lg:-top-6 lg:right-8 lg:text-[14rem]"
+              style={{ animation: "hero-num-in 700ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              {current.num}
+            </div>
+
+            <div className="relative">
+              <div
+                key={`eyebrow-${flipKey}`}
+                className="text-[11px] font-black uppercase tracking-[0.28em] text-brand"
+                style={{ animation: "hero-text-in 500ms 100ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                {current.eyebrow}
+              </div>
+
+              <h1
+                key={`title-${flipKey}`}
+                className="mt-5 font-display text-4xl font-black leading-[1] tracking-tight text-ink sm:text-5xl lg:text-[4.2rem]"
+                style={{ animation: "hero-text-in 600ms 180ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                <span className="block">{current.title[0]}</span>
+                <span className="mt-1 block text-brand">{current.title[1]}</span>
+              </h1>
+
+              <p
+                key={`desc-${flipKey}`}
+                className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
+                style={{ animation: "hero-text-in 600ms 260ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                {current.desc}
+              </p>
+
+              <div
+                key={`cta-${flipKey}`}
+                className="mt-8 flex flex-wrap items-center gap-4"
+                style={{ animation: "hero-text-in 600ms 340ms cubic-bezier(0.22,1,0.36,1) both" }}
+              >
+                <Link
+                  to={current.to}
+                  hash={current.hash}
+                  className="group inline-flex items-center gap-3 rounded-2xl bg-brand px-7 py-4 font-display text-base font-black text-brand-foreground shadow-[0_18px_40px_-12px_rgba(179,218,45,0.55)] transition-transform hover:-translate-y-0.5 sm:text-lg"
+                >
+                  <current.icon className="h-5 w-5" />
+                  {current.cta}
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
+              </div>
+
+              {/* Social proof */}
+              <div
+                className="mt-8 flex items-center gap-3"
+                style={{ animation: "hero-text-in 600ms 420ms cubic-bezier(0.22,1,0.36,1) both" }}
+                key={`proof-${flipKey}`}
+              >
+                <div className="flex -space-x-2.5">
+                  {[
+                    { bg: "#B3DA2D", fg: "#0F1B2A", i: "RP" },
+                    { bg: "#364959", fg: "#ffffff", i: "MG" },
+                    { bg: "#7BC96F", fg: "#0F1B2A", i: "JS" },
+                  ].map((a) => (
+                    <span
+                      key={a.i}
+                      className="grid h-10 w-10 place-items-center rounded-full border-2 border-background text-[11px] font-black shadow"
+                      style={{ backgroundColor: a.bg, color: a.fg }}
+                    >
+                      {a.i}
+                    </span>
+                  ))}
+                </div>
+                <div className="text-sm leading-tight">
+                  <div className="font-black text-ink">
+                    +150 {lang === "es" ? "proyectos" : "projects"}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {lang === "es" ? "ejecutados en todo Chile" : "delivered across Chile"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — image with diagonal cut + book-flip transition */}
+          <div className="relative h-[340px] w-full sm:h-[440px] lg:h-[620px]" style={{ perspective: "1600px" }}>
+            <div
+              key={`img-${flipKey}`}
+              className="absolute inset-0"
+              style={{
+                animation: "hero-page-flip 900ms cubic-bezier(0.22,1,0.36,1) both",
+                transformStyle: "preserve-3d",
+                transformOrigin: "left center",
+              }}
+            >
+              <div
+                className="relative h-full w-full overflow-hidden shadow-[0_40px_100px_-30px_rgba(15,27,42,0.35)]"
+                style={{
+                  clipPath:
+                    "polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 22%)",
+                  borderRadius: "0 24px 24px 0",
+                }}
+              >
+                <img
+                  src={current.image}
+                  alt={current.title.join(" ")}
+                  className="h-full w-full object-cover"
+                />
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(179,218,45,0.18) 0%, transparent 45%, rgba(15,27,42,0.35) 100%)",
+                  }}
+                />
+                {/* diagonal green accent line */}
+                <div
+                  className="pointer-events-none absolute left-0 top-0 h-full w-full"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(135deg, transparent 17%, #B3DA2D 17%, #B3DA2D 18%, transparent 18%)",
+                  }}
+                />
+              </div>
+
+              {/* Corner badge */}
+              <div className="absolute right-6 bottom-6 flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur">
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-brand-foreground">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </span>
+                INVERDEP · {current.num}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Business-line cards strip */}
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:mt-10">
+          {order.map((key) => {
+            const l = lines[key];
+            const isActive = key === active;
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => handleSelect(key)}
+                aria-pressed={isActive}
+                className={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:p-5 ${
+                  isActive
+                    ? "border-brand bg-brand text-brand-foreground shadow-[0_20px_50px_-18px_rgba(179,218,45,0.75)] -translate-y-1"
+                    : "border-border bg-card text-ink hover:-translate-y-0.5 hover:border-brand/50 hover:shadow-md"
+                }`}
+              >
+                <span
+                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl transition ${
+                    isActive
+                      ? "bg-brand-foreground text-brand"
+                      : "bg-brand/15 text-ink group-hover:bg-brand group-hover:text-brand-foreground"
+                  }`}
+                >
+                  <l.icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div
+                    className={`text-[11px] font-black tracking-widest ${
+                      isActive ? "text-brand-foreground/70" : "text-brand"
+                    }`}
+                  >
+                    {l.num}
+                  </div>
+                  <div className="mt-0.5 font-display text-sm font-black leading-tight sm:text-base">
+                    <div>{l.cardTitle[0]}</div>
+                    <div>{l.cardTitle[1]}</div>
+                  </div>
+                </div>
+                <span
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition ${
+                    isActive
+                      ? "bg-brand-foreground text-brand translate-x-0"
+                      : "bg-ink/5 text-ink/60 group-hover:bg-brand group-hover:text-brand-foreground"
+                  }`}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ---------------- Editorial Card (hero) ---------------- */
 function EditorialCard({
