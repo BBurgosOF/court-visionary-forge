@@ -234,176 +234,294 @@ function SportCourtLines({ sport, color }: { sport: string; color: string }) {
 }
 
 function Hero() {
-  const { t } = useI18n();
-  const [sport, setSport] = useState<(typeof SPORTS)[number]["id"]>("tennis");
-  const [courtColor, setCourtColor] = useState(COURT_COLORS[0].hex);
-  const [lineColor, setLineColor] = useState(LINE_COLORS[0]);
+type LineKey = "design" | "turf" | "paints" | "schools";
+
+function Hero() {
+  const { lang } = useI18n();
+  const [active, setActive] = useState<LineKey>("design");
+  const [phase, setPhase] = useState<"in" | "out">("in");
+
+  const lines: Record<LineKey, {
+    tag: string;
+    title: [string, string, string]; // pre, accent, post
+    subtitle: string;
+    desc: string;
+    cta: string;
+    to: string;
+    hash?: string;
+    image: string;
+    icon: typeof Hammer;
+    sport: "tennis" | "basketball" | "volleyball" | "futsal";
+    accent: string;
+  }> = {
+    design: {
+      tag: lang === "es" ? "Línea principal" : "Main line",
+      title: lang === "es"
+        ? ["Diseñamos y ", "construimos", " tu cancha deportiva."]
+        : ["We design and ", "build", " your sports court."],
+      subtitle: lang === "es" ? "Tenis · Básquet · Vóley · Fútsal" : "Tennis · Basketball · Volleyball · Futsal",
+      desc: lang === "es"
+        ? "Proyectos llave en mano con estándares internacionales, materiales premium y equipo propio en cada obra."
+        : "Turnkey projects built to international standards with premium materials and our own crew on every site.",
+      cta: lang === "es" ? "Diseñar mi cancha" : "Design my court",
+      to: "/disena-tu-cancha",
+      image: heroCourt,
+      icon: Hammer,
+      sport: "tennis",
+      accent: "#B3DA2D",
+    },
+    turf: {
+      tag: lang === "es" ? "Superficies" : "Surfaces",
+      title: lang === "es"
+        ? ["Pasto sintético ", "profesional", " para alto rendimiento."]
+        : ["Professional ", "synthetic turf", " built for performance."],
+      subtitle: lang === "es" ? "Fútbol · Multiuso · Escolar" : "Football · Multi-use · Schools",
+      desc: lang === "es"
+        ? "Fibras monofilamento de última generación, drenaje eficiente y garantía extendida en cada instalación."
+        : "Next-gen monofilament fibers, efficient drainage and extended warranty on every install.",
+      cta: lang === "es" ? "Cotizar mi cancha" : "Get a quote",
+      to: "/servicios",
+      hash: "turf",
+      image: futsalImg,
+      icon: Sprout,
+      sport: "futsal",
+      accent: "#7BC96F",
+    },
+    paints: {
+      tag: lang === "es" ? "Recubrimientos" : "Coatings",
+      title: lang === "es"
+        ? ["Pinturas deportivas ", "premium", " que rinden más."]
+        : ["Premium ", "sports paints", " that last longer."],
+      subtitle: lang === "es" ? "Sistema acrílico · Exterior e interior" : "Acrylic system · Indoor and outdoor",
+      desc: lang === "es"
+        ? "Sistemas acrílicos profesionales con acabado antideslizante, alta durabilidad UV y colores personalizados."
+        : "Professional acrylic systems with anti-slip finish, high UV durability and custom color matching.",
+      cta: lang === "es" ? "Cotizar recubrimiento" : "Quote coating",
+      to: "/servicios",
+      hash: "paints",
+      image: paintImg,
+      icon: PaintBucket,
+      sport: "basketball",
+      accent: "#B3DA2D",
+    },
+    schools: {
+      tag: lang === "es" ? "Institucional" : "Institutional",
+      title: lang === "es"
+        ? ["Proyectos ", "escolares", " normados y seguros."]
+        : ["School ", "projects", " compliant and safe."],
+      subtitle: lang === "es" ? "Colegios · Municipios · Clubes" : "Schools · Cities · Clubs",
+      desc: lang === "es"
+        ? "Superficies certificadas, cumplimiento normativo y espacios pensados para el desarrollo deportivo escolar."
+        : "Certified surfaces, regulatory compliance and spaces designed for school sports development.",
+      cta: lang === "es" ? "Solicitar proyecto" : "Request project",
+      to: "/servicios",
+      hash: "schools",
+      image: basketballImg,
+      icon: GraduationCap,
+      sport: "basketball",
+      accent: "#B3DA2D",
+    },
+  };
+
+  const cardOrder: LineKey[] = ["design", "turf", "paints", "schools"];
+  const current = lines[active];
+
+  const handleSelect = (key: LineKey) => {
+    if (key === active) return;
+    setPhase("out");
+    window.setTimeout(() => {
+      setActive(key);
+      setPhase("in");
+    }, 220);
+  };
 
   return (
-    <section className="relative overflow-hidden bg-ink text-ink-foreground">
-      <div className="court-lines pointer-events-none absolute inset-0 opacity-40" />
-      <div className="pointer-events-none absolute -right-40 top-0 h-[560px] w-[560px] rounded-full bg-brand/20 blur-3xl" />
-      <div className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full bg-brand/10 blur-3xl" />
+    <section
+      className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col overflow-hidden bg-ink text-ink-foreground"
+    >
+      {/* Ambient background — swaps with active accent */}
+      <div className="court-lines pointer-events-none absolute inset-0 opacity-25" />
+      <div
+        className="pointer-events-none absolute -right-40 top-0 h-[620px] w-[620px] rounded-full blur-3xl transition-colors duration-700"
+        style={{ backgroundColor: `${current.accent}33` }}
+      />
+      <div
+        className="pointer-events-none absolute -left-32 bottom-0 h-[520px] w-[520px] rounded-full blur-3xl transition-colors duration-700"
+        style={{ backgroundColor: `${current.accent}1a` }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-16 sm:px-6 lg:px-8 lg:pt-20 lg:pb-24">
-        {/* Compact editorial header strip */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
-              <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
+      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pt-10 pb-6 sm:px-6 lg:px-8 lg:pt-14 lg:pb-10">
+        {/* Main split: dynamic text + visual composition */}
+        <div className="grid flex-1 items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
+          {/* Text side (dynamic) */}
+          <div
+            key={active + "-text"}
+            className={`transition-all duration-500 ${
+              phase === "in" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+            }`}
+          >
+            <div
+              className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em]"
+              style={{
+                borderColor: `${current.accent}55`,
+                backgroundColor: `${current.accent}14`,
+                color: current.accent,
+              }}
+            >
+              <current.icon className="h-3.5 w-3.5" /> {current.tag}
             </div>
-            <h1 className="mt-5 font-display text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
-              {t("hero.title1")}{" "}
-              <span className="text-brand">{t("hero.title2")}</span>{" "}
-              <span className="text-ink-foreground/90">{t("hero.title3")}</span>
+            <h1 className="mt-6 font-display text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+              {current.title[0]}
+              <span style={{ color: current.accent }}>{current.title[1]}</span>
+              <span className="text-ink-foreground/90">{current.title[2]}</span>
             </h1>
+            <p className="mt-5 text-base font-medium uppercase tracking-[0.14em] text-ink-foreground/60 sm:text-lg">
+              {current.subtitle}
+            </p>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-foreground/75 sm:text-lg">
+              {current.desc}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                to={current.to}
+                hash={current.hash}
+                className="group inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-black uppercase tracking-wider text-brand-foreground shadow-[0_18px_50px_-12px_rgba(179,218,45,0.65)] transition-transform hover:-translate-y-0.5 sm:text-base"
+                style={{ backgroundColor: current.accent }}
+              >
+                {current.cta}
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+              <Link
+                to="/proyectos"
+                className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/25 px-5 py-3 text-sm font-semibold text-ink-foreground/85 transition hover:border-ink-foreground/60"
+              >
+                {lang === "es" ? "Ver proyectos" : "See projects"} <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            {/* Compact stats */}
+            <div className="mt-10 grid max-w-lg grid-cols-3 gap-3">
+              {[
+                { k: "100", v: lang === "es" ? "Clientes" : "Clients" },
+                { k: "500", v: lang === "es" ? "Canchas" : "Courts" },
+                { k: "500K", v: lang === "es" ? "m² construidos" : "m² built" },
+              ].map((s) => (
+                <div key={s.v} className="rounded-2xl border border-ink-foreground/10 bg-ink-foreground/[0.04] px-4 py-3">
+                  <div className="font-display text-xl font-black text-brand sm:text-2xl">{s.k}</div>
+                  <div className="mt-0.5 text-[10px] uppercase tracking-wider text-ink-foreground/60">{s.v}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid max-w-md grid-cols-3 gap-5 lg:min-w-[360px]">
-            {[
-              { k: "100", v: t("hero.stat1") },
-              { k: "500", v: t("hero.stat2") },
-              { k: "500K", v: t("hero.stat3") },
-            ].map((s) => (
-              <div key={s.v} className="rounded-2xl border border-ink-foreground/10 bg-ink-foreground/[0.04] px-4 py-3">
-                <div className="font-display text-2xl font-black text-brand">{s.k}</div>
-                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-ink-foreground/60">{s.v}</div>
+
+          {/* Visual side (dynamic) */}
+          <div className="relative h-[340px] w-full sm:h-[420px] lg:h-[560px]">
+            <div
+              key={active + "-visual"}
+              className={`absolute inset-0 transition-all duration-500 ${
+                phase === "in" ? "opacity-100 scale-100" : "opacity-0 scale-[0.98]"
+              }`}
+            >
+              {/* Layered composition */}
+              <div className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)]">
+                <img
+                  src={current.image}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(135deg, ${current.accent}55 0%, transparent 50%, rgba(15,27,42,0.7) 100%)`,
+                  }}
+                />
+                <div className="pointer-events-none absolute inset-0 opacity-25" style={{
+                  backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0 1px, transparent 1px 6px)",
+                }} />
               </div>
-            ))}
+
+              {/* Floating court diagram badge */}
+              <div
+                className="absolute -bottom-6 -left-4 hidden w-[240px] rounded-2xl border p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:block"
+                style={{
+                  backgroundColor: "rgba(15,27,42,0.75)",
+                  borderColor: `${current.accent}44`,
+                }}
+              >
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-ink-foreground/60">
+                  <Cpu className="h-3.5 w-3.5" style={{ color: current.accent }} />
+                  {lang === "es" ? "Plataforma INVERDEP" : "INVERDEP platform"}
+                </div>
+                <div className="mt-3 aspect-[16/10] w-full overflow-hidden rounded-lg" style={{ backgroundColor: current.accent }}>
+                  <div className="relative h-full w-full">
+                    <SportCourtLines sport={current.sport} color="#ffffff" />
+                  </div>
+                </div>
+                <div className="mt-3 text-[11px] font-bold text-ink-foreground">
+                  {lang === "es" ? "Configurable en tiempo real" : "Real-time configurable"}
+                </div>
+              </div>
+
+              {/* Floating tag */}
+              <div
+                className="absolute right-4 top-4 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider text-ink shadow"
+                style={{ backgroundColor: current.accent }}
+              >
+                {current.tag}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Split layout: business-line editorial cards + persistent designer */}
-        <div className="mt-10 grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.35fr)]">
-          {/* Editorial banner cards */}
-          <div className="grid gap-5">
-            <EditorialCard
-              image={constructionImg}
-              tag={t("hero.card1.tag")}
-              title={t("hero.card1.t")}
-              desc={t("hero.card1.d")}
-              to="/servicios"
-              tone="dark"
-            />
-            <div className="grid gap-5 sm:grid-cols-2">
-              <EditorialCard
-                image={paintImg}
-                tag={t("hero.card2.tag")}
-                title={t("hero.card2.t")}
-                desc={t("hero.card2.d")}
-                to="/servicios"
-                hash="paints"
-                tone="brand"
-              />
-              <EditorialCard
-                image={basketballImg}
-                tag={t("hero.card3.tag")}
-                title={t("hero.card3.t")}
-                desc={t("hero.card3.d")}
-                to="/servicios"
-                hash="schools"
-                tone="light"
-              />
-            </div>
-          </div>
-
-          {/* Persistent Court Designer — main conversion focus */}
-          <div className="relative overflow-hidden rounded-[28px] border border-brand/30 bg-gradient-to-br from-ink-foreground/[0.06] to-ink-foreground/[0.02] p-5 shadow-[0_30px_80px_-30px_rgba(179,218,45,0.35)] sm:p-6">
-            <div className="pointer-events-none absolute inset-0 opacity-30" style={{
-              backgroundImage: "repeating-linear-gradient(0deg, rgba(179,218,45,0.06) 0 1px, transparent 1px 42px), repeating-linear-gradient(90deg, rgba(179,218,45,0.06) 0 1px, transparent 1px 42px)",
-            }} />
-            <div className="relative flex items-center justify-between gap-3">
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1 text-[10px] font-black uppercase tracking-wider text-brand-foreground">
-                <Sparkles className="h-3 w-3" /> {t("hero.designer.badge")}
-              </div>
-              <span className="hidden text-[10px] font-semibold uppercase tracking-wider text-ink-foreground/50 sm:block">
-                {t("hero.kicker")} · v2
-              </span>
-            </div>
-            <h2 className="relative mt-4 font-display text-2xl font-black leading-tight sm:text-3xl">
-              {t("hero.designer.title")}
-            </h2>
-            <p className="relative mt-2 max-w-md text-sm text-ink-foreground/70">
-              {t("hero.designer.desc")}
-            </p>
-
-            {/* Court preview */}
-            <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-2xl border border-ink-foreground/10 shadow-inner transition-colors duration-500"
-              style={{ backgroundColor: courtColor }}
-            >
-              <div className="absolute inset-0 opacity-30 mix-blend-overlay" style={{
-                backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
-              }} />
-              <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay" style={{
-                backgroundImage: "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
-              }} />
-              <SportCourtLines sport={sport} color={lineColor} />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20" />
-            </div>
-
-            {/* Controls */}
-            <div className="relative mt-4 grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr]">
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.sport")}</div>
-                <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-2">
-                  {SPORTS.map((s) => (
-                    <button
-                      key={s.id}
-                      onClick={() => setSport(s.id)}
-                      className={`rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${
-                        sport === s.id
-                          ? "bg-brand text-brand-foreground"
-                          : "bg-ink-foreground/10 text-ink-foreground/80 hover:bg-ink-foreground/20"
-                      }`}
-                    >
-                      {t(s.tKey)}
-                    </button>
-                  ))}
+        {/* Business-line cards strip */}
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-4 lg:mt-12 lg:grid-cols-4">
+          {cardOrder.map((key) => {
+            const l = lines[key];
+            const isActive = key === active;
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => handleSelect(key)}
+                aria-pressed={isActive}
+                className={`group relative flex items-start gap-3 overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                  isActive
+                    ? "border-brand bg-ink-foreground/[0.08] shadow-[0_20px_50px_-20px_rgba(179,218,45,0.6)] -translate-y-1"
+                    : "border-ink-foreground/10 bg-ink-foreground/[0.03] hover:-translate-y-0.5 hover:border-ink-foreground/25 hover:bg-ink-foreground/[0.06]"
+                }`}
+              >
+                <span
+                  className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition ${
+                    isActive ? "bg-brand text-brand-foreground" : "bg-ink-foreground/10 text-ink-foreground/70 group-hover:text-ink-foreground"
+                  }`}
+                >
+                  <l.icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className={`text-[10px] font-black uppercase tracking-wider ${isActive ? "text-brand" : "text-ink-foreground/50"}`}>
+                    {l.tag}
+                  </div>
+                  <div className="mt-1 truncate font-display text-sm font-black leading-tight text-ink-foreground sm:text-base">
+                    {l.title[1].charAt(0).toUpperCase() + l.title[1].slice(1)}
+                  </div>
+                  <div className="mt-0.5 hidden truncate text-[11px] text-ink-foreground/60 sm:block">
+                    {l.subtitle}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.courtColor")}</div>
-                <div className="mt-2 flex gap-2">
-                  {COURT_COLORS.map((c) => (
-                    <button
-                      key={c.hex}
-                      onClick={() => setCourtColor(c.hex)}
-                      aria-label={c.name}
-                      className={`h-8 w-8 rounded-full border-2 transition ${courtColor === c.hex ? "border-brand scale-110" : "border-ink-foreground/20"}`}
-                      style={{ backgroundColor: c.hex }}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-wider text-ink-foreground/60">{t("panel.lineColor")}</div>
-                <div className="mt-2 flex gap-2">
-                  {LINE_COLORS.map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setLineColor(c)}
-                      aria-label={c}
-                      className={`h-8 w-8 rounded-full border transition ${lineColor === c ? "ring-2 ring-brand ring-offset-2 ring-offset-ink" : "border-ink-foreground/20"}`}
-                      style={{ backgroundColor: c }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Primary CTA */}
-            <Link
-              to="/disena-tu-cancha"
-              className="group relative mt-5 flex items-center justify-between gap-3 rounded-2xl bg-brand px-6 py-4 text-brand-foreground shadow-[0_18px_50px_-12px_rgba(179,218,45,0.65)] transition-transform hover:-translate-y-0.5"
-            >
-              <div>
-                <div className="text-[10px] font-black uppercase tracking-wider opacity-70">{t("hero.designer.badge")}</div>
-                <div className="font-display text-lg font-black leading-tight sm:text-xl">{t("hero.designer.cta")}</div>
-              </div>
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-foreground text-brand transition-transform group-hover:translate-x-1">
-                <ArrowRight className="h-5 w-5" />
-              </span>
-            </Link>
-          </div>
+                <ChevronRight
+                  className={`mt-1 h-4 w-4 shrink-0 transition ${
+                    isActive ? "text-brand translate-x-0.5" : "text-ink-foreground/40 group-hover:text-ink-foreground/70"
+                  }`}
+                />
+                {isActive && (
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-brand to-transparent" />
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
