@@ -144,6 +144,7 @@ export const dict = {
   "sport.basketball": { es: "Básquet", en: "Basketball" },
   "sport.volleyball": { es: "Vóley", en: "Volleyball" },
   "sport.futsal": { es: "Fútsal", en: "Futsal" },
+  "sport.multicourt": { es: "Multicancha", en: "Multi-court" },
 
   "trust.title": {
     es: "Confían en nosotros empresas e instituciones",
