@@ -190,6 +190,53 @@
   50% { transform: translateY(-8px); }
 }
 
+@keyframes hero-page-flip {
+  0% {
+    transform: rotateY(-70deg);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes hero-text-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-num-in {
+  0% { opacity: 0; transform: translateX(-24px) scale(0.94); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
 @utility float-slow {
   animation: float-slow 6s ease-in-out infinite;
+}
+
+/* On-scroll reveal — subtle fade + slide-up. Applied by ScrollReveal observer. */
+.lov-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--lov-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.lov-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lov-reveal,
+  .lov-reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
