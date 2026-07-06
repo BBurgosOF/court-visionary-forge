@@ -4,13 +4,8 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
-  Award,
-  BadgeCheck,
-  Building2,
-  Cpu,
   CheckCircle2,
   ChevronRight,
-  GraduationCap,
   Hammer,
   Layers,
   MessageCircle,
@@ -18,9 +13,6 @@ import {
   Ruler,
   ShieldCheck,
   Sparkles,
-  Sprout,
-  Trophy,
-  Workflow,
   Wrench,
 } from "lucide-react";
 import heroCourt from "@/assets/hero-court.jpg";
@@ -31,14 +23,15 @@ import paintImg from "@/assets/paint.jpg";
 import constructionImg from "@/assets/construction.jpg";
 import project1 from "@/assets/project1.jpg";
 import project2 from "@/assets/project2.jpg";
-import heroLineDesign from "@/assets/hero-line-design.jpg";
-import heroLineTurf from "@/assets/hero-line-turf.jpg";
-import heroLinePaints from "@/assets/hero-line-paints.jpg";
-import heroLineSchools from "@/assets/hero-line-schools.jpg";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import inverdepLogo from "@/assets/logo-green.png";
 import inverdepLogoBlue from "@/assets/logo-blue.png";
 import inverdepLogoWhite from "@/assets/logo-white.png";
+import providenciaLogo from "@/assets/logo_providencia.png";
+import tomeLogo from "@/assets/tome.png";
+import sanIgnacioLogo from "@/assets/san_ignacio.png";
+import laFloridaLogo from "@/assets/la_florida.png";
+import pacLogo from "@/assets/pedro_aguirre_cerda.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -66,8 +59,7 @@ function Index() {
       <div className="min-h-screen bg-background text-foreground">
         <Navbar />
         <Hero />
-        <Certifications />
-        <WhyDifferent />
+        <TrustBar />
         <Configurator />
         <Services />
         <Paints />
@@ -118,9 +110,6 @@ export function Navbar() {
           </Link>
           <Link to="/nosotros" className="hover:text-brand">
             {t("nav.about")}
-          </Link>
-          <Link to="/blog" className="hover:text-brand">
-            {t("nav.blog")}
           </Link>
           <Link to="/contacto" className="hover:text-brand">
             {t("nav.contact")}
@@ -237,449 +226,202 @@ function SportCourtLines({ sport, color }: { sport: string; color: string }) {
   );
 }
 
-type LineKey = "design" | "turf" | "paints" | "schools";
-
 function Hero() {
-  const { lang } = useI18n();
-  const [active, setActive] = useState<LineKey>("design");
-  const [flipKey, setFlipKey] = useState(0);
-
-  const lines: Record<LineKey, {
-    num: string;
-    eyebrow: string;
-    title: [string, string]; // dark part, green part
-    desc: string;
-    cta: string;
-    to: string;
-    hash?: string;
-    image: string;
-    cardTitle: [string, string];
-    icon: typeof Hammer;
-  }> = {
-    design: {
-      num: "01",
-      eyebrow: lang === "es" ? "Soluciones deportivas integrales" : "Integrated sports solutions",
-      title: lang === "es"
-        ? ["Diseñamos y construimos", "canchas deportivas"]
-        : ["We design and build", "sports courts"],
-      desc: lang === "es"
-        ? "Proyectos deportivos, escolares e institucionales de alto estándar y larga duración."
-        : "Sports, school and institutional projects built to high standards with lasting durability.",
-      cta: lang === "es" ? "Diseñar / Cotizar mi cancha" : "Design / Quote my court",
-      to: "/disena-tu-cancha",
-      image: heroLineDesign,
-      cardTitle: lang === "es" ? ["Canchas", "deportivas"] : ["Sports", "courts"],
-      icon: Hammer,
-    },
-    turf: {
-      num: "02",
-      eyebrow: lang === "es" ? "Superficies de alto rendimiento" : "High-performance surfaces",
-      title: lang === "es"
-        ? ["Instalamos pasto sintético", "profesional y duradero"]
-        : ["We install synthetic turf", "professional and durable"],
-      desc: lang === "es"
-        ? "Fibras monofilamento premium, drenaje eficiente y garantía extendida en cada instalación."
-        : "Premium monofilament fibers, efficient drainage and extended warranty on every install.",
-      cta: lang === "es" ? "Cotizar pasto sintético" : "Quote synthetic turf",
-      to: "/servicios",
-      hash: "turf",
-      image: heroLineTurf,
-      cardTitle: lang === "es" ? ["Pasto", "sintético"] : ["Synthetic", "turf"],
-      icon: Sprout,
-    },
-    paints: {
-      num: "03",
-      eyebrow: lang === "es" ? "Recubrimientos deportivos premium" : "Premium sports coatings",
-      title: lang === "es"
-        ? ["Aplicamos pinturas deportivas", "de máxima durabilidad"]
-        : ["We apply sports paints", "with maximum durability"],
-      desc: lang === "es"
-        ? "Sistema acrílico profesional con acabado antideslizante, alta resistencia UV y colores personalizados."
-        : "Professional acrylic system with anti-slip finish, high UV resistance and custom colors.",
-      cta: lang === "es" ? "Cotizar recubrimiento" : "Quote coating",
-      to: "/servicios",
-      hash: "paints",
-      image: heroLinePaints,
-      cardTitle: lang === "es" ? ["Pinturas", "deportivas"] : ["Sports", "paints"],
-      icon: PaintBucket,
-    },
-    schools: {
-      num: "04",
-      eyebrow: lang === "es" ? "Proyectos institucionales y escolares" : "Institutional & school projects",
-      title: lang === "es"
-        ? ["Construimos espacios escolares", "normados y seguros"]
-        : ["We build school spaces", "compliant and safe"],
-      desc: lang === "es"
-        ? "Superficies certificadas y cumplimiento normativo para colegios, municipios y clubes deportivos."
-        : "Certified surfaces and regulatory compliance for schools, municipalities and sports clubs.",
-      cta: lang === "es" ? "Solicitar proyecto escolar" : "Request school project",
-      to: "/servicios",
-      hash: "schools",
-      image: heroLineSchools,
-      cardTitle: lang === "es" ? ["Proyectos", "escolares"] : ["School", "projects"],
-      icon: GraduationCap,
-    },
-  };
-
-  const order: LineKey[] = ["design", "turf", "paints", "schools"];
-  const current = lines[active];
-
-  const handleSelect = (key: LineKey) => {
-    if (key === active) return;
-    setActive(key);
-    setFlipKey((k) => k + 1);
-  };
-
-  return (
-    <section className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col overflow-hidden bg-background">
-      {/* Subtle dotted decoration */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-[38%] top-[58%] hidden h-32 w-32 opacity-40 lg:block"
-        style={{
-          backgroundImage: "radial-gradient(circle, rgba(54,73,89,0.35) 1px, transparent 1.5px)",
-          backgroundSize: "10px 10px",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[6%] bottom-[26%] hidden h-40 w-40 opacity-40 lg:block"
-        style={{
-          backgroundImage: "radial-gradient(circle, rgba(179,218,45,0.6) 1px, transparent 1.5px)",
-          backgroundSize: "12px 12px",
-        }}
-      />
-
-      <div className="relative mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-4 pt-8 pb-6 sm:px-6 lg:px-10 lg:pt-12 lg:pb-10">
-        {/* Main split */}
-        <div className="grid flex-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-12">
-          {/* LEFT — dynamic text */}
-          <div className="relative">
-            {/* Huge numeral watermark */}
-            <div
-              key={`num-${flipKey}`}
-              aria-hidden
-              className="pointer-events-none absolute -top-4 right-0 select-none font-display text-[9rem] font-black leading-none tracking-tighter text-ink/[0.06] sm:text-[12rem] lg:-top-6 lg:right-8 lg:text-[14rem]"
-              style={{ animation: "hero-num-in 700ms cubic-bezier(0.22,1,0.36,1) both" }}
-            >
-              {current.num}
-            </div>
-
-            <div className="relative">
-              <div
-                key={`eyebrow-${flipKey}`}
-                className="text-[11px] font-black uppercase tracking-[0.28em] text-brand"
-                style={{ animation: "hero-text-in 500ms 100ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                {current.eyebrow}
-              </div>
-
-              <h1
-                key={`title-${flipKey}`}
-                className="mt-5 font-display text-4xl font-black leading-[1] tracking-tight text-ink sm:text-5xl lg:text-[4.2rem]"
-                style={{ animation: "hero-text-in 600ms 180ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                <span className="block">{current.title[0]}</span>
-                <span className="mt-1 block text-brand">{current.title[1]}</span>
-              </h1>
-
-              <p
-                key={`desc-${flipKey}`}
-                className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
-                style={{ animation: "hero-text-in 600ms 260ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                {current.desc}
-              </p>
-
-              <div
-                key={`cta-${flipKey}`}
-                className="mt-8 flex flex-wrap items-center gap-4"
-                style={{ animation: "hero-text-in 600ms 340ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                <Link
-                  to={current.to}
-                  hash={current.hash}
-                  className="group inline-flex items-center gap-3 rounded-2xl bg-brand px-7 py-4 font-display text-base font-black text-brand-foreground shadow-[0_18px_40px_-12px_rgba(179,218,45,0.55)] transition-transform hover:-translate-y-0.5 sm:text-lg"
-                >
-                  <current.icon className="h-5 w-5" />
-                  {current.cta}
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </Link>
-              </div>
-
-              {/* Social proof */}
-              <div
-                className="mt-8 flex items-center gap-3"
-                style={{ animation: "hero-text-in 600ms 420ms cubic-bezier(0.22,1,0.36,1) both" }}
-                key={`proof-${flipKey}`}
-              >
-                <div className="flex -space-x-2.5">
-                  {[
-                    { bg: "#B3DA2D", fg: "#0F1B2A", i: "RP" },
-                    { bg: "#364959", fg: "#ffffff", i: "MG" },
-                    { bg: "#7BC96F", fg: "#0F1B2A", i: "JS" },
-                  ].map((a) => (
-                    <span
-                      key={a.i}
-                      className="grid h-10 w-10 place-items-center rounded-full border-2 border-background text-[11px] font-black shadow"
-                      style={{ backgroundColor: a.bg, color: a.fg }}
-                    >
-                      {a.i}
-                    </span>
-                  ))}
-                </div>
-                <div className="text-sm leading-tight">
-                  <div className="font-black text-ink">
-                    +150 {lang === "es" ? "proyectos" : "projects"}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {lang === "es" ? "ejecutados en todo Chile" : "delivered across Chile"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT — image with diagonal cut + book-flip transition */}
-          <div className="relative h-[340px] w-full sm:h-[440px] lg:h-[620px]" style={{ perspective: "1600px" }}>
-            <div
-              key={`img-${flipKey}`}
-              className="absolute inset-0"
-              style={{
-                animation: "hero-page-flip 900ms cubic-bezier(0.22,1,0.36,1) both",
-                transformStyle: "preserve-3d",
-                transformOrigin: "left center",
-              }}
-            >
-              <div
-                className="relative h-full w-full overflow-hidden shadow-[0_40px_100px_-30px_rgba(15,27,42,0.35)]"
-                style={{
-                  clipPath:
-                    "polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 22%)",
-                  borderRadius: "0 24px 24px 0",
-                }}
-              >
-                <img
-                  src={current.image}
-                  alt={current.title.join(" ")}
-                  className="h-full w-full object-cover"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(179,218,45,0.18) 0%, transparent 45%, rgba(15,27,42,0.35) 100%)",
-                  }}
-                />
-                {/* diagonal green accent line */}
-                <div
-                  className="pointer-events-none absolute left-0 top-0 h-full w-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(135deg, transparent 17%, #B3DA2D 17%, #B3DA2D 18%, transparent 18%)",
-                  }}
-                />
-              </div>
-
-              {/* Corner badge */}
-              <div className="absolute right-6 bottom-6 flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur">
-                <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-brand-foreground">
-                  <Sparkles className="h-3.5 w-3.5" />
-                </span>
-                INVERDEP · {current.num}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Business-line cards strip */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:mt-10">
-          {order.map((key) => {
-            const l = lines[key];
-            const isActive = key === active;
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => handleSelect(key)}
-                aria-pressed={isActive}
-                className={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:p-5 ${
-                  isActive
-                    ? "border-brand bg-brand text-brand-foreground shadow-[0_20px_50px_-18px_rgba(179,218,45,0.75)] -translate-y-1"
-                    : "border-border bg-card text-ink hover:-translate-y-0.5 hover:border-brand/50 hover:shadow-md"
-                }`}
-              >
-                <span
-                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl transition ${
-                    isActive
-                      ? "bg-brand-foreground text-brand"
-                      : "bg-brand/15 text-ink group-hover:bg-brand group-hover:text-brand-foreground"
-                  }`}
-                >
-                  <l.icon className="h-5 w-5" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div
-                    className={`text-[11px] font-black tracking-widest ${
-                      isActive ? "text-brand-foreground/70" : "text-brand"
-                    }`}
-                  >
-                    {l.num}
-                  </div>
-                  <div className="mt-0.5 font-display text-sm font-black leading-tight sm:text-base">
-                    <div>{l.cardTitle[0]}</div>
-                    <div>{l.cardTitle[1]}</div>
-                  </div>
-                </div>
-                <span
-                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition ${
-                    isActive
-                      ? "bg-brand-foreground text-brand translate-x-0"
-                      : "bg-ink/5 text-ink/60 group-hover:bg-brand group-hover:text-brand-foreground"
-                  }`}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- Editorial Card (hero) ---------------- */
-function EditorialCard({
-  image, tag, title, desc, to, hash, tone,
-}: {
-  image: string; tag: string; title: string; desc: string;
-  to: string; hash?: string; tone: "dark" | "brand" | "light";
-}) {
-  const toneCls =
-    tone === "brand"
-      ? "bg-brand text-brand-foreground"
-      : tone === "light"
-      ? "bg-card text-ink"
-      : "bg-ink-foreground/[0.06] text-ink-foreground";
-  return (
-    <Link
-      to={to}
-      hash={hash}
-      className={`group relative flex min-h-[190px] flex-col justify-between overflow-hidden rounded-3xl border border-ink-foreground/10 p-5 transition hover:-translate-y-0.5 ${toneCls}`}
-    >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-25 transition group-hover:opacity-40"
-        style={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          mixBlendMode: tone === "brand" ? "multiply" : "overlay",
-        }}
-      />
-      <div className="relative">
-        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${tone === "brand" ? "bg-ink text-ink-foreground" : tone === "light" ? "bg-ink/10 text-ink" : "bg-brand/20 text-brand"}`}>
-          {tag}
-        </span>
-        <h3 className="mt-3 font-display text-xl font-black leading-tight sm:text-2xl">{title}</h3>
-        <p className={`mt-1.5 text-sm ${tone === "brand" ? "text-brand-foreground/80" : tone === "light" ? "text-muted-foreground" : "text-ink-foreground/70"}`}>
-          {desc}
-        </p>
-      </div>
-      <div className="relative mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
-        Ver más <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-      </div>
-    </Link>
-  );
-}
-
-/* ---------------- Certifications ---------------- */
-function Certifications() {
   const { t } = useI18n();
-  const items = [
-    { icon: Trophy, label: t("certs.c1") },
-    { icon: Award, label: t("certs.c2") },
-    { icon: BadgeCheck, label: t("certs.c3") },
-    { icon: ShieldCheck, label: t("certs.c4") },
-    { icon: Building2, label: t("certs.c5") },
-    { icon: CheckCircle2, label: t("certs.c6") },
-  ];
-  return (
-    <section className="border-b border-border bg-surface">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
-        <div className="flex flex-col items-center text-center">
-          <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand">
-            {t("certs.eyebrow")}
-          </span>
-          <h2 className="mt-2 max-w-2xl font-display text-2xl font-black tracking-tight text-ink sm:text-3xl">
-            {t("certs.title")}
-          </h2>
-        </div>
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {items.map((it) => (
-            <div
-              key={it.label}
-              className="group flex flex-col items-center gap-2 rounded-2xl border border-border bg-card px-4 py-5 text-center transition hover:-translate-y-0.5 hover:border-brand/60 hover:shadow-md"
-            >
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand/15 text-ink transition group-hover:bg-brand group-hover:text-brand-foreground">
-                <it.icon className="h-5 w-5" />
-              </span>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink">
-                {it.label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+  const [sport, setSport] = useState<(typeof SPORTS)[number]["id"]>("tennis");
+  const [courtColor, setCourtColor] = useState(COURT_COLORS[0].hex);
+  const [lineColor, setLineColor] = useState(LINE_COLORS[0]);
 
-/* ---------------- Why Different (value proposition) ---------------- */
-function WhyDifferent() {
-  const { t } = useI18n();
-  const pillars = [
-    { icon: Cpu, t: t("why.p1.t"), d: t("why.p1.d") },
-    { icon: ShieldCheck, t: t("why.p2.t"), d: t("why.p2.d") },
-    { icon: Trophy, t: t("why.p3.t"), d: t("why.p3.d") },
-    { icon: Workflow, t: t("why.p4.t"), d: t("why.p4.d") },
-  ];
   return (
-    <section className="relative overflow-hidden py-24 lg:py-28">
-      <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-brand/10 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:items-start">
-          <div className="lg:sticky lg:top-24">
-            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand">
-              {t("why.eyebrow")}
+    <section className="relative overflow-hidden bg-ink text-ink-foreground">
+      <div className="court-lines pointer-events-none absolute inset-0 opacity-60" />
+      <div className="pointer-events-none absolute -right-32 top-10 h-[520px] w-[520px] rounded-full bg-brand/20 blur-3xl" />
+      <div className="pointer-events-none absolute -left-32 bottom-0 h-[420px] w-[420px] rounded-full bg-brand/10 blur-3xl" />
+
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-20 pb-28 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:px-8 lg:pt-28 lg:pb-36">
+        {/* Left */}
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+            <Sparkles className="h-3.5 w-3.5" /> Especialistas en pistas deportivas
+          </div>
+          <h1 className="mt-6 font-display text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+            {t("hero.title1")}{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10 text-brand">{t("hero.title2")}</span>
+              <span className="absolute inset-x-0 bottom-1 z-0 h-3 bg-brand/20" />
             </span>
-            <h2 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-              {t("why.title")}
-            </h2>
-            <p className="mt-4 max-w-md text-lg text-muted-foreground">{t("why.desc")}</p>
-            <div className="mt-6 h-1 w-24 rounded-full bg-brand" />
+            <br />
+            {t("hero.title3")}
+          </h1>
+
+          <div className="mt-9 flex flex-wrap items-center gap-4">
+            <a
+              href="#configurator"
+              className="group inline-flex items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-bold text-brand-foreground shadow-[0_12px_40px_-10px_rgba(179,218,45,0.7)] transition-transform hover:-translate-y-0.5"
+            >
+              {t("hero.cta1")}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+            <a
+              href="#projects"
+              className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/20 px-7 py-3.5 text-sm font-bold text-ink-foreground hover:border-brand hover:text-brand"
+            >
+              {t("hero.cta2")}
+            </a>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {pillars.map((p, i) => (
-              <div
-                key={p.t}
-                className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-brand/60 hover:shadow-xl"
-              >
-                <div className="absolute right-4 top-4 text-[10px] font-black uppercase tracking-wider text-ink/25">
-                  0{i + 1}
+          <div className="mt-12 grid max-w-md grid-cols-3 gap-6">
+            {[
+              { k: "100", v: t("hero.stat1") },
+              { k: "500", v: t("hero.stat2") },
+              { k: "500.000", v: t("hero.stat3") },
+            ].map((s) => (
+              <div key={s.v}>
+                <div className="font-display text-3xl font-black text-brand">{s.k}</div>
+                <div className="mt-1 text-xs uppercase tracking-wider text-ink-foreground/60">
+                  {s.v}
                 </div>
-                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-ink text-brand transition group-hover:bg-brand group-hover:text-brand-foreground">
-                  <p.icon className="h-6 w-6" />
-                </div>
-                <h3 className="mt-5 font-display text-lg font-black leading-tight text-ink">
-                  {p.t}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Right - configurator mock */}
+        <div className="relative">
+          <div className="relative mx-auto aspect-square w-full max-w-[520px]">
+            {/* Court surface */}
+            <div
+              className="absolute inset-0 overflow-hidden rounded-[32px] border border-ink-foreground/10 shadow-2xl transition-colors duration-500"
+              style={{ backgroundColor: courtColor }}
+            >
+              {/* Subtle surface texture */}
+              <div
+                className="absolute inset-0 opacity-30 mix-blend-overlay"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.35), transparent 60%)",
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(45deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 4px)",
+                }}
+              />
+              {/* Sport-specific line markings */}
+              <SportCourtLines sport={sport} color={lineColor} />
+              {/* Soft sheen */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/20 pointer-events-none" />
+            </div>
+
+            {/* Floating panel: sport */}
+            <div className="float-slow absolute -left-6 top-8 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-10">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("panel.sport")}
+                </span>
+                <span className="h-2 w-2 rounded-full bg-brand" />
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
+                {SPORTS.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setSport(s.id)}
+                    className={`rounded-lg px-2 py-1.5 text-xs font-semibold transition ${
+                      sport === s.id
+                        ? "bg-ink text-ink-foreground"
+                        : "bg-muted text-ink hover:bg-muted/70"
+                    }`}
+                  >
+                    {t(s.tKey)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Floating panel: court color */}
+            <div
+              className="float-slow absolute -right-4 top-32 w-52 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-right-8"
+              style={{ animationDelay: "1.5s" }}
+            >
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("panel.courtColor")}
+              </span>
+              <div className="mt-3 flex gap-2">
+                {COURT_COLORS.map((c) => (
+                  <button
+                    key={c.hex}
+                    onClick={() => setCourtColor(c.hex)}
+                    className={`h-8 w-8 rounded-full border-2 transition ${
+                      courtColor === c.hex ? "border-ink scale-110" : "border-transparent"
+                    }`}
+                    style={{ backgroundColor: c.hex }}
+                    aria-label={c.name}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Floating panel: line color */}
+            <div
+              className="float-slow absolute -left-4 bottom-6 w-56 rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-xl sm:-left-12"
+              style={{ animationDelay: "0.75s" }}
+            >
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("panel.lineColor")}
+              </span>
+              <div className="mt-3 flex items-center gap-2">
+                {LINE_COLORS.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setLineColor(c)}
+                    className={`h-8 w-8 rounded-full border transition ${
+                      lineColor === c
+                        ? "ring-2 ring-brand ring-offset-2 ring-offset-card"
+                        : "border-border"
+                    }`}
+                    style={{ backgroundColor: c }}
+                    aria-label={c}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bleeding court line decoration */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
+    </section>
+  );
+}
+
+/* ---------------- Trust Bar ---------------- */
+function TrustBar() {
+  const { t } = useI18n();
+  const logos = [
+    { name: "Providencia", src: providenciaLogo },
+    { name: "Tomé", src: tomeLogo },
+    { name: "San Ignacio", src: sanIgnacioLogo },
+    { name: "La Florida", src: laFloridaLogo },
+    { name: "Pedro Aguirre Cerda", src: pacLogo },
+  ];
+  return (
+    <section className="border-b border-border bg-surface">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          {t("trust.title")}
+        </p>
+        <div className="mt-6 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-5">
+          {logos.map((l) => (
+            <div key={l.name} className="flex items-center justify-center">
+              <img
+                src={l.src}
+                alt={l.name}
+                className="h-24 sm:h-28 w-auto max-w-[140px] object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -689,59 +431,64 @@ function WhyDifferent() {
 /* ---------------- Configurator ---------------- */
 function Configurator() {
   const { t } = useI18n();
-  const lines = [
-    {
-      icon: Sprout,
-      title: t("other.turf.t"),
-      desc: t("other.turf.d"),
-      to: "/servicios",
-      hash: "turf",
-    },
-    {
-      icon: PaintBucket,
-      title: t("other.paint.t"),
-      desc: t("other.paint.d"),
-      to: "/servicios",
-      hash: "paints",
-    },
-    {
-      icon: GraduationCap,
-      title: t("other.school.t"),
-      desc: t("other.school.d"),
-      to: "/servicios",
-      hash: "schools",
-    },
-  ];
   return (
     <section id="configurator" className="relative overflow-hidden py-24 lg:py-32">
+      <div className="court-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
-            <Layers className="h-3.5 w-3.5 text-ink" /> {t("other.badge")}
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
+              <Ruler className="h-3.5 w-3.5 text-ink" /> {t("cfg.badge")}
+            </div>
+            <h2 className="mt-4 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
+              {t("cfg.title")}
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">{t("cfg.desc")}</p>
           </div>
-          <h2 className="mt-4 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-            {t("other.title")}
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">{t("other.desc")}</p>
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm font-semibold text-ink hover:border-brand hover:text-brand"
+          >
+            {t("cfg.open")} <ArrowUpRight className="h-4 w-4" />
+          </a>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {lines.map((l) => (
-            <Link
-              key={l.title}
-              to={l.to}
-              hash={l.hash}
-              className="group relative flex flex-col rounded-3xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-brand/60 hover:shadow-xl"
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {SPORTS.map((s, i) => (
+            <article
+              key={s.id}
+              className="group relative overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-2xl"
             >
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand/15 text-ink transition group-hover:bg-brand group-hover:text-brand-foreground">
-                <l.icon className="h-6 w-6" />
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <img
+                  src={s.img}
+                  alt={t(s.tKey)}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
+                <div className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-ink">
+                  0{i + 1}
+                </div>
+                <div className="absolute inset-x-4 bottom-4">
+                  <h3 className="font-display text-2xl font-black text-background">{t(s.tKey)}</h3>
+                  <div className="mt-3 flex items-center gap-2">
+                    {COURT_COLORS.slice(0, 4).map((c) => (
+                      <span
+                        key={c.hex}
+                        className="h-5 w-5 rounded-full border-2 border-background/40"
+                        style={{ backgroundColor: c.hex }}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
-              <h3 className="mt-6 font-display text-xl font-black text-ink">{l.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{l.desc}</p>
-              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition group-hover:text-brand">
-                {t("other.cta")} <ArrowUpRight className="h-4 w-4" />
-              </span>
-            </Link>
+              <div className="flex items-center justify-end p-4">
+                <button className="inline-flex items-center gap-1 rounded-full bg-brand px-4 py-2 text-xs font-bold text-brand-foreground">
+                  {t("cfg.customize")} <ChevronRight className="h-3 w-3" />
+                </button>
+              </div>
+            </article>
           ))}
         </div>
       </div>
