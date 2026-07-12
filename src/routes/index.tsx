@@ -242,19 +242,22 @@ type LineKey = "design" | "turf" | "paints" | "schools";
 function Hero() {
   const { lang } = useI18n();
   const [active, setActive] = useState<LineKey>("design");
-  const [flipKey, setFlipKey] = useState(0);
+  const [slideKey, setSlideKey] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const lines: Record<LineKey, {
     num: string;
     eyebrow: string;
-    title: [string, string]; // dark part, green part
+    title: [string, string];
     desc: string;
     cta: string;
     to: string;
     hash?: string;
     image: string;
     cardTitle: [string, string];
+    tabTitle: string;
     icon: typeof Hammer;
+    metrics: { value: string; label: string }[];
   }> = {
     design: {
       num: "01",
@@ -269,7 +272,13 @@ function Hero() {
       to: "/disena-tu-cancha",
       image: heroLineDesign,
       cardTitle: lang === "es" ? ["Canchas", "deportivas"] : ["Sports", "courts"],
+      tabTitle: lang === "es" ? "Canchas deportivas" : "Sports courts",
       icon: Hammer,
+      metrics: [
+        { value: "+150", label: lang === "es" ? "Proyectos ejecutados" : "Projects delivered" },
+        { value: "+15", label: lang === "es" ? "Años de experiencia" : "Years of experience" },
+        { value: "100%", label: lang === "es" ? "Cumplimiento normativo" : "Regulatory compliance" },
+      ],
     },
     turf: {
       num: "02",
@@ -285,7 +294,13 @@ function Hero() {
       hash: "turf",
       image: heroLineTurf,
       cardTitle: lang === "es" ? ["Pasto", "sintético"] : ["Synthetic", "turf"],
+      tabTitle: lang === "es" ? "Pasto sintético" : "Synthetic turf",
       icon: Sprout,
+      metrics: [
+        { value: "60mm", label: lang === "es" ? "Fibra premium" : "Premium fiber" },
+        { value: "+80", label: lang === "es" ? "Canchas instaladas" : "Fields installed" },
+        { value: "10 años", label: lang === "es" ? "Garantía extendida" : "Extended warranty" },
+      ],
     },
     paints: {
       num: "03",
@@ -301,7 +316,13 @@ function Hero() {
       hash: "paints",
       image: heroLinePaints,
       cardTitle: lang === "es" ? ["Pinturas", "deportivas"] : ["Sports", "paints"],
+      tabTitle: lang === "es" ? "Pinturas deportivas" : "Sports paints",
       icon: PaintBucket,
+      metrics: [
+        { value: "+250", label: lang === "es" ? "Canchas pintadas" : "Courts painted" },
+        { value: "UV+", label: lang === "es" ? "Alta resistencia solar" : "High UV resistance" },
+        { value: "12", label: lang === "es" ? "Colores estándar" : "Standard colors" },
+      ],
     },
     schools: {
       num: "04",
@@ -317,7 +338,13 @@ function Hero() {
       hash: "schools",
       image: heroLineSchools,
       cardTitle: lang === "es" ? ["Proyectos", "escolares"] : ["School", "projects"],
+      tabTitle: lang === "es" ? "Proyectos escolares" : "School projects",
       icon: GraduationCap,
+      metrics: [
+        { value: "+90", label: lang === "es" ? "Instituciones" : "Institutions" },
+        { value: "100%", label: lang === "es" ? "Normativa MINEDUC" : "MINEDUC compliance" },
+        { value: "+40", label: lang === "es" ? "Municipios" : "Municipalities" },
+      ],
     },
   };
 
@@ -327,224 +354,257 @@ function Hero() {
   const handleSelect = (key: LineKey) => {
     if (key === active) return;
     setActive(key);
-    setFlipKey((k) => k + 1);
+    setSlideKey((k) => k + 1);
   };
 
+  // Autoplay
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setInterval(() => {
+      setActive((prev) => {
+        const idx = order.indexOf(prev);
+        return order[(idx + 1) % order.length];
+      });
+      setSlideKey((k) => k + 1);
+    }, 6500);
+    return () => window.clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paused]);
+
   return (
-    <section className="relative flex min-h-[calc(100vh-4rem)] w-full flex-col overflow-hidden bg-background">
-      {/* Subtle dotted decoration */}
+    <section
+      className="relative flex h-[calc(100vh-4rem)] min-h-[640px] w-full flex-col overflow-hidden bg-background"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Ambient decor */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-[38%] top-[58%] hidden h-32 w-32 opacity-40 lg:block"
+        className="pointer-events-none absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full opacity-60"
+        style={{ background: "radial-gradient(closest-side, rgba(179,218,45,0.22), transparent 70%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-[36%] bottom-[18%] hidden h-28 w-28 opacity-50 lg:block"
         style={{
           backgroundImage: "radial-gradient(circle, rgba(54,73,89,0.35) 1px, transparent 1.5px)",
           backgroundSize: "10px 10px",
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[6%] bottom-[26%] hidden h-40 w-40 opacity-40 lg:block"
-        style={{
-          backgroundImage: "radial-gradient(circle, rgba(179,218,45,0.6) 1px, transparent 1.5px)",
-          backgroundSize: "12px 12px",
-        }}
-      />
 
-      <div className="relative mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-4 pt-8 pb-6 sm:px-6 lg:px-10 lg:pt-12 lg:pb-10">
-        {/* Main split */}
-        <div className="grid flex-1 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-12">
-          {/* LEFT — dynamic text */}
-          <div className="relative">
-            {/* Huge numeral watermark */}
+      <div className="relative mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-4 pt-6 pb-4 sm:px-6 lg:px-10 lg:pt-8 lg:pb-6">
+        {/* Main split 40 / 60 */}
+        <div className="grid flex-1 items-stretch gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-10">
+          {/* LEFT — 40% dynamic content */}
+          <div className="relative flex flex-col justify-center py-4">
             <div
-              key={`num-${flipKey}`}
+              key={`eyebrow-${slideKey}`}
+              className="flex items-center gap-3"
+              style={{ animation: "hero-text-in 500ms 60ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              <span className="h-px w-10 bg-brand" />
+              <span className="text-[11px] font-black uppercase tracking-[0.28em] text-brand">
+                {current.eyebrow}
+              </span>
+            </div>
+
+            <h1
+              key={`title-${slideKey}`}
+              className="mt-6 font-display text-4xl font-black leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[3.6rem] xl:text-[4rem]"
+              style={{ animation: "hero-text-in 600ms 160ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              <span className="block">{current.title[0]}</span>
+              <span className="mt-1 block text-brand">{current.title[1]}</span>
+            </h1>
+
+            <p
+              key={`desc-${slideKey}`}
+              className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg"
+              style={{ animation: "hero-text-in 600ms 240ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              {current.desc}
+            </p>
+
+            <div
+              key={`cta-${slideKey}`}
+              className="mt-8 flex flex-wrap items-center gap-4"
+              style={{ animation: "hero-text-in 600ms 320ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              <Link
+                to={current.to}
+                hash={current.hash}
+                className="group inline-flex items-center gap-3 rounded-2xl bg-brand px-6 py-3.5 font-display text-base font-black text-brand-foreground shadow-[0_18px_40px_-12px_rgba(179,218,45,0.55)] transition-transform hover:-translate-y-0.5"
+              >
+                <current.icon className="h-5 w-5" />
+                {current.cta}
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+              <Link
+                to="/contacto"
+                className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-ink hover:text-brand"
+              >
+                {lang === "es" ? "Hablar con un experto" : "Talk to an expert"}
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            {/* Metrics */}
+            <div
+              key={`metrics-${slideKey}`}
+              className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-border pt-6"
+              style={{ animation: "hero-text-in 600ms 400ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              {current.metrics.map((m) => (
+                <div key={m.label}>
+                  <div className="font-display text-2xl font-black leading-none text-ink sm:text-3xl">
+                    {m.value}
+                  </div>
+                  <div className="mt-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    {m.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT — 60% integrated visual */}
+          <div className="relative min-h-[360px] lg:min-h-0">
+            {/* Full-bleed background image cut with diagonal mask */}
+            <div
               aria-hidden
-              className="pointer-events-none absolute -top-4 right-0 select-none font-display text-[9rem] font-black leading-none tracking-tighter text-ink/[0.06] sm:text-[12rem] lg:-top-6 lg:right-8 lg:text-[14rem]"
+              className="absolute inset-0"
+              style={{
+                clipPath: "polygon(12% 0, 100% 0, 100% 100%, 0 100%, 0 18%)",
+              }}
+            >
+              {order.map((key) => (
+                <img
+                  key={key}
+                  src={lines[key].image}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[900ms] ease-out"
+                  style={{ opacity: key === active ? 1 : 0 }}
+                />
+              ))}
+              {/* Tone gradients — brand-first premium composition */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(115deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.05) 30%, transparent 55%, rgba(15,27,42,0.35) 100%)",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(35deg, rgba(179,218,45,0.28) 0%, transparent 40%)",
+                }}
+              />
+              {/* Thin brand diagonal accent */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(115deg, transparent 11.5%, #B3DA2D 11.5%, #B3DA2D 12%, transparent 12%)",
+                }}
+              />
+            </div>
+
+            {/* Big rotated numeral watermark bridging the two sides */}
+            <div
+              key={`num-${slideKey}`}
+              aria-hidden
+              className="pointer-events-none absolute left-[-2%] top-6 select-none font-display text-[9rem] font-black leading-none tracking-tighter text-ink/[0.08] sm:text-[13rem] lg:text-[16rem]"
               style={{ animation: "hero-num-in 700ms cubic-bezier(0.22,1,0.36,1) both" }}
             >
               {current.num}
             </div>
 
-            <div className="relative">
-              <div
-                key={`eyebrow-${flipKey}`}
-                className="text-[11px] font-black uppercase tracking-[0.28em] text-brand"
-                style={{ animation: "hero-text-in 500ms 100ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                {current.eyebrow}
-              </div>
-
-              <h1
-                key={`title-${flipKey}`}
-                className="mt-5 font-display text-4xl font-black leading-[1] tracking-tight text-ink sm:text-5xl lg:text-[4.2rem]"
-                style={{ animation: "hero-text-in 600ms 180ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                <span className="block">{current.title[0]}</span>
-                <span className="mt-1 block text-brand">{current.title[1]}</span>
-              </h1>
-
-              <p
-                key={`desc-${flipKey}`}
-                className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
-                style={{ animation: "hero-text-in 600ms 260ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                {current.desc}
-              </p>
-
-              <div
-                key={`cta-${flipKey}`}
-                className="mt-8 flex flex-wrap items-center gap-4"
-                style={{ animation: "hero-text-in 600ms 340ms cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                <Link
-                  to={current.to}
-                  hash={current.hash}
-                  className="group inline-flex items-center gap-3 rounded-2xl bg-brand px-7 py-4 font-display text-base font-black text-brand-foreground shadow-[0_18px_40px_-12px_rgba(179,218,45,0.55)] transition-transform hover:-translate-y-0.5 sm:text-lg"
-                >
-                  <current.icon className="h-5 w-5" />
-                  {current.cta}
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </Link>
-              </div>
-
-              {/* Social proof */}
-              <div
-                className="mt-8 flex items-center gap-3"
-                style={{ animation: "hero-text-in 600ms 420ms cubic-bezier(0.22,1,0.36,1) both" }}
-                key={`proof-${flipKey}`}
-              >
-                <div className="flex -space-x-2.5">
-                  {[
-                    { bg: "#B3DA2D", fg: "#0F1B2A", i: "RP" },
-                    { bg: "#364959", fg: "#ffffff", i: "MG" },
-                    { bg: "#7BC96F", fg: "#0F1B2A", i: "JS" },
-                  ].map((a) => (
-                    <span
-                      key={a.i}
-                      className="grid h-10 w-10 place-items-center rounded-full border-2 border-background text-[11px] font-black shadow"
-                      style={{ backgroundColor: a.bg, color: a.fg }}
-                    >
-                      {a.i}
-                    </span>
-                  ))}
-                </div>
-                <div className="text-sm leading-tight">
-                  <div className="font-black text-ink">
-                    +150 {lang === "es" ? "proyectos" : "projects"}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {lang === "es" ? "ejecutados en todo Chile" : "delivered across Chile"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT — image with diagonal cut + book-flip transition */}
-          <div className="relative h-[340px] w-full sm:h-[440px] lg:h-[620px]" style={{ perspective: "1600px" }}>
+            {/* Floating info chip */}
             <div
-              key={`img-${flipKey}`}
-              className="absolute inset-0"
-              style={{
-                animation: "hero-page-flip 900ms cubic-bezier(0.22,1,0.36,1) both",
-                transformStyle: "preserve-3d",
-                transformOrigin: "left center",
-              }}
+              key={`chip-${slideKey}`}
+              className="absolute right-5 top-5 flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur"
+              style={{ animation: "hero-text-in 500ms 300ms cubic-bezier(0.22,1,0.36,1) both" }}
             >
-              <div
-                className="relative h-full w-full overflow-hidden shadow-[0_40px_100px_-30px_rgba(15,27,42,0.35)]"
-                style={{
-                  clipPath:
-                    "polygon(18% 0, 100% 0, 100% 100%, 0 100%, 0 22%)",
-                  borderRadius: "0 24px 24px 0",
-                }}
-              >
-                <img
-                  src={current.image}
-                  alt={current.title.join(" ")}
-                  className="h-full w-full object-cover"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(179,218,45,0.18) 0%, transparent 45%, rgba(15,27,42,0.35) 100%)",
-                  }}
-                />
-                {/* diagonal green accent line */}
-                <div
-                  className="pointer-events-none absolute left-0 top-0 h-full w-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(135deg, transparent 17%, #B3DA2D 17%, #B3DA2D 18%, transparent 18%)",
-                  }}
-                />
-              </div>
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-brand-foreground">
+                <Sparkles className="h-3.5 w-3.5" />
+              </span>
+              INVERDEP · {current.num}
+            </div>
 
-              {/* Corner badge */}
-              <div className="absolute right-6 bottom-6 flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur">
-                <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-brand-foreground">
-                  <Sparkles className="h-3.5 w-3.5" />
+            {/* Bottom-left floating caption card */}
+            <div
+              key={`cap-${slideKey}`}
+              className="absolute bottom-5 left-5 max-w-[240px] rounded-2xl border border-border bg-background/95 p-4 shadow-[0_20px_50px_-20px_rgba(15,27,42,0.35)] backdrop-blur"
+              style={{ animation: "hero-text-in 600ms 380ms cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-brand-foreground">
+                  <current.icon className="h-4 w-4" />
                 </span>
-                INVERDEP · {current.num}
+                <div className="text-[10px] font-black uppercase tracking-widest text-brand">
+                  {current.num} · {lang === "es" ? "Línea activa" : "Active line"}
+                </div>
+              </div>
+              <div className="mt-2 font-display text-sm font-black leading-tight text-ink">
+                {current.tabTitle}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Business-line cards strip */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:mt-10">
-          {order.map((key) => {
-            const l = lines[key];
-            const isActive = key === active;
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => handleSelect(key)}
-                aria-pressed={isActive}
-                className={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:p-5 ${
-                  isActive
-                    ? "border-brand bg-brand text-brand-foreground shadow-[0_20px_50px_-18px_rgba(179,218,45,0.75)] -translate-y-1"
-                    : "border-border bg-card text-ink hover:-translate-y-0.5 hover:border-brand/50 hover:shadow-md"
-                }`}
-              >
-                <span
-                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl transition ${
+        {/* Tab navigation */}
+        <div className="relative mt-6 border-t border-border pt-4 lg:mt-8 lg:pt-5">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {order.map((key) => {
+              const l = lines[key];
+              const isActive = key === active;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => handleSelect(key)}
+                  aria-pressed={isActive}
+                  className={`group relative flex items-center gap-2.5 overflow-hidden rounded-full border px-4 py-2.5 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:px-5 ${
                     isActive
-                      ? "bg-brand-foreground text-brand"
-                      : "bg-brand/15 text-ink group-hover:bg-brand group-hover:text-brand-foreground"
+                      ? "border-brand bg-ink text-ink-foreground shadow-[0_12px_32px_-14px_rgba(15,27,42,0.55)]"
+                      : "border-border bg-card text-ink hover:border-brand/50 hover:-translate-y-0.5"
                   }`}
                 >
-                  <l.icon className="h-5 w-5" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div
-                    className={`text-[11px] font-black tracking-widest ${
-                      isActive ? "text-brand-foreground/70" : "text-brand"
+                  <span
+                    className={`grid h-7 w-7 shrink-0 place-items-center rounded-full transition ${
+                      isActive
+                        ? "bg-brand text-brand-foreground"
+                        : "bg-brand/15 text-ink group-hover:bg-brand group-hover:text-brand-foreground"
+                    }`}
+                  >
+                    <l.icon className="h-3.5 w-3.5" />
+                  </span>
+                  <span
+                    className={`text-[10px] font-black tracking-widest ${
+                      isActive ? "text-brand" : "text-brand/80"
                     }`}
                   >
                     {l.num}
-                  </div>
-                  <div className="mt-0.5 font-display text-sm font-black leading-tight sm:text-base">
-                    <div>{l.cardTitle[0]}</div>
-                    <div>{l.cardTitle[1]}</div>
-                  </div>
-                </div>
-                <span
-                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full transition ${
-                    isActive
-                      ? "bg-brand-foreground text-brand translate-x-0"
-                      : "bg-ink/5 text-ink/60 group-hover:bg-brand group-hover:text-brand-foreground"
-                  }`}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </span>
-              </button>
-            );
-          })}
+                  </span>
+                  <span className="font-display text-sm font-black leading-none">
+                    {l.tabTitle}
+                  </span>
+                  {/* Autoplay progress bar */}
+                  {isActive && !paused && (
+                    <span
+                      key={`bar-${slideKey}`}
+                      className="absolute inset-x-3 bottom-1 h-[2px] origin-left rounded-full bg-brand"
+                      style={{ animation: "hero-progress 6.5s linear both" }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
