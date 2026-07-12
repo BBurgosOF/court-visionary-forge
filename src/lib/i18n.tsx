@@ -654,6 +654,36 @@ export const dict = {
   "quote.footerNote": { es: "Cotización referencial sujeta a visita técnica y condiciones del terreno.", en: "Reference quote subject to technical visit and site conditions." },
   "quote.btnPreview": { es: "Ver cotización", en: "View quote" },
   "quote.btnGenerate": { es: "Generar cotización", en: "Generate quote" },
+
+  "projects.hero.m1.k": { es: "+150", en: "+150" },
+  "projects.hero.m1.v": { es: "Proyectos entregados", en: "Delivered projects" },
+  "projects.hero.m2.k": { es: "12", en: "12" },
+  "projects.hero.m2.v": { es: "Disciplinas", en: "Sports disciplines" },
+  "projects.hero.m3.k": { es: "Nacional", en: "Nationwide" },
+  "projects.hero.m3.v": { es: "Cobertura", en: "Coverage" },
+  "projects.hero.m4.k": { es: "+15", en: "+15" },
+  "projects.hero.m4.v": { es: "Años de experiencia", en: "Years of experience" },
+
+  "services.hero.explore": { es: "Explora nuestras líneas", en: "Explore our lines" },
+  "services.s1.hero": { es: "Diseño, construcción y remodelación de canchas outdoor e indoor.", en: "Design, construction and renovation of outdoor and indoor courts." },
+  "services.s2.hero": { es: "Instalación de pasto sintético premium para fútbol y multiuso.", en: "Premium synthetic turf installation for football and multi-use fields." },
+  "services.s3.hero": { es: "Pinturas acrílicas deportivas de alto tráfico y larga duración.", en: "High-traffic, long-lasting acrylic sports paints." },
+  "services.s4.hero": { es: "Proyectos deportivos escolares y municipales llave en mano.", en: "Turnkey school and municipal sports projects." },
+
+  "about.hero.metric1.k": { es: "+150", en: "+150" },
+  "about.hero.metric1.v": { es: "Proyectos", en: "Projects" },
+  "about.hero.metric2.k": { es: "+15", en: "+15" },
+  "about.hero.metric2.v": { es: "Años", en: "Years" },
+  "about.hero.metric3.k": { es: "100%", en: "100%" },
+  "about.hero.metric3.v": { es: "Equipo propio", en: "In-house team" },
+
+  "blog.hero.featured": { es: "Artículo destacado", en: "Featured article" },
+  "blog.hero.read": { es: "Leer artículo", en: "Read article" },
+  "blog.hero.latest": { es: "Última publicación", en: "Latest post" },
+
+  "contact.hero.reply": { es: "Respuesta en 72h", en: "72h reply time" },
+  "contact.hero.phone": { es: "+56 9 0000 0000", en: "+56 9 0000 0000" },
+  "contact.hero.email": { es: "contacto@inverdep.cl", en: "contacto@inverdep.cl" },
 } satisfies Dict;
 
 type Key = keyof typeof dict;
