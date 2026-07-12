@@ -214,6 +214,11 @@
   100% { opacity: 1; transform: translateX(0) scale(1); }
 }
 
+@keyframes hero-progress {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
 @utility float-slow {
   animation: float-slow 6s ease-in-out infinite;
 }
