@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
+import { MapPin, Trophy, Layers, Sparkles } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
 import heroCourt from "@/assets/hero-court.jpg";
@@ -132,6 +133,12 @@ function ProyectosPage() {
 
 function ProjectsHero() {
   const { t } = useI18n();
+  const metrics = [
+    { icon: Trophy, k: t("projects.hero.m1.k"), v: t("projects.hero.m1.v") },
+    { icon: Layers, k: t("projects.hero.m2.k"), v: t("projects.hero.m2.v") },
+    { icon: MapPin, k: t("projects.hero.m3.k"), v: t("projects.hero.m3.v") },
+    { icon: Sparkles, k: t("projects.hero.m4.k"), v: t("projects.hero.m4.v") },
+  ];
   return (
     <section className="relative overflow-hidden border-b border-border bg-surface">
       <div
@@ -142,16 +149,44 @@ function ProjectsHero() {
           backgroundSize: "48px 48px",
         }}
       />
-      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <span className="text-xs font-bold uppercase tracking-[0.22em] text-brand">
-          {t("projects.eyebrow")}
-        </span>
-        <h1 className="mt-3 font-display text-5xl font-black tracking-tight text-ink sm:text-6xl">
-          {t("projects.title")}
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          {t("projects.subtitle")}
-        </p>
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1.35fr_1fr] lg:gap-14 lg:px-8 lg:py-24">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-[0.22em] text-brand">
+            {t("projects.eyebrow")}
+          </span>
+          <h1 className="mt-3 font-display text-5xl font-black tracking-tight text-ink sm:text-6xl">
+            {t("projects.title")}
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+            {t("projects.subtitle")}
+          </p>
+          <dl className="mt-10 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
+            {metrics.map((m) => (
+              <div
+                key={m.v}
+                className="group rounded-2xl border border-border bg-card/80 p-4 backdrop-blur transition hover:-translate-y-0.5 hover:border-brand/60 hover:shadow-lg"
+              >
+                <m.icon className="h-5 w-5 text-brand transition group-hover:scale-110" />
+                <dt className="mt-3 font-display text-2xl font-black text-ink">{m.k}</dt>
+                <dd className="mt-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {m.v}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <div className="relative hidden lg:block">
+          <div className="absolute right-6 top-0 h-56 w-40 -rotate-6 overflow-hidden rounded-2xl border border-border shadow-xl">
+            <img src={project1} alt="" className="h-full w-full object-cover" />
+          </div>
+          <div className="absolute right-40 top-16 h-64 w-48 rotate-3 overflow-hidden rounded-2xl border border-border shadow-2xl">
+            <img src={basketballImg} alt="" className="h-full w-full object-cover" />
+          </div>
+          <div className="absolute right-2 top-52 h-40 w-56 rotate-1 overflow-hidden rounded-2xl border-2 border-brand/60 shadow-xl">
+            <img src={futsalImg} alt="" className="h-full w-full object-cover" />
+          </div>
+          <div className="pointer-events-none absolute -right-10 top-40 h-40 w-40 rounded-full bg-brand/20 blur-3xl" />
+        </div>
       </div>
     </section>
   );
