@@ -64,29 +64,62 @@ function AboutPage() {
 /* ---------------- Hero (minimal) ---------------- */
 function AboutHero() {
   const { t } = useI18n();
+  const metrics = [
+    { k: t("about.hero.metric1.k"), v: t("about.hero.metric1.v") },
+    { k: t("about.hero.metric2.k"), v: t("about.hero.metric2.v") },
+    { k: t("about.hero.metric3.k"), v: t("about.hero.metric3.v") },
+  ];
   return (
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
       <div className="court-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/20 blur-3xl" />
       <div className="pointer-events-none absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-          <Sparkles className="h-3.5 w-3.5" /> {t("about.hero.kicker")}
-        </div>
-        <div className="mt-5 grid items-end gap-6 lg:grid-cols-[1.4fr_1fr]">
-          <h1 className="font-display text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.3fr_1fr] lg:gap-14 lg:px-8">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+            <Sparkles className="h-3.5 w-3.5" /> {t("about.hero.kicker")}
+          </div>
+          <h1 className="mt-6 font-display text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
             {t("about.badge")}
           </h1>
-          <p className="max-w-md text-base text-ink-foreground/70 lg:text-right">
+          <p className="mt-4 max-w-xl text-base text-ink-foreground/70">
             {t("about.desc")}
           </p>
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-ink-foreground/15 pt-6">
+            {metrics.map((m) => (
+              <div key={m.v}>
+                <dt className="font-display text-3xl font-black text-brand">{m.k}</dt>
+                <dd className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-ink-foreground/60">
+                  {m.v}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <div className="mt-10 flex items-center gap-3">
-          <span className="h-px flex-1 bg-ink-foreground/15" />
-          <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-brand">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand" /> INVERDEP
-          </span>
-          <span className="h-px flex-1 bg-ink-foreground/15" />
+        <div className="relative flex items-center justify-center">
+          <div className="relative w-full max-w-sm">
+            <div className="relative overflow-hidden rounded-3xl border border-ink-foreground/10 shadow-2xl">
+              <img
+                src={ceoImg}
+                alt={t("about.ceo.name")}
+                className="aspect-[4/5] h-full w-full object-cover transition duration-700 hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand">
+                  {t("about.ceo.eyebrow")}
+                </div>
+                <div className="mt-1 font-display text-lg font-black">{t("about.ceo.name")}</div>
+                <div className="text-xs text-ink-foreground/70">{t("about.ceo.role")}</div>
+              </div>
+            </div>
+            <div className="absolute -bottom-5 -left-5 hidden rounded-2xl bg-brand p-4 text-brand-foreground shadow-2xl sm:block">
+              <Trophy className="h-5 w-5" />
+              <div className="mt-1 font-display text-xs font-black uppercase tracking-wider">
+                +15 años
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
