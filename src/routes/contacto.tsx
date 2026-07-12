@@ -41,18 +41,36 @@ function ContactPage() {
 
 function ContactHeader() {
   const { t } = useI18n();
+  const chips = [
+    { icon: Phone, label: t("contact.hero.phone") },
+    { icon: Mail, label: t("contact.hero.email") },
+    { icon: Clock, label: t("contact.hero.reply") },
+  ];
   return (
     <section className="border-b border-border/60 bg-surface/40">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
-          {t("contact.eyebrow")}
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:py-14 lg:px-8">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" /> {t("contact.eyebrow")}
+          </div>
+          <h1 className="mt-3 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
+            {t("contact.title")}
+          </h1>
+          <p className="mt-2 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            {t("contact.desc")}
+          </p>
         </div>
-        <h1 className="mt-4 font-display text-4xl font-black tracking-tight text-ink sm:text-5xl">
-          {t("contact.title")}
-        </h1>
-        <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-          {t("contact.desc")}
-        </p>
+        <ul className="flex flex-wrap gap-2 lg:justify-end">
+          {chips.map((c) => (
+            <li
+              key={c.label}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-2 text-xs font-semibold text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-brand/60"
+            >
+              <c.icon className="h-4 w-4 text-brand" />
+              {c.label}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

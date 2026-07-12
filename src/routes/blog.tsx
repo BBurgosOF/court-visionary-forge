@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Newspaper } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
 import project1 from "@/assets/project1.jpg";
@@ -90,6 +90,7 @@ function BlogPage() {
 
 function BlogHero() {
   const { t } = useI18n();
+  const featured = POSTS[0];
   return (
     <section className="relative overflow-hidden border-b border-border bg-surface">
       <div
@@ -100,16 +101,45 @@ function BlogHero() {
           backgroundSize: "48px 48px",
         }}
       />
-      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <span className="text-xs font-bold uppercase tracking-[0.22em] text-brand">
-          {t("blog.eyebrow")}
-        </span>
-        <h1 className="mt-3 font-display text-5xl font-black tracking-tight text-ink sm:text-6xl">
-          {t("blog.title")}
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          {t("blog.subtitle")}
-        </p>
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:px-8 lg:py-24">
+        <div className="flex flex-col justify-center">
+          <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-ink">
+            <Newspaper className="h-3.5 w-3.5 text-brand" /> {t("blog.eyebrow")}
+          </span>
+          <h1 className="mt-4 font-display text-5xl font-black tracking-tight text-ink sm:text-6xl">
+            {t("blog.title")}
+          </h1>
+          <p className="mt-4 max-w-xl text-lg text-muted-foreground">
+            {t("blog.subtitle")}
+          </p>
+        </div>
+        <article className="group relative overflow-hidden rounded-3xl border border-border bg-card shadow-2xl transition hover:-translate-y-1 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.35)]">
+          <div className="relative aspect-[16/10] overflow-hidden">
+            <img
+              src={featured.img}
+              alt={t(featured.titleKey as Parameters<typeof t>[0])}
+              className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+            <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-foreground">
+              {t("blog.hero.featured")}
+            </span>
+          </div>
+          <div className="p-6 sm:p-7">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              {t("blog.hero.latest")} · {t(featured.dateKey as Parameters<typeof t>[0])}
+            </div>
+            <h2 className="mt-2 font-display text-2xl font-black leading-tight text-ink">
+              {t(featured.titleKey as Parameters<typeof t>[0])}
+            </h2>
+            <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+              {t(featured.excerptKey as Parameters<typeof t>[0])}
+            </p>
+            <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+              {t("blog.hero.read")} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   );

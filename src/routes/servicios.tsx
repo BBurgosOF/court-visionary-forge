@@ -59,20 +59,69 @@ function ServicesPage() {
 /* ---------------- Hero ---------------- */
 function ServicesHero() {
   const { t } = useI18n();
+  const lines = [
+    { id: "canchas", icon: Hammer, tab: t("services.s1.tab"), desc: t("services.s1.hero"), img: constructionImg },
+    { id: "pasto", icon: Sprout, tab: t("services.s2.tab"), desc: t("services.s2.hero"), img: futsalImg },
+    { id: "pinturas", icon: PaintRoller, tab: t("services.s3.tab"), desc: t("services.s3.hero"), img: paintImg },
+    { id: "escolares", icon: GraduationCap, tab: t("services.s4.tab"), desc: t("services.s4.hero"), img: volleyballImg },
+  ];
+  const [active, setActive] = useState(0);
+  const current = lines[active];
   return (
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
       <div className="court-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="pointer-events-none absolute -right-32 top-0 h-[420px] w-[420px] rounded-full bg-brand/20 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-          <Sparkles className="h-3.5 w-3.5" /> {t("services.eyebrow")}
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:px-8 lg:py-24">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+            <Sparkles className="h-3.5 w-3.5" /> {t("services.eyebrow")}
+          </div>
+          <h1 className="mt-6 font-display text-5xl font-black tracking-tight sm:text-6xl">
+            {t("services.title")}
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-ink-foreground/75">
+            {t("services.subtitle")}
+          </p>
+          <div className="mt-8 text-[11px] font-bold uppercase tracking-[0.22em] text-brand">
+            {t("services.hero.explore")}
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {lines.map((l, i) => {
+              const on = i === active;
+              return (
+                <button
+                  key={l.id}
+                  onMouseEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  onClick={() => setActive(i)}
+                  className={`group flex flex-col items-start gap-2 rounded-2xl border p-3 text-left transition ${
+                    on
+                      ? "border-brand bg-brand/10 shadow-[0_8px_24px_-12px_rgba(179,218,45,0.6)]"
+                      : "border-ink-foreground/15 bg-ink-foreground/[0.03] hover:border-brand/50"
+                  }`}
+                >
+                  <l.icon className={`h-5 w-5 ${on ? "text-brand" : "text-ink-foreground/70"}`} />
+                  <span className="text-[11px] font-bold uppercase tracking-wider">{l.tab}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p key={current.id + "-d"} className="mt-5 max-w-md animate-fade-in text-sm text-ink-foreground/80">
+            {current.desc}
+          </p>
         </div>
-        <h1 className="mt-6 font-display text-5xl font-black tracking-tight sm:text-6xl">
-          {t("services.title")}
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-ink-foreground/75">
-          {t("services.subtitle")}
-        </p>
+        <div className="relative">
+          <div key={current.id} className="relative aspect-[4/5] w-full animate-fade-in overflow-hidden rounded-3xl border border-ink-foreground/10 shadow-2xl"
+            style={{ clipPath: "polygon(0 0, 100% 0, 100% 92%, 0 100%)" }}>
+            <img src={current.img} alt={current.tab} className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-foreground">
+                0{active + 1} · {current.tab}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
     </section>
