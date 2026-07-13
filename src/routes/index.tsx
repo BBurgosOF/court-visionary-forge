@@ -371,56 +371,181 @@ function Hero() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paused]);
 
+  // Parallax
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [par, setPar] = useState({ x: 0, y: 0 });
+  const onMove = (e: React.MouseEvent) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    setPar({
+      x: ((e.clientX - r.left) / r.width - 0.5) * 2,
+      y: ((e.clientY - r.top) / r.height - 0.5) * 2,
+    });
+  };
+  const px = (mx: number, my: number) =>
+    ({ transform: `translate3d(${par.x * mx}px, ${par.y * my}px, 0)` });
+
   return (
     <section
-      className="relative flex h-[calc(100vh-4rem)] min-h-[640px] w-full flex-col overflow-hidden bg-background"
+      ref={sectionRef}
+      className="relative flex h-[calc(100vh-4rem)] min-h-[680px] w-full flex-col overflow-hidden bg-surface"
       onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseLeave={() => { setPaused(false); setPar({ x: 0, y: 0 }); }}
+      onMouseMove={onMove}
     >
-      {/* Ambient decor */}
+      {/* ── Layer 1 · Ambient depth ─────────────────────────── */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full opacity-60"
-        style={{ background: "radial-gradient(closest-side, rgba(179,218,45,0.22), transparent 70%)" }}
+        className="pointer-events-none absolute inset-0 opacity-[0.045]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          color: "var(--foreground)",
+        }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute left-[36%] bottom-[18%] hidden h-28 w-28 opacity-50 lg:block"
+        className="pointer-events-none absolute -left-32 -top-40 h-[560px] w-[560px] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(closest-side, rgba(179,218,45,0.28), transparent 70%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 right-[8%] h-[520px] w-[520px] rounded-full blur-3xl"
+        style={{ background: "radial-gradient(closest-side, rgba(15,27,42,0.28), transparent 70%)" }}
+      />
+      {/* Technical crosshair lines */}
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
+        preserveAspectRatio="none"
+        viewBox="0 0 1440 800"
+      >
+        <line x1="0" y1="140" x2="1440" y2="140" stroke="currentColor" strokeOpacity="0.06" strokeDasharray="2 6" />
+        <line x1="0" y1="660" x2="1440" y2="660" stroke="currentColor" strokeOpacity="0.06" strokeDasharray="2 6" />
+        <line x1="960" y1="0" x2="960" y2="800" stroke="currentColor" strokeOpacity="0.05" strokeDasharray="2 6" />
+      </svg>
+
+      {/* ── Layer 2 · Full-bleed hero image with organic clip ─ */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 w-full lg:w-[68%]"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(54,73,89,0.35) 1px, transparent 1.5px)",
-          backgroundSize: "10px 10px",
+          clipPath:
+            "polygon(18% 0, 100% 0, 100% 84%, 92% 100%, 0 100%, 0 34%, 6% 18%)",
+          ...px(-14, -8),
+          transition: "transform 400ms cubic-bezier(0.22,1,0.36,1)",
+        }}
+      >
+        {order.map((key) => (
+          <img
+            key={key}
+            src={lines[key].image}
+            alt=""
+            className="absolute inset-0 h-full w-full scale-[1.06] object-cover transition-opacity duration-[1100ms] ease-out"
+            style={{ opacity: key === active ? 1 : 0 }}
+          />
+        ))}
+        {/* Blend into background */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(100deg, var(--surface) 0%, color-mix(in oklab, var(--surface) 88%, transparent) 18%, transparent 44%, rgba(15,27,42,0.28) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(200deg, rgba(179,218,45,0.22) 0%, transparent 42%)",
+          }}
+        />
+        {/* Vertical fade to bottom for tab area */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-40"
+          style={{ background: "linear-gradient(to bottom, transparent, var(--surface))" }}
+        />
+      </div>
+
+      {/* Diagonal brand accent — crosses the composition */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(108deg, transparent 21.5%, rgba(179,218,45,0.9) 21.5%, rgba(179,218,45,0.9) 22%, transparent 22%, transparent 24%, rgba(179,218,45,0.35) 24%, rgba(179,218,45,0.35) 24.25%, transparent 24.25%)",
         }}
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-4 pt-6 pb-4 sm:px-6 lg:px-10 lg:pt-8 lg:pb-6">
-        {/* Main split 40 / 60 */}
-        <div className="grid flex-1 items-stretch gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-10">
-          {/* LEFT — 40% dynamic content */}
-          <div className="relative flex flex-col justify-center py-4">
+      {/* ── Layer 3 · Oversized numeral watermark ───────────── */}
+      <div
+        key={`num-${slideKey}`}
+        aria-hidden
+        className="pointer-events-none absolute select-none font-display font-black leading-none tracking-tighter text-ink/[0.06] mix-blend-multiply"
+        style={{
+          fontSize: "clamp(10rem, 26vw, 22rem)",
+          right: "-1.5%",
+          top: "-4%",
+          animation: "hero-num-in 800ms cubic-bezier(0.22,1,0.36,1) both",
+          ...px(-22, -10),
+          transition: "transform 500ms cubic-bezier(0.22,1,0.36,1)",
+        }}
+      >
+        {current.num}
+      </div>
+
+      {/* ── Layer 4 · Content ─────────────────────────────── */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-4 pt-8 pb-4 sm:px-6 lg:px-10 lg:pt-10 lg:pb-6">
+        <div className="grid flex-1 items-center gap-8 lg:grid-cols-12 lg:gap-6">
+          {/* Text block — spans 7 cols, overlaps into image area */}
+          <div className="relative lg:col-span-7 xl:col-span-6">
+            {/* Vertical rail */}
+            <div
+              aria-hidden
+              className="absolute -left-3 top-2 hidden h-32 w-[2px] bg-gradient-to-b from-brand via-brand/40 to-transparent lg:block"
+            />
+
             <div
               key={`eyebrow-${slideKey}`}
               className="flex items-center gap-3"
-              style={{ animation: "hero-text-in 500ms 60ms cubic-bezier(0.22,1,0.36,1) both" }}
+              style={{ animation: "hero-text-in 500ms 60ms cubic-bezier(0.22,1,0.36,1) both", ...px(6, 3) }}
             >
-              <span className="h-px w-10 bg-brand" />
-              <span className="text-[11px] font-black uppercase tracking-[0.28em] text-brand">
+              <span className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-background/70 px-3 py-1 text-[10px] font-black uppercase tracking-[0.24em] text-ink shadow-sm backdrop-blur">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-70" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand" />
+                </span>
                 {current.eyebrow}
               </span>
             </div>
 
             <h1
               key={`title-${slideKey}`}
-              className="mt-6 font-display text-4xl font-black leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[3.6rem] xl:text-[4rem]"
-              style={{ animation: "hero-text-in 600ms 160ms cubic-bezier(0.22,1,0.36,1) both" }}
+              className="mt-6 font-display font-black leading-[0.98] tracking-tight text-ink"
+              style={{
+                fontSize: "clamp(2.4rem, 5.6vw, 4.4rem)",
+                animation: "hero-text-in 700ms 140ms cubic-bezier(0.22,1,0.36,1) both",
+                ...px(8, 4),
+              }}
             >
               <span className="block">{current.title[0]}</span>
-              <span className="mt-1 block text-brand">{current.title[1]}</span>
+              <span className="relative mt-1 block">
+                <span className="relative z-10 bg-gradient-to-r from-brand via-brand to-[#8ec12a] bg-clip-text text-transparent">
+                  {current.title[1]}
+                </span>
+                <span
+                  aria-hidden
+                  className="absolute -bottom-2 left-0 h-3 w-40 rounded-full bg-brand/25 blur-lg"
+                />
+              </span>
             </h1>
 
             <p
               key={`desc-${slideKey}`}
-              className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg"
-              style={{ animation: "hero-text-in 600ms 240ms cubic-bezier(0.22,1,0.36,1) both" }}
+              className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+              style={{ animation: "hero-text-in 600ms 240ms cubic-bezier(0.22,1,0.36,1) both", ...px(4, 2) }}
             >
               {current.desc}
             </p>
@@ -433,101 +558,63 @@ function Hero() {
               <Link
                 to={current.to}
                 hash={current.hash}
-                className="group inline-flex items-center gap-3 rounded-2xl bg-brand px-6 py-3.5 font-display text-base font-black text-brand-foreground shadow-[0_18px_40px_-12px_rgba(179,218,45,0.55)] transition-transform hover:-translate-y-0.5"
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-ink px-6 py-3.5 font-display text-base font-black text-ink-foreground shadow-[0_22px_50px_-18px_rgba(15,27,42,0.6)] transition-transform hover:-translate-y-0.5"
               >
-                <current.icon className="h-5 w-5" />
-                {current.cta}
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-ink-foreground transition-transform group-hover:translate-x-1">
-                  <ArrowRight className="h-4 w-4" />
+                <span
+                  aria-hidden
+                  className="absolute inset-0 translate-y-full bg-gradient-to-r from-brand to-[#8ec12a] transition-transform duration-500 group-hover:translate-y-0"
+                />
+                <span className="relative flex items-center gap-3 transition-colors group-hover:text-ink">
+                  <current.icon className="h-5 w-5" />
+                  {current.cta}
+                  <span className="grid h-8 w-8 place-items-center rounded-full bg-brand text-ink transition-transform group-hover:translate-x-1 group-hover:bg-ink group-hover:text-ink-foreground">
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
                 </span>
               </Link>
               <Link
                 to="/contacto"
-                className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-ink hover:text-brand"
+                className="group inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-ink"
               >
-                {lang === "es" ? "Hablar con un experto" : "Talk to an expert"}
-                <ArrowUpRight className="h-4 w-4" />
+                <span className="relative">
+                  {lang === "es" ? "Hablar con un experto" : "Talk to an expert"}
+                  <span className="absolute inset-x-0 -bottom-1 h-[2px] origin-left scale-x-0 bg-brand transition-transform duration-300 group-hover:scale-x-100" />
+                </span>
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
             </div>
 
-            {/* Metrics */}
+            {/* Inline metric ribbon (glass, broken from grid) */}
             <div
               key={`metrics-${slideKey}`}
-              className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-border pt-6"
-              style={{ animation: "hero-text-in 600ms 400ms cubic-bezier(0.22,1,0.36,1) both" }}
+              className="relative mt-10 max-w-xl"
+              style={{ animation: "hero-text-in 600ms 420ms cubic-bezier(0.22,1,0.36,1) both", ...px(-4, -2) }}
             >
-              {current.metrics.map((m) => (
-                <div key={m.label}>
-                  <div className="font-display text-2xl font-black leading-none text-ink sm:text-3xl">
-                    {m.value}
+              <div className="grid grid-cols-3 divide-x divide-border/70 overflow-hidden rounded-2xl border border-border/70 bg-background/70 shadow-[0_20px_50px_-24px_rgba(15,27,42,0.35)] backdrop-blur-md">
+                {current.metrics.map((m) => (
+                  <div key={m.label} className="px-4 py-4">
+                    <div className="font-display text-2xl font-black leading-none text-ink sm:text-[1.7rem]">
+                      {m.value}
+                    </div>
+                    <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      {m.label}
+                    </div>
                   </div>
-                  <div className="mt-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    {m.label}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              {/* corner bracket */}
+              <span aria-hidden className="absolute -left-2 -top-2 h-4 w-4 border-l-2 border-t-2 border-brand" />
+              <span aria-hidden className="absolute -bottom-2 -right-2 h-4 w-4 border-b-2 border-r-2 border-brand" />
             </div>
           </div>
 
-          {/* RIGHT — 60% integrated visual */}
-          <div className="relative min-h-[360px] lg:min-h-0">
-            {/* Full-bleed background image cut with diagonal mask */}
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                clipPath: "polygon(12% 0, 100% 0, 100% 100%, 0 100%, 0 18%)",
-              }}
-            >
-              {order.map((key) => (
-                <img
-                  key={key}
-                  src={lines[key].image}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[900ms] ease-out"
-                  style={{ opacity: key === active ? 1 : 0 }}
-                />
-              ))}
-              {/* Tone gradients — brand-first premium composition */}
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(115deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.05) 30%, transparent 55%, rgba(15,27,42,0.35) 100%)",
-                }}
-              />
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(35deg, rgba(179,218,45,0.28) 0%, transparent 40%)",
-                }}
-              />
-              {/* Thin brand diagonal accent */}
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(115deg, transparent 11.5%, #B3DA2D 11.5%, #B3DA2D 12%, transparent 12%)",
-                }}
-              />
-            </div>
-
-            {/* Big rotated numeral watermark bridging the two sides */}
-            <div
-              key={`num-${slideKey}`}
-              aria-hidden
-              className="pointer-events-none absolute left-[-2%] top-6 select-none font-display text-[9rem] font-black leading-none tracking-tighter text-ink/[0.08] sm:text-[13rem] lg:text-[16rem]"
-              style={{ animation: "hero-num-in 700ms cubic-bezier(0.22,1,0.36,1) both" }}
-            >
-              {current.num}
-            </div>
-
-            {/* Floating info chip */}
+          {/* Right composition area — floating glass panels */}
+          <div className="relative hidden lg:col-span-5 lg:block xl:col-span-6">
+            {/* Top-right floating chip */}
             <div
               key={`chip-${slideKey}`}
-              className="absolute right-5 top-5 flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur"
-              style={{ animation: "hero-text-in 500ms 300ms cubic-bezier(0.22,1,0.36,1) both" }}
+              className="absolute right-2 top-0 flex items-center gap-2 rounded-full border border-border/60 bg-background/85 px-4 py-2 text-[11px] font-black uppercase tracking-wider text-ink shadow-lg backdrop-blur-md"
+              style={{ animation: "hero-text-in 500ms 260ms cubic-bezier(0.22,1,0.36,1) both", ...px(-10, -6) }}
             >
               <span className="grid h-6 w-6 place-items-center rounded-full bg-brand text-brand-foreground">
                 <Sparkles className="h-3.5 w-3.5" />
@@ -535,29 +622,65 @@ function Hero() {
               INVERDEP · {current.num}
             </div>
 
-            {/* Bottom-left floating caption card */}
+            {/* Mid-right glass line card */}
             <div
-              key={`cap-${slideKey}`}
-              className="absolute bottom-5 left-5 max-w-[240px] rounded-2xl border border-border bg-background/95 p-4 shadow-[0_20px_50px_-20px_rgba(15,27,42,0.35)] backdrop-blur"
-              style={{ animation: "hero-text-in 600ms 380ms cubic-bezier(0.22,1,0.36,1) both" }}
+              key={`line-${slideKey}`}
+              className="absolute right-0 top-24 w-[240px] rounded-2xl border border-white/40 bg-background/70 p-4 shadow-[0_24px_60px_-24px_rgba(15,27,42,0.45)] backdrop-blur-xl"
+              style={{ animation: "hero-text-in 600ms 380ms cubic-bezier(0.22,1,0.36,1) both", ...px(-16, -8) }}
             >
-              <div className="flex items-center gap-2">
-                <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-brand-foreground">
-                  <current.icon className="h-4 w-4" />
+              <div className="flex items-start justify-between">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand text-brand-foreground shadow-md">
+                  <current.icon className="h-5 w-5" />
                 </span>
-                <div className="text-[10px] font-black uppercase tracking-widest text-brand">
-                  {current.num} · {lang === "es" ? "Línea activa" : "Active line"}
-                </div>
+                <span className="text-[10px] font-black tracking-widest text-brand">
+                  {current.num}
+                </span>
               </div>
-              <div className="mt-2 font-display text-sm font-black leading-tight text-ink">
+              <div className="mt-3 font-display text-base font-black leading-tight text-ink">
                 {current.tabTitle}
               </div>
+              <div className="mt-1 text-[11px] text-muted-foreground">
+                {lang === "es" ? "Línea activa" : "Active line"}
+              </div>
+              <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-border/60">
+                <div
+                  key={`prog-${slideKey}`}
+                  className="h-full origin-left bg-brand"
+                  style={{ animation: paused ? undefined : "hero-progress 6.5s linear both" }}
+                />
+              </div>
+            </div>
+
+            {/* Bottom-left floating metric mini-panel */}
+            <div
+              key={`mini-${slideKey}`}
+              className="absolute -left-6 bottom-6 w-[210px] rounded-2xl border border-border/60 bg-ink p-4 text-ink-foreground shadow-[0_24px_60px_-20px_rgba(15,27,42,0.55)]"
+              style={{ animation: "hero-text-in 700ms 500ms cubic-bezier(0.22,1,0.36,1) both", ...px(-6, -12) }}
+            >
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand">
+                <BadgeCheck className="h-3.5 w-3.5" />
+                {lang === "es" ? "Certificado" : "Certified"}
+              </div>
+              <div className="mt-2 font-display text-2xl font-black leading-none">
+                {current.metrics[0].value}
+              </div>
+              <div className="mt-1 text-[11px] text-ink-foreground/70">
+                {current.metrics[0].label}
+              </div>
+            </div>
+
+            {/* Floating tag chip */}
+            <div
+              className="absolute right-24 bottom-24 rounded-full border border-brand/50 bg-brand/15 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-ink backdrop-blur"
+              style={{ ...px(-8, -4), transition: "transform 400ms cubic-bezier(0.22,1,0.36,1)" }}
+            >
+              <span className="text-brand">●</span> {lang === "es" ? "Diseño en vivo" : "Live design"}
             </div>
           </div>
         </div>
 
-        {/* Tab navigation */}
-        <div className="relative mt-6 border-t border-border pt-4 lg:mt-8 lg:pt-5">
+        {/* ── Layer 5 · Tab navigation ────────────────────── */}
+        <div className="relative z-10 mt-6 border-t border-border/70 pt-4 lg:mt-8 lg:pt-5">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {order.map((key) => {
               const l = lines[key];
@@ -568,10 +691,10 @@ function Hero() {
                   type="button"
                   onClick={() => handleSelect(key)}
                   aria-pressed={isActive}
-                  className={`group relative flex items-center gap-2.5 overflow-hidden rounded-full border px-4 py-2.5 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:px-5 ${
+                  className={`group relative flex items-center gap-2.5 overflow-hidden rounded-full border px-4 py-2.5 text-left backdrop-blur transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:px-5 ${
                     isActive
                       ? "border-brand bg-ink text-ink-foreground shadow-[0_12px_32px_-14px_rgba(15,27,42,0.55)]"
-                      : "border-border bg-card text-ink hover:border-brand/50 hover:-translate-y-0.5"
+                      : "border-border/70 bg-background/70 text-ink hover:-translate-y-0.5 hover:border-brand/50"
                   }`}
                 >
                   <span
@@ -593,7 +716,6 @@ function Hero() {
                   <span className="font-display text-sm font-black leading-none">
                     {l.tabTitle}
                   </span>
-                  {/* Autoplay progress bar */}
                   {isActive && !paused && (
                     <span
                       key={`bar-${slideKey}`}
