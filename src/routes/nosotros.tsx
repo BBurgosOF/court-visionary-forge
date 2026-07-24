@@ -21,6 +21,10 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
 import constructionImg from "@/assets/construction.jpg";
 import ceoImg from "@/assets/ceo.jpg";
+import whyQualityImg from "@/assets/why-quality.jpg";
+import whyInnovationImg from "@/assets/why-innovation.jpg";
+import whyComplianceImg from "@/assets/why-compliance.jpg";
+import whyImpactImg from "@/assets/why-impact.jpg";
 
 export const Route = createFileRoute("/nosotros")({
   head: () => ({
@@ -291,40 +295,82 @@ function MissionVisionValues() {
 function ValueProps() {
   const { t } = useI18n();
   const items = [
-    { icon: Medal, title: t("about.props.p1.t"), desc: t("about.props.p1.d") },
-    { icon: Lightbulb, title: t("about.props.p2.t"), desc: t("about.props.p2.d") },
-    { icon: ShieldCheck, title: t("about.props.p3.t"), desc: t("about.props.p3.d") },
-    { icon: TrendingUp, title: t("about.props.p4.t"), desc: t("about.props.p4.d") },
+    {
+      icon: Medal,
+      num: "01",
+      title: "Calidad certificada",
+      desc: "Trabajamos con materiales profesionales y procesos constructivos diseñados para garantizar durabilidad y rendimiento.",
+      image: whyQualityImg,
+    },
+    {
+      icon: Lightbulb,
+      num: "02",
+      title: "Innovación constante",
+      desc: "Aplicamos soluciones innovadoras y diseños personalizados para cada proyecto.",
+      image: whyInnovationImg,
+    },
+    {
+      icon: ShieldCheck,
+      num: "03",
+      title: "Cumplimiento garantizado",
+      desc: "Planificamos cada etapa del proyecto para cumplir plazos, presupuestos y expectativas.",
+      image: whyComplianceImg,
+    },
+    {
+      icon: TrendingUp,
+      num: "04",
+      title: "Impacto deportivo",
+      desc: "Creamos espacios que fomentan el deporte, la educación y la vida activa.",
+      image: whyImpactImg,
+    },
   ];
   return (
     <section className="relative overflow-hidden bg-ink text-ink-foreground">
-      <div className="absolute inset-0 court-lines opacity-25" />
+      <div className="absolute inset-0 court-lines opacity-20" />
       <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-[0.22em] text-brand">
             {t("about.props.eyebrow")}
           </span>
-          <h2 className="mt-3 font-display text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
-            {t("about.props.title")}
+          <h2 className="mt-3 font-display text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
+            ¿Por qué elegir INVERDEP?
           </h2>
+          <p className="mt-4 text-lg text-ink-foreground/70">
+            Transformamos espacios deportivos en experiencias de alto rendimiento.
+          </p>
         </div>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map((it, i) => (
-            <div
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((it) => (
+            <article
               key={it.title}
-              className="group relative rounded-2xl border border-ink-foreground/10 bg-ink-foreground/[0.03] p-6 transition hover:-translate-y-1 hover:border-brand/60 hover:bg-ink-foreground/[0.06]"
+              className="group relative overflow-hidden rounded-3xl border border-ink-foreground/10 shadow-xl aspect-[3/4] lg:aspect-[3/5] transition duration-500 hover:-translate-y-2 hover:border-brand/60 hover:shadow-2xl"
             >
-              <div className="flex items-center justify-between">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-brand-foreground">
+              <img
+                src={it.image}
+                alt={it.title}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-ink/40" />
+
+              <span className="absolute right-4 top-4 font-display text-2xl font-black text-brand drop-shadow-lg">
+                {it.num}
+              </span>
+
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-brand-foreground shadow-lg">
                   <it.icon className="h-5 w-5" />
                 </div>
-                <span className="font-display text-xs font-black text-ink-foreground/30">
-                  0{i + 1}
-                </span>
+                <h3 className="mt-4 font-display text-xl font-black text-white leading-tight">
+                  {it.title}
+                </h3>
+                <p className="mt-2 text-sm text-white/75 leading-relaxed">
+                  {it.desc}
+                </p>
+                <div className="mt-4 h-0.5 w-10 bg-brand transition-all duration-500 group-hover:w-20" />
               </div>
-              <h3 className="mt-5 font-display text-lg font-bold">{it.title}</h3>
-              <p className="mt-1 text-sm text-ink-foreground/65">{it.desc}</p>
-            </div>
+            </article>
           ))}
         </div>
       </div>
