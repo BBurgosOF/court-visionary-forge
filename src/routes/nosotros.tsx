@@ -21,6 +21,10 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { Navbar, Footer, WhatsAppButton } from "./index";
 import constructionImg from "@/assets/construction.jpg";
 import ceoImg from "@/assets/ceo.jpg";
+import whyQualityImg from "@/assets/why-quality.jpg";
+import whyInnovationImg from "@/assets/why-innovation.jpg";
+import whyComplianceImg from "@/assets/why-compliance.jpg";
+import whyImpactImg from "@/assets/why-impact.jpg";
 
 export const Route = createFileRoute("/nosotros")({
   head: () => ({
